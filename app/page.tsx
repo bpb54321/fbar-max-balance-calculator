@@ -1,11 +1,18 @@
-import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+import {
+  Configuration,
+  CountryCode,
+  LinkTokenCreateRequest,
+  PlaidApi,
+  PlaidEnvironments,
+  Products,
+} from "plaid";
 // import {
 //   usePlaidLink,
 //   PlaidLinkOptions,
 //   PlaidLinkOnSuccess,
 // } from "react-plaid-link";
 
-export default function Home() {
+export default async function Home() {
   const configuration = new Configuration({
     basePath: PlaidEnvironments.sandbox,
     baseOptions: {
@@ -25,31 +32,24 @@ export default function Home() {
   const request: LinkTokenCreateRequest = {
     user: {
       client_user_id: "user-id",
-      phone_number: "+1 415 5550123",
     },
-    client_name: "Personal Finance App",
-    products: ["transactions"],
+    client_name: "FBAR Bax Balance Calculator",
+    products: [Products.Transactions],
     transactions: {
-      days_requested: 730,
+      days_requested: 90,
     },
-    country_codes: ["US"],
+    country_codes: [CountryCode.Ca],
     language: "en",
     webhook: "https://sample-web-hook.com",
     redirect_uri: "https://domainname.com/oauth-page.html",
-    account_filters: {
-      depository: {
-        account_subtypes: ["checking", "savings"],
-      },
-      credit: {
-        account_subtypes: ["credit card"],
-      },
-    },
   };
+
   try {
     const response = await plaidClient.linkTokenCreate(request);
     const linkToken = response.data.link_token;
+    console.log(linkToken);
   } catch (error) {
-    // handle error
+    console.error(error);
   }
   return <h1>Hello World!</h1>;
 }
