@@ -14,7 +14,7 @@ import {
 
 export default async function Home() {
   const configuration = new Configuration({
-    basePath: PlaidEnvironments.sandbox,
+    basePath: PlaidEnvironments.production,
     baseOptions: {
       headers: {
         "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -45,10 +45,12 @@ export default async function Home() {
   };
 
   try {
+    debugger;
     const response = await plaidClient.linkTokenCreate(request);
     const linkToken = response.data.link_token;
     console.log(linkToken);
   } catch (error) {
+    console.log("In catch");
     console.error(error);
   }
   return <h1>Hello World!</h1>;
