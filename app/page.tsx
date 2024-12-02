@@ -1,11 +1,11 @@
 import {
   Configuration,
   CountryCode,
-  LinkTokenCreateRequest,
   PlaidApi,
   PlaidEnvironments,
   Products,
 } from "plaid";
+
 // import {
 //   usePlaidLink,
 //   PlaidLinkOptions,
@@ -26,10 +26,7 @@ export default async function Home() {
 
   const plaidClient = new PlaidApi(configuration);
 
-  // Account filtering isn't required here, but sometimes
-  // it's helpful to see an example.
-
-  const request: LinkTokenCreateRequest = {
+  const request = {
     user: {
       client_user_id: "user-id",
     },
@@ -40,12 +37,9 @@ export default async function Home() {
     },
     country_codes: [CountryCode.Ca],
     language: "en",
-    webhook: "https://sample-web-hook.com",
-    redirect_uri: "https://domainname.com/oauth-page.html",
   };
 
   try {
-    debugger;
     const response = await plaidClient.linkTokenCreate(request);
     const linkToken = response.data.link_token;
     console.log(linkToken);
