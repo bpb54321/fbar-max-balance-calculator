@@ -5,12 +5,7 @@ import {
   PlaidEnvironments,
   Products,
 } from "plaid";
-
-// import {
-//   usePlaidLink,
-//   PlaidLinkOptions,
-//   PlaidLinkOnSuccess,
-// } from "react-plaid-link";
+import { PlaidLinkButton } from "./components/PlaidLink";
 
 export default async function Home() {
   const configuration = new Configuration({
@@ -30,7 +25,7 @@ export default async function Home() {
     user: {
       client_user_id: "user-id",
     },
-    client_name: "FBAR Bax Balance Calculator",
+    client_name: "FBAR Max Balance Calculator",
     products: [Products.Transactions],
     transactions: {
       days_requested: 90,
@@ -43,9 +38,10 @@ export default async function Home() {
     const response = await plaidClient.linkTokenCreate(request);
     const linkToken = response.data.link_token;
     console.log(linkToken);
+    return <PlaidLinkButton linkToken={linkToken} />;
   } catch (error) {
     console.log("In catch");
     console.error(error);
+    return <p>Server error: {JSON.stringify(error)}</p>;
   }
-  return <h1>Hello World!</h1>;
 }
