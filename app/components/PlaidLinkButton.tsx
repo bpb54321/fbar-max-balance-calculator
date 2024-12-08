@@ -6,12 +6,13 @@ import {
   PlaidLinkOptions,
   PlaidLinkOnSuccessMetadata,
 } from "react-plaid-link";
+import AccountList from "./AccountList";
 
 interface PlaidLinkProps {
   linkToken: string;
 }
 
-interface BankConnection {
+export interface BankConnection {
   publicToken: string;
   metadata: PlaidLinkOnSuccessMetadata;
 }
@@ -57,20 +58,7 @@ export default function PlaidLinkButton({ linkToken }: PlaidLinkProps) {
         <p>Waiting for Plaid Link to be ready</p>
       )}
       {error ? <p>Error: {error?.message}</p> : null}
-      <h2>Connected Accounts</h2>
-      {bankConnections.map((bankConnection) => (
-        <div key={bankConnection.metadata.institution?.institution_id}>
-          <h3>{bankConnection.metadata.institution?.name}</h3>
-          <h3>Accounts</h3>
-          {bankConnection.metadata.accounts.map((account) => {
-            return (
-              <li key={account.id}>
-                {account.name} - {account.mask} - {account.type}
-              </li>
-            );
-          })}
-        </div>
-      ))}
+      <AccountList bankConnections={bankConnections} />
     </>
   );
 }
