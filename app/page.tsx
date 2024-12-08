@@ -5,7 +5,7 @@ import {
   PlaidEnvironments,
   Products,
 } from "plaid";
-import { PlaidLinkButton } from "./components/PlaidLink";
+import PlaidLinkButton from "./components/PlaidLinkButton";
 
 export default async function Home() {
   const configuration = new Configuration({

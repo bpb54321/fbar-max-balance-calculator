@@ -16,7 +16,7 @@ interface BankConnection {
   metadata: PlaidLinkOnSuccessMetadata;
 }
 
-export const PlaidLinkButton: React.FC<PlaidLinkProps> = ({ linkToken }) => {
+export default function PlaidLinkButton({ linkToken }: PlaidLinkProps) {
   const [bankConnections, setBankConnections] = useState<BankConnection[]>([]);
   const config: PlaidLinkOptions = {
     onSuccess: (public_token, metadata) => {
@@ -73,4 +73,4 @@ export const PlaidLinkButton: React.FC<PlaidLinkProps> = ({ linkToken }) => {
       ))}
     </>
   );
-};
+}
