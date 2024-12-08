@@ -1,20 +1,34 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
-import { usePlaidLink, PlaidLinkOptions } from "react-plaid-link";
+import {
+  usePlaidLink,
+  PlaidLinkOptions,
+  PlaidLinkOnSuccessMetadata,
+} from "react-plaid-link";
 
 interface PlaidLinkProps {
   linkToken: string;
 }
 
+interface BankConnection {
+  publicToken: string;
+  metadata: PlaidLinkOnSuccessMetadata;
+}
+
 export const PlaidLinkButton: React.FC<PlaidLinkProps> = ({ linkToken }) => {
-  // The usePlaidLink hook manages Plaid Link creation
-  // It does not return a destroy function;
-  // instead, on unmount it automatically destroys the Link instance
+  const [bankConnections, setBankConnections] = useState<BankConnection[]>([]);
   const config: PlaidLinkOptions = {
     onSuccess: (public_token, metadata) => {
       console.log("onSuccess");
       console.log({ public_token, metadata });
+      setBankConnections((bankConnections: BankConnection[]) => {
+        const newBankConnection: BankConnection = {
+          publicToken: public_token,
+          metadata,
+        };
+        return [...bankConnections, newBankConnection];
+      });
     },
     onExit: (err, metadata) => {
       console.log("onExit");
@@ -27,7 +41,7 @@ export const PlaidLinkButton: React.FC<PlaidLinkProps> = ({ linkToken }) => {
     token: linkToken,
   };
 
-  const { open, exit, ready, error } = usePlaidLink(config);
+  const { open, ready, error } = usePlaidLink(config);
 
   const handleLinkButtonClick = () => {
     open();
@@ -43,6 +57,20 @@ export const PlaidLinkButton: React.FC<PlaidLinkProps> = ({ linkToken }) => {
         <p>Waiting for Plaid Link to be ready</p>
       )}
       {error ? <p>Error: {error?.message}</p> : null}
+      <h2>Connected Accounts</h2>
+      {bankConnections.map((bankConnection) => (
+        <div key={bankConnection.metadata.institution?.institution_id}>
+          <h3>{bankConnection.metadata.institution?.name}</h3>
+          <h3>Accounts</h3>
+          {bankConnection.metadata.accounts.map((account) => {
+            return (
+              <li key={account.id}>
+                {account.name} - {account.mask} - {account.type}
+              </li>
+            );
+          })}
+        </div>
+      ))}
     </>
   );
 };
