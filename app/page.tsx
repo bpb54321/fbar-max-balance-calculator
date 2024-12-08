@@ -21,21 +21,18 @@ export default async function Home() {
 
   const plaidClient = new PlaidApi(configuration);
 
-  const request = {
+  const linkTokenRequest = {
     user: {
       client_user_id: "user-id",
     },
     client_name: "FBAR Max Balance Calculator",
-    products: [Products.Transactions],
-    transactions: {
-      days_requested: 90,
-    },
+    products: [Products.Assets],
     country_codes: [CountryCode.Ca],
     language: "en",
   };
 
   try {
-    const response = await plaidClient.linkTokenCreate(request);
+    const response = await plaidClient.linkTokenCreate(linkTokenRequest);
     const linkToken = response.data.link_token;
     console.log(linkToken);
     return <BankConnectionsDisplay linkToken={linkToken} />;
