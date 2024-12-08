@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BankConnection } from "./PlaidLinkButton";
 
 interface AccountListProps {
@@ -15,7 +16,9 @@ export default function AccountList({ bankConnections }: AccountListProps) {
           {bankConnection.metadata.accounts.map((account) => {
             return (
               <li key={account.id}>
-                {account.name} - {account.mask} - {account.type}
+                <Link href={`/accounts/${account.id}`}>
+                  {account.name} - {account.mask} - {account.type}
+                </Link>
               </li>
             );
           })}
