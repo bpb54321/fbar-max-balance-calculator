@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BankConnection } from "./PlaidLinkButton";
+import { BankConnection } from "./BankConnectionsDisplay";
 
 interface AccountListProps {
   bankConnections: BankConnection[];

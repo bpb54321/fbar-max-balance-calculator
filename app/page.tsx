@@ -5,7 +5,7 @@ import {
   PlaidEnvironments,
   Products,
 } from "plaid";
-import PlaidLinkButton from "./components/PlaidLinkButton";
+import BankConnectionsDisplay from "./components/BankConnectionsDisplay";
 
 export default async function Home() {
   const configuration = new Configuration({
@@ -38,7 +38,7 @@ export default async function Home() {
     const response = await plaidClient.linkTokenCreate(request);
     const linkToken = response.data.link_token;
     console.log(linkToken);
-    return <PlaidLinkButton linkToken={linkToken} />;
+    return <BankConnectionsDisplay linkToken={linkToken} />;
   } catch (error) {
     console.log("In catch");
     console.error(error);

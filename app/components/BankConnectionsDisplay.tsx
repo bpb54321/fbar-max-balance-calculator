@@ -17,7 +17,7 @@ export interface BankConnection {
   metadata: PlaidLinkOnSuccessMetadata;
 }
 
-export default function PlaidLinkButton({ linkToken }: PlaidLinkProps) {
+export default function BankConnectionsDisplay({ linkToken }: PlaidLinkProps) {
   const [bankConnections, setBankConnections] = useState<BankConnection[]>([]);
   const config: PlaidLinkOptions = {
     onSuccess: (public_token, metadata) => {
@@ -42,22 +42,26 @@ export default function PlaidLinkButton({ linkToken }: PlaidLinkProps) {
     token: linkToken,
   };
 
-  const { open, ready, error } = usePlaidLink(config);
+  const {
+    open: plaidLinkOpen,
+    ready: plaidLinkReady,
+    error: plaidLinkError,
+  } = usePlaidLink(config);
 
   const handleLinkButtonClick = () => {
-    open();
+    plaidLinkOpen();
   };
 
   return (
     <>
-      {ready ? (
+      {plaidLinkReady ? (
         <div>
           <button onClick={handleLinkButtonClick}>Connect with Plaid</button>
         </div>
       ) : (
         <p>Waiting for Plaid Link to be ready</p>
       )}
-      {error ? <p>Error: {error?.message}</p> : null}
+      {plaidLinkError ? <p>Error: {plaidLinkError?.message}</p> : null}
       <AccountList bankConnections={bankConnections} />
     </>
   );
