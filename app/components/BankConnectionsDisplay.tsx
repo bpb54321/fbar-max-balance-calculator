@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   usePlaidLink,
@@ -17,8 +17,33 @@ export interface BankConnection {
   metadata: PlaidLinkOnSuccessMetadata;
 }
 
+const BANK_CONNECTIONS_LOCAL_STORAGE_KEY = "bankConnections";
+
+function getBankConnectionsFromLocalStorage() {
+  const savedBankConnections = window.localStorage.getItem(
+    BANK_CONNECTIONS_LOCAL_STORAGE_KEY
+  );
+  if (savedBankConnections) {
+    const parsedBankConnections = JSON.parse(
+      savedBankConnections
+    ) as BankConnection[];
+    return parsedBankConnections;
+  } else {
+    return [];
+  }
+}
+
 export default function BankConnectionsDisplay({ linkToken }: PlaidLinkProps) {
-  const [bankConnections, setBankConnections] = useState<BankConnection[]>([]);
+  const [bankConnections, setBankConnections] = useState<BankConnection[]>(
+    getBankConnectionsFromLocalStorage
+  );
+  useEffect(() => {
+    window.localStorage.setItem(
+      BANK_CONNECTIONS_LOCAL_STORAGE_KEY,
+      JSON.stringify(bankConnections)
+    );
+  }, [bankConnections]);
+
   const config: PlaidLinkOptions = {
     onSuccess: (public_token, metadata) => {
       console.log("onSuccess");
