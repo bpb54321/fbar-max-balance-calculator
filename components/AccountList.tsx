@@ -1,8 +1,8 @@
+import { PlaidItem } from "@/contexts/itemContext";
 import Link from "next/link";
-import { BankConnection } from "./BankConnectionsDisplay";
 
 interface AccountListProps {
-  bankConnections: BankConnection[];
+  bankConnections: PlaidItem[];
 }
 
 export default function AccountList({ bankConnections }: AccountListProps) {
