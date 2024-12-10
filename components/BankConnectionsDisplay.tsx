@@ -19,24 +19,19 @@ export interface BankConnection {
 
 const BANK_CONNECTIONS_LOCAL_STORAGE_KEY = "bankConnections";
 
-function getBankConnectionsFromLocalStorage() {
-  const savedBankConnections = window.localStorage.getItem(
-    BANK_CONNECTIONS_LOCAL_STORAGE_KEY
-  );
-  if (savedBankConnections) {
-    const parsedBankConnections = JSON.parse(
-      savedBankConnections
-    ) as BankConnection[];
-    return parsedBankConnections;
-  } else {
-    return [];
-  }
-}
-
 export default function BankConnectionsDisplay({ linkToken }: PlaidLinkProps) {
-  const [bankConnections, setBankConnections] = useState<BankConnection[]>(
-    getBankConnectionsFromLocalStorage
-  );
+  const [bankConnections, setBankConnections] = useState<BankConnection[]>([]);
+  useEffect(() => {
+    const savedBankConnections = window.localStorage.getItem(
+      BANK_CONNECTIONS_LOCAL_STORAGE_KEY
+    );
+    if (savedBankConnections) {
+      const parsedBankConnections = JSON.parse(
+        savedBankConnections
+      ) as BankConnection[];
+      setBankConnections(parsedBankConnections);
+    }
+  }, []);
   useEffect(() => {
     window.localStorage.setItem(
       BANK_CONNECTIONS_LOCAL_STORAGE_KEY,
