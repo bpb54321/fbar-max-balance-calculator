@@ -1,25 +1,9 @@
-import {
-  Configuration,
-  CountryCode,
-  PlaidApi,
-  PlaidEnvironments,
-  Products,
-} from "plaid";
+import { CountryCode, PlaidApi, Products } from "plaid";
+import { plaidClientConfiguration } from "./config/plaidClientConfiguration";
 import BankConnectionsDisplay from "./components/BankConnectionsDisplay";
 
 export default async function Home() {
-  const configuration = new Configuration({
-    basePath: PlaidEnvironments.production,
-    baseOptions: {
-      headers: {
-        "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-        "PLAID-SECRET": process.env.PLAID_SECRET,
-        "Plaid-Version": "2020-09-14",
-      },
-    },
-  });
-
-  const plaidClient = new PlaidApi(configuration);
+  const plaidClient = new PlaidApi(plaidClientConfiguration);
 
   const linkTokenRequest = {
     user: {
@@ -31,14 +15,7 @@ export default async function Home() {
     language: "en",
   };
 
-  try {
-    const response = await plaidClient.linkTokenCreate(linkTokenRequest);
-    const linkToken = response.data.link_token;
-    console.log(linkToken);
-    return <BankConnectionsDisplay linkToken={linkToken} />;
-  } catch (error) {
-    console.log("In catch");
-    console.error(error);
-    return <p>Server error: {JSON.stringify(error)}</p>;
-  }
+  const response = await plaidClient.linkTokenCreate(linkTokenRequest);
+  const linkToken = response.data.link_token;
+  return <BankConnectionsDisplay linkToken={linkToken} />;
 }
