@@ -1,9 +1,5 @@
-import {
-  AssetReportCreateRequest,
-  Configuration,
-  PlaidApi,
-  PlaidEnvironments,
-} from "plaid";
+import { AssetReportCreateRequest, PlaidApi } from "plaid";
+import { plaidClientConfiguration } from "@/app/config/plaidClientConfiguration";
 
 interface AccountPageProps {
   params: Promise<{ accountId: string }>;
@@ -14,20 +10,7 @@ export default async function AccountPage({
   accessToken,
 }: AccountPageProps) {
   const { accountId } = await params;
-
-  // TODO: Move the plaidClient to Context and reuse the same plaidClient.
-  const configuration = new Configuration({
-    basePath: PlaidEnvironments.production,
-    baseOptions: {
-      headers: {
-        "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-        "PLAID-SECRET": process.env.PLAID_SECRET,
-        "Plaid-Version": "2020-09-14",
-      },
-    },
-  });
-
-  const plaidClient = new PlaidApi(configuration);
+  const plaidClient = new PlaidApi(plaidClientConfiguration);
 
   const daysRequested = 90;
   const request: AssetReportCreateRequest = {
