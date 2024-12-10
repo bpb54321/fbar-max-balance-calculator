@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 
-import AccountList from "./AccountList";
+import AccountList from "@/components/AccountList";
 import { usePlaidItems } from "@/contexts/itemContext";
-import PlaidLinkButton from "./PlaidLinkButton";
+import PlaidLinkButton from "@/components/PlaidLinkButton";
 
 interface PlaidLinkProps {
   linkToken: string;
@@ -11,7 +11,7 @@ interface PlaidLinkProps {
 
 // const BANK_CONNECTIONS_LOCAL_STORAGE_KEY = "bankConnections";
 
-export default function BankConnectionsDisplay({ linkToken }: PlaidLinkProps) {
+export default function ClientSideHome({ linkToken }: PlaidLinkProps) {
   // const [bankConnections, setBankConnections] = useState<BankConnection[]>([]);
   // useEffect(() => {
   //   const savedBankConnections = window.localStorage.getItem(

@@ -1,8 +1,8 @@
 import { CountryCode, PlaidApi, Products } from "plaid";
 import { plaidClientConfiguration } from "@/config/plaidClientConfiguration";
-import BankConnectionsDisplay from "@/components/BankConnectionsDisplay";
+import ClientSideHome from "@/components/ClientSideHome";
 
-export default async function Home() {
+export default async function ServerSideHome() {
   const plaidClient = new PlaidApi(plaidClientConfiguration);
 
   const linkTokenRequest = {
@@ -18,8 +18,6 @@ export default async function Home() {
   const response = await plaidClient.linkTokenCreate(linkTokenRequest);
   const linkToken = response.data.link_token;
 
-  console.log({ linkToken });
-
   // Artificial delay
   await new Promise((resolve) => {
     setTimeout(() => {
@@ -27,5 +25,5 @@ export default async function Home() {
     }, 4000);
   });
 
-  return <BankConnectionsDisplay linkToken={linkToken} />;
+  return <ClientSideHome linkToken={linkToken} />;
 }
