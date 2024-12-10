@@ -1,6 +1,6 @@
 import { CountryCode, PlaidApi, Products } from "plaid";
 import { plaidClientConfiguration } from "@/config/plaidClientConfiguration";
-import Dashboard from "@/components/Dashboard";
+import BankConnectionsDisplay from "@/components/BankConnectionsDisplay";
 
 export default async function Home() {
   const plaidClient = new PlaidApi(plaidClientConfiguration);
@@ -18,5 +18,14 @@ export default async function Home() {
   const response = await plaidClient.linkTokenCreate(linkTokenRequest);
   const linkToken = response.data.link_token;
 
-  return <Dashboard linkToken={linkToken} />;
+  console.log({ linkToken });
+
+  // Artificial delay
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(null);
+    }, 4000);
+  });
+
+  return <BankConnectionsDisplay linkToken={linkToken} />;
 }
