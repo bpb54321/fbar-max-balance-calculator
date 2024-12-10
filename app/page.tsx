@@ -1,6 +1,6 @@
 import { CountryCode, PlaidApi, Products } from "plaid";
-import { plaidClientConfiguration } from "./config/plaidClientConfiguration";
-import BankConnectionsDisplay from "./components/BankConnectionsDisplay";
+import { plaidClientConfiguration } from "@/config/plaidClientConfiguration";
+import BankConnectionsDisplay from "@/components/BankConnectionsDisplay";
 
 export default async function Home() {
   const plaidClient = new PlaidApi(plaidClientConfiguration);

@@ -1,5 +1,5 @@
 import { AssetReportCreateRequest, PlaidApi } from "plaid";
-import { plaidClientConfiguration } from "@/app/config/plaidClientConfiguration";
+import { plaidClientConfiguration } from "@/config/plaidClientConfiguration";
 
 interface AccountPageProps {
   params: Promise<{ accountId: string }>;
