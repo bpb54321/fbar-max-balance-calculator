@@ -1,10 +1,9 @@
 "use client";
 import React from "react";
 
-import { usePlaidLink, PlaidLinkOptions } from "react-plaid-link";
 import AccountList from "./AccountList";
-import { usePlaidItemDispatcher, usePlaidItems } from "@/contexts/itemContext";
-import { PlaidItemActionType } from "@/contexts/itemContext";
+import { usePlaidItems } from "@/contexts/itemContext";
+import PlaidLinkButton from "./PlaidLinkButton";
 
 interface PlaidLinkProps {
   linkToken: string;
@@ -33,50 +32,10 @@ export default function BankConnectionsDisplay({ linkToken }: PlaidLinkProps) {
   // }, [bankConnections]);
 
   const plaidItems = usePlaidItems();
-  const dispatch = usePlaidItemDispatcher();
-
-  const config: PlaidLinkOptions = {
-    onSuccess: (public_token, metadata) => {
-      const newPlaidItem = {
-        publicToken: public_token,
-        metadata,
-      };
-      dispatch({
-        type: PlaidItemActionType.ItemAdded,
-        item: newPlaidItem,
-      });
-    },
-    onExit: (err, metadata) => {
-      console.log("onExit");
-      console.log({ err, metadata });
-    },
-    onEvent: (eventName, metadata) => {
-      console.log("onEvent");
-      console.log({ eventName, metadata });
-    },
-    token: linkToken,
-  };
-
-  const {
-    open: plaidLinkOpen,
-    ready: plaidLinkReady,
-    error: plaidLinkError,
-  } = usePlaidLink(config);
-
-  const handleLinkButtonClick = () => {
-    plaidLinkOpen();
-  };
 
   return (
     <>
-      {plaidLinkReady ? (
-        <div>
-          <button onClick={handleLinkButtonClick}>Connect with Plaid</button>
-        </div>
-      ) : (
-        <p>Waiting for Plaid Link to be ready</p>
-      )}
-      {plaidLinkError ? <p>Error: {plaidLinkError?.message}</p> : null}
+      <PlaidLinkButton linkToken={linkToken} />
       <AccountList bankConnections={plaidItems} />
     </>
   );
