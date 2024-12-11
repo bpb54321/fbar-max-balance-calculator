@@ -1,18 +1,16 @@
-import { PlaidItem } from "@/contexts/itemContext";
+import { usePlaidItems } from "@/contexts/itemContext";
 
-interface AccountListProps {
-  bankConnections: PlaidItem[];
-}
+export default function AccountList() {
+  const plaidItems = usePlaidItems();
 
-export default function AccountList({ bankConnections }: AccountListProps) {
   return (
     <>
       <h2>Connected Accounts</h2>
-      {bankConnections.map((bankConnection) => (
-        <div key={bankConnection.metadata.institution?.institution_id}>
-          <h3>{bankConnection.metadata.institution?.name}</h3>
+      {plaidItems.map((plaidItem) => (
+        <div key={plaidItem.metadata.institution?.institution_id}>
+          <h3>{plaidItem.metadata.institution?.name}</h3>
           <h3>Accounts</h3>
-          {bankConnection.metadata.accounts.map((account) => {
+          {plaidItem.metadata.accounts.map((account) => {
             return (
               <li key={account.id}>
                 {account.name} - {account.mask} - {account.type}
