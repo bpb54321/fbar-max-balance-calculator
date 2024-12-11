@@ -1,5 +1,4 @@
 import { PlaidItem } from "@/contexts/itemContext";
-import Link from "next/link";
 
 interface AccountListProps {
   bankConnections: PlaidItem[];
@@ -16,12 +15,11 @@ export default function AccountList({ bankConnections }: AccountListProps) {
           {bankConnection.metadata.accounts.map((account) => {
             return (
               <li key={account.id}>
-                <Link href={`/accounts/${account.id}`}>
-                  {account.name} - {account.mask} - {account.type}
-                </Link>
+                {account.name} - {account.mask} - {account.type}
               </li>
             );
           })}
+          <button>Get account balances</button>
         </div>
       ))}
     </>
