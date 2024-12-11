@@ -16,8 +16,8 @@ export default function PlaidLinkButton({ linkToken }: { linkToken: string }) {
         metadata,
       };
       dispatch({
-        type: PlaidItemActionType.ItemAdded,
-        item: newPlaidItem,
+        type: PlaidItemActionType.ItemsAdded,
+        items: [newPlaidItem],
       });
     },
     onExit: (err, metadata) => {

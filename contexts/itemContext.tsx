@@ -1,7 +1,9 @@
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import {
   createContext,
   Dispatch,
   ReactNode,
+  useCallback,
   useContext,
   useReducer,
 } from "react";
@@ -15,30 +17,43 @@ export interface PlaidItem {
 type PlaidItemContextState = PlaidItem[];
 
 export enum PlaidItemActionType {
-  ItemAdded,
+  ItemsAdded,
 }
 
-interface ItemAddedAction {
+interface ItemsAddedAction {
   type: PlaidItemActionType;
-  item: PlaidItem;
+  items: PlaidItem[];
 }
 
-type ItemContextAction = ItemAddedAction;
+type ItemContextAction = ItemsAddedAction;
 
 const ItemContext = createContext<PlaidItemContextState>([]);
-const ItemDispatcherContext = createContext<Dispatch<ItemAddedAction>>(
+const ItemDispatcherContext = createContext<Dispatch<ItemContextAction>>(
   () => {}
 );
 
 const reducer = (state: PlaidItemContextState, action: ItemContextAction) => {
   switch (action.type) {
-    case PlaidItemActionType.ItemAdded:
-      return [...state, action.item];
+    case PlaidItemActionType.ItemsAdded:
+      return [...state, ...action.items];
   }
 };
 
 export const ItemContextProvider = ({ children }: { children: ReactNode }) => {
   const [plaidItems, dispatch] = useReducer(reducer, []);
+
+  const dispatchLocallyStoredPlaidItems = useCallback(
+    (items: PlaidItem[]) => {
+      dispatch({
+        type: PlaidItemActionType.ItemsAdded,
+        items,
+      });
+    },
+    [dispatch]
+  );
+
+  useLocalStorage("plaidItems", plaidItems, dispatchLocallyStoredPlaidItems);
+
   return (
     <ItemContext.Provider value={plaidItems}>
       <ItemDispatcherContext.Provider value={dispatch}>
