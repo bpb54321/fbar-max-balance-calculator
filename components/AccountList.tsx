@@ -17,7 +17,6 @@ export default function AccountList() {
               </li>
             );
           })}
-          <button>Get account balances</button>
         </div>
       ))}
     </>

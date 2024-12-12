@@ -4,17 +4,20 @@ import {
   PlaidItemActionType,
   usePlaidItemDispatcher,
 } from "@/contexts/itemContext";
+import exchangePublicToken from "@/server-functions/exchangePublicToken";
 import { PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
 
 export default function PlaidLinkButton({ linkToken }: { linkToken: string }) {
   const dispatch = usePlaidItemDispatcher();
 
   const plaidLinkConfig: PlaidLinkOptions = {
-    onSuccess: (public_token, metadata) => {
+    onSuccess: async (public_token, metadata) => {
       const newPlaidItem = {
         publicToken: public_token,
         metadata,
       };
+      const access_token = await exchangePublicToken();
+      console.log(access_token);
       dispatch({
         type: PlaidItemActionType.ItemsAdded,
         items: [newPlaidItem],
