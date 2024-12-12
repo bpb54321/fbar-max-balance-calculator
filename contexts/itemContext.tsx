@@ -10,8 +10,9 @@ import {
 import { PlaidLinkOnSuccessMetadata } from "react-plaid-link";
 
 export interface PlaidItem {
-  publicToken: string;
   metadata: PlaidLinkOnSuccessMetadata;
+  accessToken: string;
+  itemId: string;
 }
 
 type PlaidItemContextState = PlaidItem[];

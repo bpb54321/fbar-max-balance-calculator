@@ -12,12 +12,12 @@ export default function PlaidLinkButton({ linkToken }: { linkToken: string }) {
 
   const plaidLinkConfig: PlaidLinkOptions = {
     onSuccess: async (public_token, metadata) => {
+      const { accessToken, itemId } = await exchangePublicToken(public_token);
       const newPlaidItem = {
-        publicToken: public_token,
         metadata,
+        accessToken,
+        itemId,
       };
-      const access_token = await exchangePublicToken();
-      console.log(access_token);
       dispatch({
         type: PlaidItemActionType.ItemsAdded,
         items: [newPlaidItem],
