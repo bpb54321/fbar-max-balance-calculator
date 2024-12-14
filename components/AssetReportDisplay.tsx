@@ -1,4 +1,5 @@
 import { PlaidItem } from "@/contexts/itemContext";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import createAssetReport from "@/server-functions/createAssetReport";
 import getAssetReport from "@/server-functions/getAssetReport";
 import {
@@ -27,6 +28,8 @@ function getMaxHistoricalBalance(historicalBalances: HistoricalBalance[]) {
   return maxHistoricalBalance;
 }
 
+const ASSET_REPORT_STORAGE_KEY = "assertReport";
+
 export default function AssetReportDisplay({
   plaidItem,
 }: {
@@ -39,6 +42,7 @@ export default function AssetReportDisplay({
       asset_report_token: "",
       request_id: "",
     });
+  useLocalStorage(ASSET_REPORT_STORAGE_KEY, assetReport, setAssetReport);
 
   return (
     <div>
