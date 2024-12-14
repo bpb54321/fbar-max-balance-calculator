@@ -10,6 +10,12 @@ export default async function createAssetReport(accessTokens: [string]) {
   const request: AssetReportCreateRequest = {
     access_tokens: accessTokens,
     days_requested: daysRequested,
+    options: {
+      webhook:
+        process.env.NODE_ENV === "development"
+          ? process.env["SMEE_WEBHOOK_PROXY_URL"]
+          : process.env["ASSET_REPORT_WEBHOOK_URL"],
+    },
   };
   const response = await plaidClient.assetReportCreate(request);
 
