@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useLocalStorage = <T,>(
+export const useLocalStorage = <T>(
   storageKey: string,
   stateVariable: T,
   stateUpdaterFunction: (data: T) => void

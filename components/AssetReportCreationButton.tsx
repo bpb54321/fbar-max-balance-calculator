@@ -1,10 +1,15 @@
 import { PlaidItem } from "@/contexts/itemContext";
 
-import { type AssetReport, type AssetReportCreateResponse } from "plaid";
+import {
+  AssetsErrorWebhook,
+  AssetsProductReadyWebhook,
+  type AssetReport,
+  type AssetReportCreateResponse,
+} from "plaid";
 
 import createAssetReport from "@/server-functions/createAssetReport";
 import getAssetReport from "@/server-functions/getAssetReport";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AssetReportCreationButton({
   setAssetReport,
@@ -19,6 +24,42 @@ export default function AssetReportCreationButton({
       asset_report_token: "",
       request_id: "",
     });
+
+  useEffect(() => {
+    console.log("Connecting to asset report webhook sse endpoint...");
+    const ASSET_REPORT_WEBHOOK_SSE_ENDPOINT = "/api/asset-report-webhook";
+    // TODO: Set asset report id with query parameters
+    const eventSource = new EventSource(ASSET_REPORT_WEBHOOK_SSE_ENDPOINT);
+
+    eventSource.onmessage = async (event) => {
+      const assetsWebhookPayload = JSON.parse(event.data);
+
+      console.log(assetsWebhookPayload);
+
+      // TODO: Tease out types AssetsProductReadyWebhook and AssetsErrorWebhook
+      // Also add type WelcomeMessage
+      if (assetsWebhookPayload.asset_report_id && !assetsWebhookPayload.error) {
+        const assetReport = await getAssetReport(
+          assetReportCreateResponseState.asset_report_token
+        );
+        setAssetReport(assetReport);
+      }
+    };
+
+    eventSource.onerror = (error) => {
+      console.error(
+        `Error with connection to ${ASSET_REPORT_WEBHOOK_SSE_ENDPOINT}: `,
+        error
+      );
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <div>
@@ -32,19 +73,6 @@ export default function AssetReportCreationButton({
           }}
         >
           Create asset report
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={async () => {
-            const assetReport = await getAssetReport(
-              assetReportCreateResponseState.asset_report_token
-            );
-            console.log(assetReport);
-            setAssetReport(assetReport);
-          }}
-        >
-          Get asset report
         </button>
       </div>
     </div>

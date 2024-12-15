@@ -22,7 +22,10 @@ export async function GET() {
 
   const stream = new ReadableStream({
     start(controller) {
-      controller.enqueue(`data: Connected to webhook stream\n\n`);
+      const welcomeMessage = {
+        message: "Connected to webhook stream",
+      };
+      controller.enqueue(`data: ${JSON.stringify(welcomeMessage)}\n\n`);
 
       clients.push({ controller, id: clientId });
     },
