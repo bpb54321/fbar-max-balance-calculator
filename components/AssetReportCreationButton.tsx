@@ -1,15 +1,10 @@
 import { PlaidItem } from "@/contexts/itemContext";
 
-import {
-  AssetsErrorWebhook,
-  AssetsProductReadyWebhook,
-  type AssetReport,
-  type AssetReportCreateResponse,
-} from "plaid";
+import { type AssetReport, type AssetReportCreateResponse } from "plaid";
 
 import createAssetReport from "@/server-functions/createAssetReport";
 import getAssetReport from "@/server-functions/getAssetReport";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 export default function AssetReportCreationButton({
   setAssetReport,
@@ -25,8 +20,16 @@ export default function AssetReportCreationButton({
       request_id: "",
     });
 
-  const handleServerSentMessage = useCallback(
-    async (event: MessageEvent) => {
+  useEffect(() => {
+    if (!assetReportCreateResponseState.asset_report_token) {
+      return;
+    }
+    const ASSET_REPORT_WEBHOOK_SSE_ENDPOINT = "/api/asset-report-webhook";
+    // TODO: Set asset report id with query parameters
+    console.log("Connecting to asset report webhook sse endpoint...");
+    const eventSource = new EventSource(ASSET_REPORT_WEBHOOK_SSE_ENDPOINT);
+
+    eventSource.onmessage = async (event: MessageEvent) => {
       const assetsWebhookPayload = JSON.parse(event.data);
 
       console.log(assetsWebhookPayload);
@@ -39,17 +42,7 @@ export default function AssetReportCreationButton({
         );
         setAssetReport(assetReport);
       }
-    },
-    [assetReportCreateResponseState, setAssetReport]
-  );
-
-  useEffect(() => {
-    console.log("Connecting to asset report webhook sse endpoint...");
-    const ASSET_REPORT_WEBHOOK_SSE_ENDPOINT = "/api/asset-report-webhook";
-    // TODO: Set asset report id with query parameters
-    const eventSource = new EventSource(ASSET_REPORT_WEBHOOK_SSE_ENDPOINT);
-
-    eventSource.onmessage = handleServerSentMessage;
+    };
 
     eventSource.onerror = (error) => {
       console.error(
@@ -60,9 +53,12 @@ export default function AssetReportCreationButton({
     };
 
     return () => {
-      eventSource.close();
+      console.log("In SSE useEffect cleanup function.");
+      if (eventSource) {
+        eventSource.close();
+      }
     };
-  }, [handleServerSentMessage]);
+  }, [assetReportCreateResponseState, setAssetReport]);
 
   return (
     <div>
@@ -73,6 +69,7 @@ export default function AssetReportCreationButton({
               plaidItem.accessToken,
             ]);
             console.log(assetReportCreateResponse);
+
             setAssetReportCreateResponse(assetReportCreateResponse);
           }}
         >
