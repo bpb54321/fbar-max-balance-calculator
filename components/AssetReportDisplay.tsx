@@ -1,13 +1,9 @@
 import { PlaidItem } from "@/contexts/itemContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import createAssetReport from "@/server-functions/createAssetReport";
-import getAssetReport from "@/server-functions/getAssetReport";
-import {
-  HistoricalBalance,
-  type AssetReport,
-  type AssetReportCreateResponse,
-} from "plaid";
+
+import { HistoricalBalance, type AssetReport } from "plaid";
 import { useState } from "react";
+import AssetReportCreationButton from "./AssetReportCreationButton";
 
 function getMaxHistoricalBalance(historicalBalances: HistoricalBalance[]) {
   const maxHistoricalBalance = historicalBalances.reduce(
@@ -36,42 +32,15 @@ export default function AssetReportDisplay({
   plaidItem: PlaidItem;
 }) {
   const [assetReport, setAssetReport] = useState<AssetReport>();
-  const [assetReportCreateResponseState, setAssetReportCreateResponse] =
-    useState<AssetReportCreateResponse>({
-      asset_report_id: "",
-      asset_report_token: "",
-      request_id: "",
-    });
+
   useLocalStorage(ASSET_REPORT_STORAGE_KEY, assetReport, setAssetReport);
 
   return (
     <div>
-      <div>
-        <button
-          onClick={async () => {
-            const assetReportCreateResponse = await createAssetReport([
-              plaidItem.accessToken,
-            ]);
-            console.log(assetReportCreateResponse);
-            setAssetReportCreateResponse(assetReportCreateResponse);
-          }}
-        >
-          Create asset report
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={async () => {
-            const assetReport = await getAssetReport(
-              assetReportCreateResponseState.asset_report_token
-            );
-            console.log(assetReport);
-            setAssetReport(assetReport);
-          }}
-        >
-          Get asset report
-        </button>
-      </div>
+      <AssetReportCreationButton
+        plaidItem={plaidItem}
+        setAssetReport={setAssetReport}
+      />
       <div>
         {assetReport?.items[0].accounts.map((account) => {
           const maxHistoricalBalance = getMaxHistoricalBalance(
