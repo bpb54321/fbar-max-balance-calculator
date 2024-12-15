@@ -9,7 +9,7 @@ import {
 
 import createAssetReport from "@/server-functions/createAssetReport";
 import getAssetReport from "@/server-functions/getAssetReport";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function AssetReportCreationButton({
   setAssetReport,
@@ -25,13 +25,8 @@ export default function AssetReportCreationButton({
       request_id: "",
     });
 
-  useEffect(() => {
-    console.log("Connecting to asset report webhook sse endpoint...");
-    const ASSET_REPORT_WEBHOOK_SSE_ENDPOINT = "/api/asset-report-webhook";
-    // TODO: Set asset report id with query parameters
-    const eventSource = new EventSource(ASSET_REPORT_WEBHOOK_SSE_ENDPOINT);
-
-    eventSource.onmessage = async (event) => {
+  const handleServerSentMessage = useCallback(
+    async (event: MessageEvent) => {
       const assetsWebhookPayload = JSON.parse(event.data);
 
       console.log(assetsWebhookPayload);
@@ -44,7 +39,17 @@ export default function AssetReportCreationButton({
         );
         setAssetReport(assetReport);
       }
-    };
+    },
+    [assetReportCreateResponseState, setAssetReport]
+  );
+
+  useEffect(() => {
+    console.log("Connecting to asset report webhook sse endpoint...");
+    const ASSET_REPORT_WEBHOOK_SSE_ENDPOINT = "/api/asset-report-webhook";
+    // TODO: Set asset report id with query parameters
+    const eventSource = new EventSource(ASSET_REPORT_WEBHOOK_SSE_ENDPOINT);
+
+    eventSource.onmessage = handleServerSentMessage;
 
     eventSource.onerror = (error) => {
       console.error(
@@ -57,8 +62,7 @@ export default function AssetReportCreationButton({
     return () => {
       eventSource.close();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [handleServerSentMessage]);
 
   return (
     <div>
