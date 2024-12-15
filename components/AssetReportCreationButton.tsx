@@ -25,18 +25,21 @@ export default function AssetReportCreationButton({
       return;
     }
     const ASSET_REPORT_WEBHOOK_SSE_ENDPOINT = "/api/asset-report-webhook";
-    // TODO: Set asset report id with query parameters
+    const sseUrl = `${ASSET_REPORT_WEBHOOK_SSE_ENDPOINT}?asset_report_id=${assetReportCreateResponseState.asset_report_id}`;
+
     console.log("Connecting to asset report webhook sse endpoint...");
-    const eventSource = new EventSource(ASSET_REPORT_WEBHOOK_SSE_ENDPOINT);
+
+    const eventSource = new EventSource(sseUrl);
 
     eventSource.onmessage = async (event: MessageEvent) => {
       const assetsWebhookPayload = JSON.parse(event.data);
 
       console.log(assetsWebhookPayload);
 
-      // TODO: Tease out types AssetsProductReadyWebhook and AssetsErrorWebhook
-      // Also add type WelcomeMessage
-      if (assetsWebhookPayload.asset_report_id && !assetsWebhookPayload.error) {
+      if (assetsWebhookPayload.error) {
+        console.error("Received an error webhook");
+        console.error(assetsWebhookPayload);
+      } else {
         const assetReport = await getAssetReport(
           assetReportCreateResponseState.asset_report_token
         );
