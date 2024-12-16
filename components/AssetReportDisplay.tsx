@@ -56,34 +56,15 @@ export default function AssetReportDisplay({
             );
             return (
               <div key={account.account_id}>
-                <table>
-                  <caption>
-                    {account.name} - {account.mask}: Account balances
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">Balance</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {account.historical_balances.map((historicalBalance) => {
-                      return (
-                        <tr key={historicalBalance.date}>
-                          <td>{historicalBalance.date}</td>
-                          <td>{historicalBalance.current}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th scope="row">Max</th>
-                      <td>{maxHistoricalBalance.date}</td>
-                      <td>{maxHistoricalBalance.current}</td>
-                    </tr>
-                  </tfoot>
-                </table>
+                <h5>
+                  {account.name} - {account.mask}
+                </h5>
+                <div>
+                  <dt>Max balance:</dt>
+                  <dd>{maxHistoricalBalance.current}</dd>
+                  <dt>Date:</dt>
+                  <dd>{maxHistoricalBalance.date}</dd>
+                </div>
               </div>
             );
           })
