@@ -24,7 +24,7 @@ function getMaxHistoricalBalance(historicalBalances: HistoricalBalance[]) {
   return maxHistoricalBalance;
 }
 
-const ASSET_REPORT_STORAGE_KEY = "assertReport";
+const ASSET_REPORT_STORAGE_KEY_PREFIX = "assetReport";
 
 export default function AssetReportDisplay({
   plaidItem,
@@ -40,7 +40,8 @@ export default function AssetReportDisplay({
     items: [],
   });
 
-  useLocalStorage(ASSET_REPORT_STORAGE_KEY, assetReport, setAssetReport);
+  const assetReportStorageKey = `${ASSET_REPORT_STORAGE_KEY_PREFIX}-${plaidItem.itemId}`;
+  useLocalStorage(assetReportStorageKey, assetReport, setAssetReport);
 
   return (
     <div>
@@ -48,48 +49,45 @@ export default function AssetReportDisplay({
         plaidItem={plaidItem}
         setAssetReport={setAssetReport}
       />
-      <div>
-        {}
-        {assetReport.items.length > 0
-          ? assetReport.items[0].accounts.map((account) => {
-              const maxHistoricalBalance = getMaxHistoricalBalance(
-                account.historical_balances
-              );
-              return (
-                <div key={account.account_id}>
-                  <table>
-                    <caption>
-                      {account.name} - {account.mask}: Account balances
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Balance</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {account.historical_balances.map((historicalBalance) => {
-                        return (
-                          <tr key={historicalBalance.date}>
-                            <td>{historicalBalance.date}</td>
-                            <td>{historicalBalance.current}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th scope="row">Max</th>
-                        <td>{maxHistoricalBalance.date}</td>
-                        <td>{maxHistoricalBalance.current}</td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              );
-            })
-          : null}
-      </div>
+      {assetReport.items.length > 0
+        ? assetReport.items[0].accounts.map((account) => {
+            const maxHistoricalBalance = getMaxHistoricalBalance(
+              account.historical_balances
+            );
+            return (
+              <div key={account.account_id}>
+                <table>
+                  <caption>
+                    {account.name} - {account.mask}: Account balances
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {account.historical_balances.map((historicalBalance) => {
+                      return (
+                        <tr key={historicalBalance.date}>
+                          <td>{historicalBalance.date}</td>
+                          <td>{historicalBalance.current}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th scope="row">Max</th>
+                      <td>{maxHistoricalBalance.date}</td>
+                      <td>{maxHistoricalBalance.current}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            );
+          })
+        : null}
     </div>
   );
 }
