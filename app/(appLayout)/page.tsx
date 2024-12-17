@@ -10,7 +10,7 @@ export default async function ServerSideHome() {
       client_user_id: "user-id",
     },
     client_name: "FBAR Max Balance Calculator",
-    products: [Products.Statements],
+    products: [Products.Transactions],
     country_codes: [CountryCode.Ca],
     language: "en",
   };
