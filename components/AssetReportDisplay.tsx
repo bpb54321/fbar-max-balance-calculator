@@ -5,14 +5,20 @@ import { HistoricalBalance, type AssetReport } from "plaid";
 import { useState } from "react";
 import AssetReportCreationButton from "./AssetReportCreationButton";
 
-function getMaxHistoricalBalance(historicalBalances: HistoricalBalance[]) {
+function getMaxHistoricalBalanceForYear(
+  historicalBalances: HistoricalBalance[],
+  targetYear: string
+) {
   const maxHistoricalBalance = historicalBalances.reduce(
     (maxHistoricalBalance, currentHistoricalBalance) => {
-      if (currentHistoricalBalance.current > maxHistoricalBalance.current) {
-        return currentHistoricalBalance;
-      } else {
+      const year = currentHistoricalBalance.date.slice(0, 4);
+      if (year !== targetYear) {
         return maxHistoricalBalance;
       }
+      if (currentHistoricalBalance.current > maxHistoricalBalance.current) {
+        return currentHistoricalBalance;
+      }
+      return maxHistoricalBalance;
     },
     {
       date: "no date",
@@ -43,6 +49,8 @@ export default function AssetReportDisplay({
   const assetReportStorageKey = `${ASSET_REPORT_STORAGE_KEY_PREFIX}-${plaidItem.itemId}`;
   useLocalStorage(assetReportStorageKey, assetReport, setAssetReport);
 
+  const FBAR_YEAR = "2024";
+
   return (
     <div>
       <AssetReportCreationButton
@@ -51,8 +59,9 @@ export default function AssetReportDisplay({
       />
       {assetReport.items.length > 0
         ? assetReport.items[0].accounts.map((account) => {
-            const maxHistoricalBalance = getMaxHistoricalBalance(
-              account.historical_balances
+            const maxHistoricalBalance = getMaxHistoricalBalanceForYear(
+              account.historical_balances,
+              FBAR_YEAR
             );
             return (
               <div key={account.account_id}>

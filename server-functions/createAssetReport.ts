@@ -6,7 +6,7 @@ import { plaidClientConfiguration } from "@/config/plaidClientConfiguration";
 export default async function createAssetReport(accessTokens: [string]) {
   const plaidClient = new PlaidApi(plaidClientConfiguration);
 
-  const daysRequested = 90;
+  const daysRequested = 731;
   const request: AssetReportCreateRequest = {
     access_tokens: accessTokens,
     days_requested: daysRequested,
