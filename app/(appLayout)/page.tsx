@@ -10,20 +10,17 @@ export default async function ServerSideHome() {
       client_user_id: "user-id",
     },
     client_name: "FBAR Max Balance Calculator",
-    products: [Products.Assets],
+    products: [Products.Statements],
     country_codes: [CountryCode.Ca],
     language: "en",
   };
 
-  const response = await plaidClient.linkTokenCreate(linkTokenRequest);
-  const linkToken = response.data.link_token;
+  try {
+    const response = await plaidClient.linkTokenCreate(linkTokenRequest);
+    const linkToken = response.data.link_token;
 
-  // Artificial delay
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(null);
-    }, 4000);
-  });
-
-  return <ClientSideHome linkToken={linkToken} />;
+    return <ClientSideHome linkToken={linkToken} />;
+  } catch (error) {
+    console.error(error);
+  }
 }
