@@ -36,7 +36,35 @@ export default async function AiMonthlyStatementSpike() {
       },
     },
     {
-      text: "This document is a monthly bank account statement. Can you please find the max balance and the date on which the max balance occurs?",
+      text: `This document is a bank account statement. 
+      It may contain balance data for multiple accounts.
+
+      For each account in the document, can you extract:
+      * the institution name (this will be the same for every account),
+      * the institution address (this will be the same for every account)
+        * make sure to include the following elements in the address:
+          * street address,
+          * city
+          * province or state
+          * postal code
+          * country
+      * the account name,
+      * the maximum balance in the account for the given time period,
+      * the date that the maximum balance was reached,
+      * and the time period of the document?
+      
+      Can you return this data in a JSON format with the following example schema for each account?
+
+      {
+        "institutionName": "My bank",
+        "institutionAddress": "1234 Bank Rd, Montreal, QC, H21 3AB, Canada",
+        "accountName": "My account",
+        "maximumBalance": 100,
+        "maximumBalanceDate": "2023-02-15",
+        "statementStartDate": "2023-02-01",
+        "statementEndDate": "2023-02-28"
+      }
+        `,
     },
   ]);
 
