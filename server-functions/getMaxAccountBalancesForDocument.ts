@@ -77,7 +77,8 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
       * the date that the maximum balance was reached,
       * and the time period of the document?
       
-      Can you return this data in JSON.stringify() format with the following example schema for each account?
+      Can you return this data in the format output by JSON.stringify() with 
+      the following example schema for each account?
 
       {
         "institutionName": "My bank",
