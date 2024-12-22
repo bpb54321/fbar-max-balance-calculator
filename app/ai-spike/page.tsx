@@ -1,16 +1,22 @@
 "use client";
 import getMaxAccountBalancesForDocument from "@/server-functions/getMaxAccountBalancesForDocument";
-
-const handleOnClick = async () => {
-  await getMaxAccountBalancesForDocument();
-};
+import { ChangeEventHandler } from "react";
 
 export default function AiMonthlyStatementSpike() {
+  const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    const filelist = event.target.files;
+    if (filelist && filelist.length > 0) {
+      const file = filelist[0];
+      const formData = new FormData();
+      formData.append("file", file);
+      await getMaxAccountBalancesForDocument(formData);
+    }
+  };
   return (
     <div>
-      <button onClick={handleOnClick}>
-        Get max account balances for document
-      </button>
+      <input type="file" onChange={handleFileChange} />
     </div>
   );
 }

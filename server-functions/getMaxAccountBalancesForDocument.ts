@@ -1,39 +1,54 @@
 "use server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GoogleAIFileManager } from "@google/generative-ai/server";
+// import { GoogleAIFileManager } from "@google/generative-ai/server";
 
-export default async function getMaxAccountBalancesForDocument() {
+export default async function getMaxAccountBalancesForDocument(data: FormData) {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_CLOUD_API_KEY || "");
-
-  const fileManager = new GoogleAIFileManager(
-    process.env.GOOGLE_CLOUD_API_KEY || ""
-  );
-
   const model = genAI.getGenerativeModel({
     // Choose a Gemini model.
     model: "gemini-1.5-flash",
   });
 
-  // Upload the file and specify a display name.
-  const uploadResponse = await fileManager.uploadFile(
-    process.env.PDF_FILE_PATH || "",
-    {
-      mimeType: "application/pdf",
-      displayName: "releve-de-compte-desjardins-2023-02.pdf",
-    }
-  );
+  const file = data.get("file");
 
-  // View the response.
-  console.log(
-    `Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`
-  );
+  if (file === null) {
+    console.error("No file was not sent to the server action.");
+    return;
+  }
+
+  const bytes = await (file as File).arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  //   const fileManager = new GoogleAIFileManager(
+  //     process.env.GOOGLE_CLOUD_API_KEY || ""
+  //   );
+
+  //   // Upload the file and specify a display name.
+  //   const uploadResponse = await fileManager.uploadFile(
+  //     process.env.PDF_FILE_PATH || "",
+  //     {
+  //       mimeType: "application/pdf",
+  //       displayName: "releve-de-compte-desjardins-2023-02.pdf",
+  //     }
+  //   );
+
+  //   // View the response.
+  //   console.log(
+  //     `Uploaded file ${uploadResponse.file.displayName} as: ${uploadResponse.file.uri}`
+  //   );
 
   // Generate content using text and the URI reference for the uploaded file.
   const result = await model.generateContent([
+    // {
+    //   fileData: {
+    //     mimeType: uploadResponse.file.mimeType,
+    //     fileUri: uploadResponse.file.uri,
+    //   },
+    // },
     {
-      fileData: {
-        mimeType: uploadResponse.file.mimeType,
-        fileUri: uploadResponse.file.uri,
+      inlineData: {
+        data: Buffer.from(buffer).toString("base64"),
+        mimeType: "application/pdf",
       },
     },
     {
