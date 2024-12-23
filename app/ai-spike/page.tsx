@@ -11,7 +11,10 @@ export default function AiMonthlyStatementSpike() {
       const file = filelist[0];
       const formData = new FormData();
       formData.append("file", file);
-      await getMaxAccountBalancesForDocument(formData);
+      const maxAccountBalances =
+        (await getMaxAccountBalancesForDocument(formData)) ?? "";
+      const parsedMaxAccountBalances = JSON.parse(maxAccountBalances);
+      console.log(parsedMaxAccountBalances);
     }
   };
   return (

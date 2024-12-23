@@ -1,15 +1,9 @@
 "use server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import * as fs from "fs";
 import { GoogleAIFileManager } from "@google/generative-ai/server";
 
 export default async function getMaxAccountBalancesForDocument(data: FormData) {
-  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_CLOUD_API_KEY || "");
-  const model = genAI.getGenerativeModel({
-    // Choose a Gemini model.
-    model: "gemini-1.5-flash",
-  });
-
   const file = data.get("file");
 
   if (file === null) {
@@ -51,6 +45,80 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
     }
   });
 
+  const accountMaxBalancesSchema = {
+    description: "Account max balances",
+    type: SchemaType.ARRAY,
+    items: {
+      type: SchemaType.OBJECT,
+      properties: {
+        institutionName: {
+          type: SchemaType.STRING,
+          description:
+            "The name of the financial institution that holds the account",
+          nullable: false,
+        },
+        institutionAddress: {
+          type: SchemaType.STRING,
+          description:
+            "The address of the financial institution that holds the account",
+          nullable: false,
+        },
+        accountName: {
+          type: SchemaType.STRING,
+          description:
+            "The name of the account. Can include the account number " +
+            "or the last four digits of the account number, if the model is able to discern these " +
+            "from the account statements",
+          nullable: false,
+        },
+        maximumBalance: {
+          type: SchemaType.NUMBER,
+          description:
+            "The maximum balance attained by a given account in the time period covered " +
+            "by the account statement",
+          nullable: false,
+        },
+        maximumBalanceDate: {
+          type: SchemaType.STRING,
+          description:
+            "The date that a given account attained its maximum balance for the time period " +
+            "covered by the statement. Format should be YYYY-MM-DD.",
+          nullable: false,
+        },
+        statementStartDate: {
+          type: SchemaType.STRING,
+          description:
+            "The date that marks the beginning of the time period covered by the statement. Format should be YYYY-MM-DD.",
+          nullable: false,
+        },
+        statementEndDate: {
+          type: SchemaType.STRING,
+          description:
+            "The date that begins the time period covered by the statement. Format should be YYYY-MM-DD.",
+          nullable: false,
+        },
+      },
+      required: [
+        "institutionName",
+        "institutionAddress",
+        "accountName",
+        "maximumBalance",
+        "maximumBalanceDate",
+        "statementStartDate",
+        "statementEndDate",
+      ],
+    },
+  };
+
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_CLOUD_API_KEY || "");
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: accountMaxBalancesSchema,
+    },
+  });
+
   // Generate content using text and the URI reference for the uploaded file.
   const result = await model.generateContent([
     {
@@ -61,7 +129,9 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
     },
     {
       text: `This document is a bank account statement. 
-      It may contain balance data for multiple accounts.
+      It contains transaction and balance data for at least one and potentially multiple accounts.
+
+      The language of the document may be in English or French.
 
       For each account in the document, can you extract:
       * the institution name (this will be the same for every account),
@@ -72,28 +142,12 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
           * province or state
           * postal code
           * country
-      * the account name,
+      * the account name or number (this is usually just above the table listing the transactions),
       * the maximum balance in the account for the given time period,
       * the date that the maximum balance was reached,
-      * and the time period of the document?
-      
-      Can you return this data in the format output by JSON.stringify() with 
-      the following example schema for each account?
-
-      {
-        "institutionName": "My bank",
-        "institutionAddress": "1234 Bank Rd, Montreal, QC, H21 3AB, Canada",
-        "accountName": "My account",
-        "maximumBalance": 100,
-        "maximumBalanceDate": "2023-02-15",
-        "statementStartDate": "2023-02-01",
-        "statementEndDate": "2023-02-28"
-      }
-        `,
+      * and the start and end date for the statement?`,
     },
   ]);
 
-  // Output the generated text to the console
-  console.log(result.response.text());
-  return null;
+  return result.response.text();
 }
