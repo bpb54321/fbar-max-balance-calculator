@@ -12,11 +12,8 @@
     "@adobe/react-spectrum": "^3.38.1",
     "@google/generative-ai": "^0.21.0",
     "next": "^15.1.0",
-    "pdfjs-dist": "^4.9.155",
-    "plaid": "^30.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-plaid-link": "^3.6.1"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -25,11 +22,5 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "typescript": "^5"
-  },
-  "overrides": {
-    "react-plaid-link": {
-      "react": "^19.0.0",
-      "react-dom": "^19.0.0"
-    }
   }
 }
