@@ -1,6 +1,13 @@
 "use client";
-import { ChangeEventHandler } from "react";
-import { defaultTheme, Provider, Form, TextField } from "@adobe/react-spectrum";
+import { ChangeEventHandler, FormEvent } from "react";
+import {
+  defaultTheme,
+  Provider,
+  Form,
+  TextField,
+  Button,
+  ButtonGroup,
+} from "@adobe/react-spectrum";
 import getMaxAccountBalancesForDocument from "@/server-functions/getMaxAccountBalancesForDocument";
 
 const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (
@@ -18,6 +25,16 @@ const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (
   }
 };
 
+const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  // Prevent default browser page refresh.
+  e.preventDefault();
+
+  // Get form data as an object.
+  const formData = Object.fromEntries(new FormData(e.currentTarget));
+
+  console.log(formData);
+};
+
 export default function Home() {
   return (
     <Provider theme={defaultTheme}>
@@ -25,8 +42,13 @@ export default function Home() {
         <input type="file" onChange={handleFileChange} />
       </div>
       <div>
-        <Form maxWidth="size-3600">
-          <TextField label="Account Name" />
+        <Form maxWidth="size-3600" onSubmit={onSubmit}>
+          <TextField label="Account Name" name="accountName" isRequired />
+          <ButtonGroup>
+            <Button type="submit" variant="primary">
+              Submit
+            </Button>
+          </ButtonGroup>
         </Form>
       </div>
     </Provider>
