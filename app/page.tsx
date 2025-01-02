@@ -1,5 +1,6 @@
 "use client";
 import { ChangeEventHandler } from "react";
+import { defaultTheme, Provider, Form, TextField } from "@adobe/react-spectrum";
 import getMaxAccountBalancesForDocument from "@/server-functions/getMaxAccountBalancesForDocument";
 import { ItemContextProvider } from "@/contexts/itemContext";
 
@@ -20,10 +21,17 @@ const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (
 
 export default function Home() {
   return (
-    <ItemContextProvider>
-      <div>
-        <input type="file" onChange={handleFileChange} />
-      </div>
-    </ItemContextProvider>
+    <Provider theme={defaultTheme}>
+      <ItemContextProvider>
+        <div>
+          <input type="file" onChange={handleFileChange} />
+        </div>
+        <div>
+          <Form maxWidth="size-3600">
+            <TextField label="Account Name" />
+          </Form>
+        </div>
+      </ItemContextProvider>
+    </Provider>
   );
 }
