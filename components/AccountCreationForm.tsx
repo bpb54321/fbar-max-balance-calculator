@@ -20,7 +20,7 @@ const onSubmit = (
     name: formData.get("accountName") as string,
   };
 
-  dispatch({ type: AccountActionTypes.AccountAdded, payload: newAccount });
+  dispatch({ type: AccountActionTypes.AccountAdded, account: newAccount });
 };
 
 export function AccountCreationForm() {
