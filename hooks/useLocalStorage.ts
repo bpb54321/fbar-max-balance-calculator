@@ -10,13 +10,15 @@ export const useLocalStorage = <T>(
 
   // Restore data from local storage
   useEffect(() => {
-    const locallyStoredData = window.localStorage.getItem(storageKey);
-    if (locallyStoredData) {
-      const parsedData = JSON.parse(locallyStoredData);
-      stateUpdaterFunction(parsedData);
+    if (!isDataLoadedFromLocalStorage) {
+      const locallyStoredData = window.localStorage.getItem(storageKey);
+      if (locallyStoredData) {
+        const parsedData = JSON.parse(locallyStoredData);
+        stateUpdaterFunction(parsedData);
+      }
+      setIsDataLoadedFromLocalStorage(true);
     }
-    setIsDataLoadedFromLocalStorage(true);
-  }, [storageKey, stateUpdaterFunction]);
+  }, [storageKey, stateUpdaterFunction, isDataLoadedFromLocalStorage]);
 
   // Save data to local storage when its updated
   useEffect(() => {
