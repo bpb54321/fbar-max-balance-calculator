@@ -44,7 +44,6 @@ function accountsReducer(state: State, action: AccountAction) {
         ...state,
         accounts: [...state.accounts, action.account],
       };
-      console.log(newState);
       return newState;
     case AccountActionTypes.AccountsLoadedFromStorage:
       return action.loadedAccountState;
