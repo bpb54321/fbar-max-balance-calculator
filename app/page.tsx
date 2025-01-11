@@ -1,7 +1,10 @@
 "use client";
-import { ChangeEventHandler } from "react";
+import { AccountCreationForm } from "@/components/AccountCreationForm";
+import { AccountList } from "@/components/AccountList";
+import { AccountsProvider } from "@/contexts/accountsContext";
 import getMaxAccountBalancesForDocument from "@/server-functions/getMaxAccountBalancesForDocument";
-import { ItemContextProvider } from "@/contexts/itemContext";
+import { defaultTheme, Provider } from "@adobe/react-spectrum";
+import { ChangeEventHandler } from "react";
 
 const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (
   event
@@ -20,10 +23,14 @@ const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (
 
 export default function Home() {
   return (
-    <ItemContextProvider>
-      <div>
-        <input type="file" onChange={handleFileChange} />
-      </div>
-    </ItemContextProvider>
+    <Provider theme={defaultTheme}>
+      <AccountsProvider>
+        <div>
+          <input type="file" onChange={handleFileChange} />
+        </div>
+        <AccountCreationForm />
+        <AccountList />
+      </AccountsProvider>
+    </Provider>
   );
 }

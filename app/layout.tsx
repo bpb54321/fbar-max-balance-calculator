@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
 
 export const metadata: Metadata = {
   title: "FBAR Max Balance Calculator",
@@ -15,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
-        <Theme>{children}</Theme>
-      </body>
+      <body className={`antialiased`}>{children}</body>
     </html>
   );
 }
