@@ -63,14 +63,6 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
             "The address of the financial institution that holds the account",
           nullable: false,
         },
-        accountName: {
-          type: SchemaType.STRING,
-          description:
-            "The name of the account. Can include the account number " +
-            "or the last four digits of the account number, if the model is able to discern these " +
-            "from the account statements",
-          nullable: false,
-        },
         maximumBalance: {
           type: SchemaType.NUMBER,
           description:
@@ -101,7 +93,6 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
       required: [
         "institutionName",
         "institutionAddress",
-        "accountName",
         "maximumBalance",
         "maximumBalanceDate",
         "statementStartDate",
@@ -119,6 +110,8 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
     },
   });
 
+  const accountName = "Tangerine Chequing Account - 4018330419";
+
   // Generate content using text and the URI reference for the uploaded file.
   const result = await model.generateContent([
     {
@@ -131,18 +124,17 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
       text: `This document is a bank account statement. 
       It contains transaction and balance data for at least one and potentially multiple accounts.
 
-      The language of the document may be in English or French.
+      The language of the document may be English or French.
 
-      For each account in the document, can you extract:
-      * the institution name (this will be the same for every account),
-      * the institution address (this will be the same for every account)
+      For the account named ${accountName}, can you extract:
+      * the institution name,
+      * the institution address
         * make sure to include the following elements in the address:
-          * street address,
+          * street address
           * city
-          * province or state
+          * province
           * postal code
           * country
-      * the account name or number (this is usually just above the table listing the transactions),
       * the maximum balance in the account for the given time period,
       * the date that the maximum balance was reached,
       * and the start and end date for the statement?`,
