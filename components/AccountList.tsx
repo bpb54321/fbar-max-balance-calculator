@@ -1,4 +1,5 @@
 import { useAccounts } from "@/contexts/accountsContext";
+import FileUploadButton from "./FileUploadButton";
 
 export function AccountList() {
   const accountState = useAccounts();
@@ -6,7 +7,10 @@ export function AccountList() {
     <div>
       <h2>Accounts</h2>
       {accountState.accounts.map((account) => (
-        <h3 key={account.name}>{account.name}</h3>
+        <div key={account.name}>
+          <h3>{account.name}</h3>
+          <FileUploadButton />
+        </div>
       ))}
     </div>
   );
