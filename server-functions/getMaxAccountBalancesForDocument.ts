@@ -45,60 +45,42 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
     }
   });
 
-  const accountMaxBalancesSchema = {
-    description: "Account max balances",
-    type: SchemaType.ARRAY,
-    items: {
-      type: SchemaType.OBJECT,
-      properties: {
-        institutionName: {
-          type: SchemaType.STRING,
-          description:
-            "The name of the financial institution that holds the account",
-          nullable: false,
-        },
-        institutionAddress: {
-          type: SchemaType.STRING,
-          description:
-            "The address of the financial institution that holds the account",
-          nullable: false,
-        },
-        maximumBalance: {
-          type: SchemaType.NUMBER,
-          description:
-            "The maximum balance attained by a given account in the time period covered " +
-            "by the account statement",
-          nullable: false,
-        },
-        maximumBalanceDate: {
-          type: SchemaType.STRING,
-          description:
-            "The date that a given account attained its maximum balance for the time period " +
-            "covered by the statement. Format should be YYYY-MM-DD.",
-          nullable: false,
-        },
-        statementStartDate: {
-          type: SchemaType.STRING,
-          description:
-            "The date that marks the beginning of the time period covered by the statement. Format should be YYYY-MM-DD.",
-          nullable: false,
-        },
-        statementEndDate: {
-          type: SchemaType.STRING,
-          description:
-            "The date that begins the time period covered by the statement. Format should be YYYY-MM-DD.",
-          nullable: false,
-        },
+  const accountMonthlyMaxBalanceSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+      maximumBalance: {
+        type: SchemaType.NUMBER,
+        description:
+          "The maximum balance attained by a given account in the time period covered " +
+          "by the account statement",
+        nullable: false,
       },
-      required: [
-        "institutionName",
-        "institutionAddress",
-        "maximumBalance",
-        "maximumBalanceDate",
-        "statementStartDate",
-        "statementEndDate",
-      ],
+      maximumBalanceDate: {
+        type: SchemaType.STRING,
+        description:
+          "The date that a given account attained its maximum balance for the time period " +
+          "covered by the statement. Format should be YYYY-MM-DD.",
+        nullable: false,
+      },
+      statementStartDate: {
+        type: SchemaType.STRING,
+        description:
+          "The date that marks the beginning of the time period covered by the statement. Format should be YYYY-MM-DD.",
+        nullable: false,
+      },
+      statementEndDate: {
+        type: SchemaType.STRING,
+        description:
+          "The date that begins the time period covered by the statement. Format should be YYYY-MM-DD.",
+        nullable: false,
+      },
     },
+    required: [
+      "maximumBalance",
+      "maximumBalanceDate",
+      "statementStartDate",
+      "statementEndDate",
+    ],
   };
 
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_CLOUD_API_KEY || "");
@@ -106,7 +88,7 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
     model: "gemini-1.5-flash",
     generationConfig: {
       responseMimeType: "application/json",
-      responseSchema: accountMaxBalancesSchema,
+      responseSchema: accountMonthlyMaxBalanceSchema,
     },
   });
 
@@ -123,21 +105,18 @@ export default async function getMaxAccountBalancesForDocument(data: FormData) {
     {
       text: `This document is a bank account statement. 
       It contains transaction and balance data for at least one and potentially multiple accounts.
-
       The language of the document may be English or French.
-
       For the account named ${accountName}, can you extract:
-      * the institution name,
-      * the institution address
-        * make sure to include the following elements in the address:
-          * street address
-          * city
-          * province
-          * postal code
-          * country
-      * the maximum balance in the account for the given time period,
-      * the date that the maximum balance was reached,
-      * and the start and end date for the statement?`,
+      - the maximum balance in the account for the given time period,
+      - the date that the maximum balance was reached,
+      - the start date for the statement,
+      - the end date for the statement?
+      When finding the max balance, make sure to use data only from the transaction table 
+      for the specific account. Each transaction table row has a column for the date of the transaction
+      and the balance of the account after the transaction was completed. To find the max balance,
+      you should compare the balance of all the transaction rows in the table. The max balance is the
+      maximum of all the balances of all the transaction rows in the table. The date of the maximum 
+      balance is the date of the transaction where the maximum balance is reached.`,
     },
   ]);
 
