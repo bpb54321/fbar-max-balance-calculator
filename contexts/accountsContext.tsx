@@ -1,3 +1,5 @@
+"use client";
+
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Account } from "@/types/Account";
 import { BaseAction } from "@/types/BaseAction";
