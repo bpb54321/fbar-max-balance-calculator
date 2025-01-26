@@ -13,8 +13,8 @@ export default async function AccountTable() {
       </thead>
       <tbody>
         {accounts.map((account) => (
-          <tr key={account}>
-            <td>{account}</td>
+          <tr key={account.id}>
+            <td>{account.name}</td>
             <td>
               <button>Calculate Max Balance</button>
             </td>
