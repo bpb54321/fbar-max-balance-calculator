@@ -1,21 +1,9 @@
 import { describe, expect, test, vi } from "vitest";
 import YnabService, { YnabAccountsResponse } from "./ynabService";
 import { YnabAccountType } from "@/types/YnabAccount";
-
-function getMockFetchImplementation<T>(jsonPayload: T) {
-  return async () => {
-    const mockFetchResponse = {
-      ok: true,
-      async json() {
-        return jsonPayload;
-      },
-    };
-    return mockFetchResponse;
-  };
-}
+import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
 
 const fetchMock = vi.fn(getMockFetchImplementation<object>({}));
-
 vi.stubGlobal("fetch", fetchMock);
 
 describe("YnabService", () => {
@@ -43,8 +31,7 @@ describe("YnabService", () => {
         getMockFetchImplementation<YnabAccountsResponse>(mockAccountData)
       );
 
-      const mockYnabBearerToken = "mockYnabBearerToken";
-      const ynabService = new YnabService(mockYnabBearerToken);
+      const ynabService = new YnabService();
 
       // act
       const mockYnabBudgetId = "12345";
