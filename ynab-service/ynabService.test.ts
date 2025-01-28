@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import YnabService, { YnabAccountsResponse } from "./ynabService";
-import { YnabAccountType } from "@/types/YnabAccount";
 import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
+import { mockAccounts } from "./ynabService.test-data";
 
 const fetchMock = vi.fn(getMockFetchImplementation<object>({}));
 vi.stubGlobal("fetch", fetchMock);
@@ -10,18 +10,6 @@ describe("YnabService", () => {
   describe("getAccounts", () => {
     test("gets all accounts for the user and budget", async () => {
       // arrange
-      const mockAccounts = [
-        {
-          id: "1234-5678-9011",
-          name: "My Checking Account",
-          type: YnabAccountType.Checking,
-        },
-        {
-          id: "97be-aabb-5566",
-          name: "My Savings Account",
-          type: YnabAccountType.Savings,
-        },
-      ];
       const mockAccountData = {
         data: {
           accounts: mockAccounts,
