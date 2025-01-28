@@ -3,8 +3,8 @@ import YnabService, { YnabAccountsResponse } from "./ynabService";
 import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
 import { mockAccounts } from "./ynabService.test-data";
 
-const fetchMock = vi.fn(getMockFetchImplementation<object>({}));
-vi.stubGlobal("fetch", fetchMock);
+const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
+vi.stubGlobal("fetch", mockFetch);
 
 describe("YnabService", () => {
   describe("getAccounts", () => {
@@ -15,7 +15,7 @@ describe("YnabService", () => {
           accounts: mockAccounts,
         },
       };
-      fetchMock.mockImplementation(
+      mockFetch.mockImplementation(
         getMockFetchImplementation<YnabAccountsResponse>(mockAccountData)
       );
 
@@ -27,6 +27,16 @@ describe("YnabService", () => {
 
       // assert
       expect(accounts).toEqual(mockAccounts);
+      expect(mockFetch).toHaveBeenCalledWith(
+        `https://api.ynab.com/v1/budgets/${mockYnabBudgetId}/accounts`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer test-token`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
     });
   });
 });
