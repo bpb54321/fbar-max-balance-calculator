@@ -1,6 +1,6 @@
 import { YnabAccount } from "@/types/YnabAccount";
 
-interface YnabAccountsResponse {
+export interface YnabAccountsResponse {
   data: {
     accounts: YnabAccount[];
   };
@@ -8,25 +8,28 @@ interface YnabAccountsResponse {
 
 export default class YnabService {
   private apiBaseUrl = "https://api.ynab.com/v1";
+  private ynabBearerToken: string;
 
-  async getAccounts(): Promise<YnabAccount[]> {
-    const accessToken = process.env.YNAB_BEARER_TOKEN;
+  constructor() {
+    if (process.env.NODE_ENV === "test") {
+      this.ynabBearerToken = "test-token";
+    } else {
+      const ynabBearerToken = process.env.YNAB_BEARER_TOKEN;
 
-    if (!accessToken) {
-      throw new Error("YNAB_BEARER_TOKEN not defined in env variables");
+      if (!ynabBearerToken) {
+        throw new Error("YNAB_BEARER_TOKEN not defined in env variables");
+      }
+      this.ynabBearerToken = ynabBearerToken;
     }
+  }
 
-    const myBudgetId = process.env.YNAB_MY_BUDGET_ID;
-    if (!myBudgetId) {
-      throw new Error("YNAB_MY_BUDGET_ID not defined in env variables");
-    }
-
+  async getAccounts(ynabBudgetId: string): Promise<YnabAccount[]> {
     const response = await fetch(
-      `${this.apiBaseUrl}/budgets/${myBudgetId}/accounts`,
+      `${this.apiBaseUrl}/budgets/${ynabBudgetId}/accounts`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${this.ynabBearerToken}`,
           "Content-Type": "application/json",
         },
       }
