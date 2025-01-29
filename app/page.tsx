@@ -1,10 +1,11 @@
 import Accounts from "@/components/Accounts";
-import Providers from "@/components/Providers";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <Providers>
+    <div>
+      <Link href="/settings">Settings</Link>
       <Accounts />
-    </Providers>
+    </div>
   );
 }
