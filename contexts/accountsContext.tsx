@@ -21,6 +21,7 @@ const AccountsContext = createContext<State | null>(null);
 export enum AccountActionTypes {
   AccountAdded = "AccountAdded",
   AccountsLoadedFromStorage = "AccountsLoadedFromStorage",
+  AccountSelectionStatusChanged = "AccountSelectionStatusChanged",
 }
 
 interface AccountAddedAction extends BaseAction {
@@ -33,7 +34,16 @@ interface AccountLoadedFromStorageAction extends BaseAction {
   loadedAccountState: State;
 }
 
-export type AccountAction = AccountAddedAction | AccountLoadedFromStorageAction;
+interface AccountSelectedStatusChangedAction extends BaseAction {
+  type: AccountActionTypes.AccountSelectionStatusChanged;
+  accountId: string;
+  selected: boolean;
+}
+
+export type AccountAction =
+  | AccountAddedAction
+  | AccountLoadedFromStorageAction
+  | AccountSelectedStatusChangedAction;
 
 const AccountsDispatchContext = createContext<Dispatch<AccountAction> | null>(
   null
@@ -42,13 +52,27 @@ const AccountsDispatchContext = createContext<Dispatch<AccountAction> | null>(
 function accountsReducer(state: State, action: AccountAction) {
   switch (action.type) {
     case AccountActionTypes.AccountAdded:
-      const newState = {
+      return {
         ...state,
         accounts: [...state.accounts, action.account],
       };
-      return newState;
     case AccountActionTypes.AccountsLoadedFromStorage:
       return action.loadedAccountState;
+    case AccountActionTypes.AccountSelectionStatusChanged:
+      const newAccounts = state.accounts.map((account) => {
+        if (account.id === action.accountId) {
+          return {
+            ...account,
+            selected: action.selected,
+          };
+        } else {
+          return account;
+        }
+      });
+      return {
+        ...state,
+        accounts: newAccounts,
+      };
     default:
       throw Error("Unknown action");
   }
