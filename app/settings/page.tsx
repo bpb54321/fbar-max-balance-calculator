@@ -1,15 +1,33 @@
 "use client";
 
+import { BUDGET_ID } from "@/constants/constants";
 import {
   AccountActionTypes,
   useAccounts,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
-import { ChangeEvent } from "react";
+import getAccounts from "@/server-functions/getAccounts";
+import { ChangeEvent, useEffect } from "react";
 
 export default function SettingsPage() {
   const { accounts } = useAccounts();
   const accountsDispatch = useAccountsDispatch();
+
+  useEffect(() => {
+    if (accounts.length === 0) {
+      getAccounts(BUDGET_ID).then((fetchedAccounts) => {
+        accountsDispatch({
+          type: AccountActionTypes.AccountsLoadedFromStorage,
+          loadedAccountState: {
+            accounts: fetchedAccounts.map((fetchedAccount) => ({
+              ...fetchedAccount,
+              selected: false,
+            })),
+          },
+        });
+      });
+    }
+  }, [accountsDispatch, accounts.length]);
 
   const handleCheckboxChange = (
     accountId: string,
