@@ -1,10 +1,12 @@
+"use client";
+
 import { BUDGET_ID } from "@/constants/constants";
+import { useSelectedAccounts } from "@/contexts/accountsContext";
 import YnabService from "@/ynab-service/ynabService";
 import Link from "next/link";
 
-export default async function AccountTable() {
-  const ynabService = new YnabService();
-  const accounts = await ynabService.getAccounts(BUDGET_ID);
+export default function AccountTable() {
+  const selectedAccounts = useSelectedAccounts();
 
   return (
     <table>
@@ -15,10 +17,12 @@ export default async function AccountTable() {
         </tr>
       </thead>
       <tbody>
-        {accounts.map((account) => (
-          <tr key={account.id}>
+        {selectedAccounts.map((selectedAccount) => (
+          <tr key={selectedAccount.id}>
             <td>
-              <Link href={`/account/${account.id}`}>{account.name}</Link>
+              <Link href={`/account/${selectedAccount.id}`}>
+                {selectedAccount.name}
+              </Link>
             </td>
             <td>-</td>
           </tr>

@@ -124,3 +124,9 @@ export function useAccountsDispatch() {
   }
   return dispatch;
 }
+
+// Selectors
+export function useSelectedAccounts() {
+  const { accounts } = useAccounts();
+  return accounts.filter((account) => account.selected);
+}
