@@ -7,6 +7,7 @@ import {
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
 import getAccounts from "@/server-functions/getAccounts";
+import { NewAccount } from "@/types/NewAccount";
 import { ChangeEvent, useEffect } from "react";
 
 export default function SettingsPage() {
@@ -19,10 +20,10 @@ export default function SettingsPage() {
         accountsDispatch({
           type: AccountActionTypes.AccountsLoadedFromStorage,
           loadedAccountState: {
-            accounts: fetchedAccounts.map((fetchedAccount) => ({
-              ...fetchedAccount,
-              selected: false,
-            })),
+            accounts: fetchedAccounts.map(
+              (fetchedAccount) =>
+                new NewAccount(fetchedAccount.name, fetchedAccount.id)
+            ),
           },
         });
       });

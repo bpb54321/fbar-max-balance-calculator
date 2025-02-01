@@ -1,17 +1,18 @@
 "use client";
-import { useState } from "react";
 import getMaxBalances from "@/calculation-functions/getMaxBalances";
 import getTransactionsWithBalances from "@/calculation-functions/getTransactionsWithBalances";
 import { BUDGET_ID } from "@/constants/constants";
+import {
+  AccountActionTypes,
+  useAccount,
+  useAccountsDispatch,
+} from "@/contexts/accountsContext";
 import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
-import { MaxBalanceTransaction } from "@/types/MaxBalanceTransaction";
-import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
-  const [transactionsWithBalances, setTransactionsWithBalances] = useState<
-    TransactionWithBalance[]
-  >([]);
-  const [maxBalances, setMaxBalances] = useState<MaxBalanceTransaction[]>([]);
+  const account = useAccount(accountId);
+  const { transactionsWithBalances, maxBalancesByYear } = account;
+  const accountsDispatch = useAccountsDispatch();
 
   const handleClick = async () => {
     const transactions = await getTransactionsForAccount(
@@ -19,13 +20,25 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
       accountId,
       "2022-01-01"
     );
-    const transactionsWithBalances = getTransactionsWithBalances(transactions);
-    setTransactionsWithBalances(transactionsWithBalances);
 
-    const maxBalances: MaxBalanceTransaction[] = getMaxBalances(
-      transactionsWithBalances
+    const transactionsWithBalances = getTransactionsWithBalances(transactions);
+
+    accountsDispatch({
+      type: AccountActionTypes.TransactionsLoaded,
+      transactionsWithBalances,
+      accountId,
+    });
+
+    const maxBalancesByYear = getMaxBalances(
+      transactionsWithBalances,
+      accountId
     );
-    setMaxBalances(maxBalances);
+
+    accountsDispatch({
+      type: AccountActionTypes.MaxBalancesCalculated,
+      maxBalancesByYear,
+      accountId,
+    });
   };
 
   return (
@@ -43,16 +56,21 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
           </tr>
         </thead>
         <tbody>
-          {maxBalances.map((maxBalanceTransaction) => (
-            <tr key={maxBalanceTransaction.id}>
-              <td>{maxBalanceTransaction.date}</td>
-              <td>{maxBalanceTransaction.payeeName}</td>
-              <td>{maxBalanceTransaction.memo}</td>
-              <td>{maxBalanceTransaction.amount / 1000}</td>
-              <td>{maxBalanceTransaction.balance / 1000}</td>
-              <td>{maxBalanceTransaction.yearOfMaxBalance}</td>
-            </tr>
-          ))}
+          {Object.values(maxBalancesByYear).map((maxBalance) => {
+            const transactionWithBalance = transactionsWithBalances.find(
+              (transaction) => transaction.id === maxBalance.transactionId
+            ) ?? { date: "", payeeName: "", memo: "", amount: 0, balance: 0 };
+            return (
+              <tr key={maxBalance.id}>
+                <td>{transactionWithBalance.date}</td>
+                <td>{transactionWithBalance.payeeName}</td>
+                <td>{transactionWithBalance.memo}</td>
+                <td>{transactionWithBalance.amount / 1000}</td>
+                <td>{transactionWithBalance.balance / 1000}</td>
+                <td>{maxBalance.year}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <table>
