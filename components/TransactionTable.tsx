@@ -1,29 +1,36 @@
+"use client";
+import { useState } from "react";
 import getMaxBalances from "@/calculation-functions/getMaxBalances";
 import getTransactionsWithBalances from "@/calculation-functions/getTransactionsWithBalances";
 import { BUDGET_ID } from "@/constants/constants";
+import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
 import { MaxBalanceTransaction } from "@/types/MaxBalanceTransaction";
-import YnabService from "@/ynab-service/ynabService";
+import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 
-export default async function TransactionTable({
-  accountId,
-}: {
-  accountId: string;
-}) {
-  const ynabService = new YnabService();
-  const transactions = await ynabService.getAccountTransactions(
-    BUDGET_ID,
-    accountId,
-    "2022-01-01"
-  );
+export default function TransactionTable({ accountId }: { accountId: string }) {
+  const [transactionsWithBalances, setTransactionsWithBalances] = useState<
+    TransactionWithBalance[]
+  >([]);
+  const [maxBalances, setMaxBalances] = useState<MaxBalanceTransaction[]>([]);
 
-  const transactionsWithBalances = getTransactionsWithBalances(transactions);
+  const handleClick = async () => {
+    const transactions = await getTransactionsForAccount(
+      BUDGET_ID,
+      accountId,
+      "2022-01-01"
+    );
+    const transactionsWithBalances = getTransactionsWithBalances(transactions);
+    setTransactionsWithBalances(transactionsWithBalances);
 
-  const maxBalances: MaxBalanceTransaction[] = getMaxBalances(
-    transactionsWithBalances
-  );
+    const maxBalances: MaxBalanceTransaction[] = getMaxBalances(
+      transactionsWithBalances
+    );
+    setMaxBalances(maxBalances);
+  };
 
   return (
     <div>
+      <button onClick={handleClick}>Reload transactions</button>
       <table>
         <thead>
           <tr>

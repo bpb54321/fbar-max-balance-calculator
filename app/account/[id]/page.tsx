@@ -1,5 +1,4 @@
 import TransactionTable from "@/components/TransactionTable";
-import { Suspense } from "react";
 
 export default async function AccountDetailPage({
   params,
@@ -12,9 +11,7 @@ export default async function AccountDetailPage({
     <div>
       <h1>Account Detail Page</h1>
       <h2>Transactions</h2>
-      <Suspense fallback="Loading transactions">
-        <TransactionTable accountId={accountId} />
-      </Suspense>
+      <TransactionTable accountId={accountId} />
     </div>
   );
 }
