@@ -1,5 +1,6 @@
 "use client";
 
+import MainNavigation from "@/components/MainNavigation";
 import { BUDGET_ID } from "@/constants/constants";
 import {
   AccountActionTypes,
@@ -43,6 +44,7 @@ export default function SettingsPage() {
 
   return (
     <div>
+      <MainNavigation />
       <h1>Settings Page</h1>
       <h2>Accounts to Include in Analysis</h2>
       <form>

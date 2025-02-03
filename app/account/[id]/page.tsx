@@ -1,3 +1,4 @@
+import MainNavigation from "@/components/MainNavigation";
 import TransactionTable from "@/components/TransactionTable";
 
 export default async function AccountDetailPage({
@@ -9,6 +10,7 @@ export default async function AccountDetailPage({
 
   return (
     <div>
+      <MainNavigation />
       <h1>Account Detail Page</h1>
       <h2>Transactions</h2>
       <TransactionTable accountId={accountId} />
