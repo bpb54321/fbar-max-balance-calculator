@@ -1,4 +1,4 @@
-import getMaxAccountBalancesForDocument from "@/server-functions/getMaxAccountBalancesForDocument";
+import getMaxAccountBalancesForDocument from "@/deprecated/getMaxAccountBalancesForDocument";
 import { ChangeEventHandler } from "react";
 
 const handleFileChange: ChangeEventHandler<HTMLInputElement> = async (

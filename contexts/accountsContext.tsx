@@ -1,17 +1,21 @@
+"use client";
+
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Account } from "@/types/Account";
 import { BaseAction } from "@/types/BaseAction";
+import { MaxBalancesByYear } from "@/types/MaxBalanceTransaction";
+import { NewAccount } from "@/types/NewAccount";
+import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 import {
   createContext,
+  Dispatch,
+  ReactNode,
+  useCallback,
   useContext,
   useReducer,
-  ReactNode,
-  Dispatch,
-  useCallback,
 } from "react";
 
 interface State {
-  accounts: Account[];
+  accounts: NewAccount[];
 }
 
 const AccountsContext = createContext<State | null>(null);
@@ -19,11 +23,14 @@ const AccountsContext = createContext<State | null>(null);
 export enum AccountActionTypes {
   AccountAdded = "AccountAdded",
   AccountsLoadedFromStorage = "AccountsLoadedFromStorage",
+  AccountSelectionStatusChanged = "AccountSelectionStatusChanged",
+  TransactionsLoaded = "TransactionsLoaded",
+  MaxBalancesCalculated = "MaxBalancesCalculated",
 }
 
 interface AccountAddedAction extends BaseAction {
   type: AccountActionTypes.AccountAdded;
-  account: Account;
+  account: NewAccount;
 }
 
 interface AccountLoadedFromStorageAction extends BaseAction {
@@ -31,7 +38,30 @@ interface AccountLoadedFromStorageAction extends BaseAction {
   loadedAccountState: State;
 }
 
-export type AccountAction = AccountAddedAction | AccountLoadedFromStorageAction;
+interface AccountSelectedStatusChangedAction extends BaseAction {
+  type: AccountActionTypes.AccountSelectionStatusChanged;
+  accountId: string;
+  selected: boolean;
+}
+
+interface TransactionsLoadedAction extends BaseAction {
+  type: AccountActionTypes.TransactionsLoaded;
+  transactionsWithBalances: TransactionWithBalance[];
+  accountId: string;
+}
+
+interface MaxBalancesCalculatedAction extends BaseAction {
+  type: AccountActionTypes.MaxBalancesCalculated;
+  maxBalancesByYear: MaxBalancesByYear;
+  accountId: string;
+}
+
+export type AccountAction =
+  | AccountAddedAction
+  | AccountLoadedFromStorageAction
+  | AccountSelectedStatusChangedAction
+  | TransactionsLoadedAction
+  | MaxBalancesCalculatedAction;
 
 const AccountsDispatchContext = createContext<Dispatch<AccountAction> | null>(
   null
@@ -40,13 +70,56 @@ const AccountsDispatchContext = createContext<Dispatch<AccountAction> | null>(
 function accountsReducer(state: State, action: AccountAction) {
   switch (action.type) {
     case AccountActionTypes.AccountAdded:
-      const newState = {
-        ...state,
+      return {
         accounts: [...state.accounts, action.account],
       };
-      return newState;
     case AccountActionTypes.AccountsLoadedFromStorage:
       return action.loadedAccountState;
+    case AccountActionTypes.AccountSelectionStatusChanged: {
+      const newAccounts = state.accounts.map((account) => {
+        if (account.id === action.accountId) {
+          return {
+            ...account,
+            selected: action.selected,
+          };
+        } else {
+          return account;
+        }
+      });
+      return {
+        accounts: newAccounts,
+      };
+    }
+    case AccountActionTypes.TransactionsLoaded: {
+      const newAccounts = state.accounts.map((account) => {
+        if (account.id === action.accountId) {
+          return {
+            ...account,
+            transactionsWithBalances: action.transactionsWithBalances,
+          };
+        } else {
+          return account;
+        }
+      });
+      return {
+        accounts: newAccounts,
+      };
+    }
+    case AccountActionTypes.MaxBalancesCalculated: {
+      const newAccounts = state.accounts.map((account) => {
+        if (account.id === action.accountId) {
+          return {
+            ...account,
+            maxBalancesByYear: action.maxBalancesByYear,
+          };
+        } else {
+          return account;
+        }
+      });
+      return {
+        accounts: newAccounts,
+      };
+    }
     default:
       throw Error("Unknown action");
   }
@@ -97,4 +170,17 @@ export function useAccountsDispatch() {
     throw new Error("this hook must be used within a Provider");
   }
   return dispatch;
+}
+
+// Selectors
+export function useSelectedAccounts() {
+  const { accounts } = useAccounts();
+  return accounts.filter((account) => account.selected);
+}
+
+export function useAccount(accountId: string) {
+  const { accounts } = useAccounts();
+  return (
+    accounts.find((account) => account.id === accountId) ?? new NewAccount()
+  );
 }
