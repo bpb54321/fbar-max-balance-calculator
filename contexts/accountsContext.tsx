@@ -3,7 +3,7 @@
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { BaseAction } from "@/types/BaseAction";
 import { MaxBalancesByYear } from "@/types/MaxBalanceTransaction";
-import { NewAccount } from "@/types/NewAccount";
+import { Account } from "@/types/Account";
 import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 import {
   createContext,
@@ -15,7 +15,7 @@ import {
 } from "react";
 
 interface State {
-  accounts: NewAccount[];
+  accounts: Account[];
 }
 
 const AccountsContext = createContext<State | null>(null);
@@ -30,7 +30,7 @@ export enum AccountActionTypes {
 
 interface AccountAddedAction extends BaseAction {
   type: AccountActionTypes.AccountAdded;
-  account: NewAccount;
+  account: Account;
 }
 
 interface AccountLoadedFromStorageAction extends BaseAction {
@@ -180,7 +180,5 @@ export function useSelectedAccounts() {
 
 export function useAccount(accountId: string) {
   const { accounts } = useAccounts();
-  return (
-    accounts.find((account) => account.id === accountId) ?? new NewAccount()
-  );
+  return accounts.find((account) => account.id === accountId) ?? new Account();
 }

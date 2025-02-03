@@ -7,7 +7,7 @@ import {
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
 import getAccounts from "@/server-functions/getAccounts";
-import { NewAccount } from "@/types/NewAccount";
+import { Account } from "@/types/Account";
 import { ChangeEvent, useEffect } from "react";
 
 export default function SettingsPage() {
@@ -22,7 +22,7 @@ export default function SettingsPage() {
           loadedAccountState: {
             accounts: fetchedAccounts.map(
               (fetchedAccount) =>
-                new NewAccount(fetchedAccount.name, fetchedAccount.id)
+                new Account(fetchedAccount.name, fetchedAccount.id)
             ),
           },
         });

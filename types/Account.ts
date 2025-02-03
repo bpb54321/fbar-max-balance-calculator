@@ -1,7 +1,7 @@
 import { MaxBalancesByYear } from "./MaxBalanceTransaction";
 import { TransactionWithBalance } from "./TransactionWithBalance";
 
-export class NewAccount {
+export class Account {
   constructor(
     public name: string = "",
     public id: string = "",
