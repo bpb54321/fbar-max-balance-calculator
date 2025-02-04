@@ -9,27 +9,11 @@ import {
 } from "@/contexts/accountsContext";
 import getAccounts from "@/server-functions/getAccounts";
 import { Account } from "@/types/Account";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 
 export default function SettingsPage() {
   const { accounts } = useAccounts();
   const accountsDispatch = useAccountsDispatch();
-
-  useEffect(() => {
-    if (accounts.length === 0) {
-      getAccounts(BUDGET_ID).then((fetchedAccounts) => {
-        accountsDispatch({
-          type: AccountActionTypes.AccountsLoadedFromStorage,
-          loadedAccountState: {
-            accounts: fetchedAccounts.map(
-              (fetchedAccount) =>
-                new Account(fetchedAccount.name, fetchedAccount.id)
-            ),
-          },
-        });
-      });
-    }
-  }, [accountsDispatch, accounts.length]);
 
   const handleCheckboxChange = (
     accountId: string,
@@ -42,10 +26,24 @@ export default function SettingsPage() {
     });
   };
 
+  const handleClick = async () => {
+    const fetchedAccounts = await getAccounts(BUDGET_ID);
+    accountsDispatch({
+      type: AccountActionTypes.AccountsLoadedFromStorage,
+      loadedAccountState: {
+        accounts: fetchedAccounts.map(
+          (fetchedAccount) =>
+            new Account(fetchedAccount.name, fetchedAccount.id)
+        ),
+      },
+    });
+  };
+
   return (
     <div>
       <MainNavigation />
       <h1>Settings Page</h1>
+      <button onClick={handleClick}>Reload accounts</button>
       <h2>Accounts to Include in Analysis</h2>
       <form>
         {accounts.map((account) => (
