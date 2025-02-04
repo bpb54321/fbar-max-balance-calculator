@@ -1,9 +1,3 @@
-import { TransactionWithBalance } from "./TransactionWithBalance";
-
-export type MaxBalanceTransaction = TransactionWithBalance & {
-  yearOfMaxBalance: string;
-};
-
 export interface MaxBalance {
   id: string;
   transactionId: string;
