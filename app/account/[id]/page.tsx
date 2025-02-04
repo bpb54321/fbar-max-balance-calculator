@@ -1,5 +1,6 @@
 import MainNavigation from "@/components/MainNavigation";
 import TransactionTable from "@/components/TransactionTable";
+import AccountDetailPageHeading from "./AccountDetailPageHeading";
 
 export default async function AccountDetailPage({
   params,
@@ -11,7 +12,7 @@ export default async function AccountDetailPage({
   return (
     <div>
       <MainNavigation />
-      <h1>Account Detail Page</h1>
+      <AccountDetailPageHeading accountId={accountId} />
       <h2>Transactions</h2>
       <TransactionTable accountId={accountId} />
     </div>
