@@ -11,5 +11,7 @@ export default meta;
 type Story = StoryObj<typeof Table>;
 
 export const Primary: Story = {
-  args: {},
+  args: {
+    columnHeaders: ["Date", "Payee", "Memo", "Amount", "Balance"],
+  },
 };
