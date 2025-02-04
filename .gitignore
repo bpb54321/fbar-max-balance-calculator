@@ -40,3 +40,6 @@ yarn-error.log*
 next-env.d.ts
 
 *storybook.log
+
+# Tailwind CSS Output CSS
+css/output.css
