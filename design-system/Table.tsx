@@ -1,16 +1,26 @@
-interface TableProps {
+interface TableProps<K extends string> {
   columnHeaders: string[];
+  rowKeys: K[];
+  rowData: Array<
+    {
+      [key in K]: string | number;
+    } & { id: string }
+  >;
 }
 
-export default function Table({ columnHeaders }: TableProps) {
+export default function Table<K extends string>({
+  columnHeaders,
+  rowKeys,
+  rowData,
+}: TableProps<K>) {
   return (
     <table>
       <thead>
-        <tr>
+        <tr className="border-b border-gray-400">
           {columnHeaders.map((header) => (
             <th
-              key="header"
-              className="px-4 text-left align-middle font-medium text-gray-500"
+              key={header}
+              className="h-12 px-4 text-left align-middle font-medium text-gray-500"
             >
               {header}
             </th>
@@ -18,13 +28,13 @@ export default function Table({ columnHeaders }: TableProps) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>2025-02-01</td>
-          <td>Landlord</td>
-          <td>Rent check</td>
-          <td>2150</td>
-          <td>1000</td>
-        </tr>
+        {rowData.map((row) => (
+          <tr key={row.id}>
+            {rowKeys.map((rowKey) => (
+              <td key={`${row.id}-${rowKey}`}>{row[rowKey]}</td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );

@@ -8,10 +8,32 @@ const meta: Meta<typeof Table> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Table>;
+type RowKey = "date" | "payee" | "memo" | "amount" | "balance";
+const rowKeys: RowKey[] = ["date", "payee", "memo", "amount", "balance"];
+const columnHeaders = ["Date", "Payee", "Memo", "Amount", "Balance"];
+const rowData = [
+  {
+    id: "1",
+    date: "2025-02-01",
+    payee: "Landlord",
+    memo: "Rent check",
+    amount: 2150.0,
+    balance: 2850.0,
+  },
+  {
+    id: "2",
+    date: "2025-01-31",
+    payee: "Employer",
+    memo: "Paycheck",
+    amount: 5000.0,
+    balance: 5000.0,
+  },
+];
 
-export const Primary: Story = {
+export const Primary: StoryObj<typeof Table<RowKey>> = {
   args: {
-    columnHeaders: ["Date", "Payee", "Memo", "Amount", "Balance"],
+    columnHeaders,
+    rowKeys,
+    rowData,
   },
 };
