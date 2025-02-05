@@ -10,7 +10,8 @@
     "lint": "next lint",
     "test": "vitest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "tailwind:watch": "tailwindcss -i css/input.css -o css/output.css --watch"
   },
   "dependencies": {
     "next": "^15.1.0",

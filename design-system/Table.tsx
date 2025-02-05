@@ -14,7 +14,7 @@ export default function Table<K extends string>({
   rowData,
 }: TableProps<K>) {
   return (
-    <table>
+    <table className="text-sm">
       <thead>
         <tr className="border-b border-gray-400">
           {columnHeaders.map((header) => (
@@ -29,9 +29,14 @@ export default function Table<K extends string>({
       </thead>
       <tbody>
         {rowData.map((row) => (
-          <tr key={row.id}>
+          <tr key={row.id} className="border-b border-gray-400 last:border-b-0">
             {rowKeys.map((rowKey) => (
-              <td key={`${row.id}-${rowKey}`}>{row[rowKey]}</td>
+              <td
+                key={`${row.id}-${rowKey}`}
+                className="p-4 align-middle font-medium"
+              >
+                {row[rowKey]}
+              </td>
             ))}
           </tr>
         ))}
