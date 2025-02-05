@@ -7,10 +7,7 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
   ],
-  framework: {
-    name: "@storybook/nextjs",
-    options: {},
-  },
+  framework: "@storybook/experimental-nextjs-vite",
   staticDirs: ["../public"],
 };
 export default config;
