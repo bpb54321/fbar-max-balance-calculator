@@ -3,7 +3,7 @@ interface TableProps<K extends string> {
   rowKeys: K[];
   rowData: Array<
     {
-      [key in K]: string | number;
+      [key in K]: string;
     } & { id: string }
   >;
 }

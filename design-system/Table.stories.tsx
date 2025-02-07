@@ -17,16 +17,16 @@ const rowData = [
     date: "2025-02-01",
     payee: "Landlord",
     memo: "Rent check",
-    amount: 2150.0,
-    balance: 2850.0,
+    amount: "2150.00",
+    balance: "2850.00",
   },
   {
     id: "2",
     date: "2025-01-31",
     payee: "Employer",
     memo: "Paycheck",
-    amount: 5000.0,
-    balance: 5000.0,
+    amount: "5000.00",
+    balance: "5000.00",
   },
 ];
 
