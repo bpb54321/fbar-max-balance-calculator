@@ -43,3 +43,10 @@ next-env.d.ts
 
 # Tailwind CSS Output CSS
 css/output.css
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
