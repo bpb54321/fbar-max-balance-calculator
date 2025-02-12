@@ -14,7 +14,7 @@ export default function Table<K extends string>({
   rowData,
 }: TableProps<K>) {
   return (
-    <table className="text-sm" data-testid="table">
+    <table className="text-sm w-full" data-testid="table">
       <thead>
         <tr className="border-b border-gray-400">
           {columnHeaders.map((header) => (

@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import Table from "./Table";
+import { v4 as uuidv4 } from "uuid";
 
 const meta: Meta<typeof Table> = {
   title: "Table",
@@ -8,25 +9,58 @@ const meta: Meta<typeof Table> = {
 
 export default meta;
 
-type RowKey = "date" | "payee" | "memo" | "amount" | "balance";
-const rowKeys: RowKey[] = ["date", "payee", "memo", "amount", "balance"];
-const columnHeaders = ["Date", "Payee", "Memo", "Amount", "Balance"];
+type RowKey = "invoice" | "status" | "method" | "amount";
+const rowKeys: RowKey[] = ["invoice", "status", "method", "amount"];
+const columnHeaders = ["Invoice", "Status", "Method", "Amount"];
 const rowData = [
   {
-    id: "1",
-    date: "2025-02-01",
-    payee: "Landlord",
-    memo: "Rent check",
-    amount: "2150.00",
-    balance: "2850.00",
+    id: uuidv4(),
+    invoice: "INV001",
+    status: "Paid",
+    method: "Credit Card",
+    amount: "$250.00",
   },
   {
-    id: "2",
-    date: "2025-01-31",
-    payee: "Employer",
-    memo: "Paycheck",
-    amount: "5000.00",
-    balance: "5000.00",
+    id: uuidv4(),
+    invoice: "INV002",
+    status: "Pending",
+    method: "PayPal",
+    amount: "$150.00",
+  },
+  {
+    id: uuidv4(),
+    invoice: "INV003",
+    status: "Unpaid",
+    method: "Bank Transfer",
+    amount: "$350.00",
+  },
+  {
+    id: uuidv4(),
+    invoice: "INV004",
+    status: "Paid",
+    method: "Credit Card",
+    amount: "$450.00",
+  },
+  {
+    id: uuidv4(),
+    invoice: "INV005",
+    status: "Paid",
+    method: "PayPal",
+    amount: "$550.00",
+  },
+  {
+    id: uuidv4(),
+    invoice: "INV006",
+    status: "Pending",
+    method: "Bank Transfer",
+    amount: "$200.00",
+  },
+  {
+    id: uuidv4(),
+    invoice: "INV007",
+    status: "Unpaid",
+    method: "Credit Card",
+    amount: "$300.00",
   },
 ];
 
@@ -35,5 +69,12 @@ export const Primary: StoryObj<typeof Table<RowKey>> = {
     columnHeaders,
     rowKeys,
     rowData,
+  },
+  decorators: (Story) => {
+    return (
+      <div className="w-[590px]">
+        <Story />
+      </div>
+    );
   },
 };
