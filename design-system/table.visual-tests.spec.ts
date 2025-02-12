@@ -13,3 +13,13 @@ test.describe("Table", () => {
     await expect(table).toHaveScreenshot();
   });
 });
+
+// test.describe("Shadcn table", () => {
+//   test("can get screenshot", async ({ page }) => {
+//     await page.goto("https://ui.shadcn.com/docs/components/table");
+
+//     const table = await page.locator("css=table");
+
+//     await expect(table).toHaveScreenshot();
+//   });
+// });
