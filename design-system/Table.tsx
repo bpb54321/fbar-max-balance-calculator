@@ -14,6 +14,7 @@ interface TableProps<K extends string> {
     } & { id: string }
   >;
   footerData: FooterDataCell[];
+  caption: string;
 }
 
 export default function Table<K extends string>({
@@ -21,9 +22,11 @@ export default function Table<K extends string>({
   rowKeys,
   rowData,
   footerData,
+  caption,
 }: TableProps<K>) {
   return (
-    <table className="text-sm w-full" data-testid="table">
+    <table className="text-sm w-full caption-bottom" data-testid="table">
+      <caption className="mt-4">{caption}</caption>
       <thead>
         <tr className="border-b border-gray-400">
           {columnHeaders.map((header) => (
