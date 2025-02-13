@@ -63,12 +63,25 @@ const rowData = [
     amount: "$300.00",
   },
 ];
+const footerData = [
+  {
+    id: "total",
+    value: "Total",
+    colSpan: 3,
+  },
+  {
+    id: "totalAmount",
+    value: "$2,500.00",
+    colSpan: 1,
+  },
+];
 
 export const Primary: StoryObj<typeof Table<RowKey>> = {
   args: {
     columnHeaders,
     rowKeys,
     rowData,
+    footerData,
   },
   decorators: (Story) => {
     return (

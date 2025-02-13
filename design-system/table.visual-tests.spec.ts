@@ -18,6 +18,12 @@ test.describe("Table", () => {
 //   test("can get screenshot", async ({ page }) => {
 //     await page.goto("https://ui.shadcn.com/docs/components/table");
 
+//     await page.getByRole("combobox").click();
+
+//     await page.getByText("Default").click();
+
+//     await page.getByText("Loading...").waitFor({ state: "hidden" });
+
 //     const table = await page.locator("css=table");
 
 //     await expect(table).toHaveScreenshot();

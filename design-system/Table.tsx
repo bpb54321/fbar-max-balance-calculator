@@ -1,3 +1,10 @@
+import clsx from "clsx";
+
+interface FooterDataCell {
+  id: string;
+  value: string;
+  colSpan: number;
+}
 interface TableProps<K extends string> {
   columnHeaders: string[];
   rowKeys: K[];
@@ -6,12 +13,14 @@ interface TableProps<K extends string> {
       [key in K]: string;
     } & { id: string }
   >;
+  footerData: FooterDataCell[];
 }
 
 export default function Table<K extends string>({
   columnHeaders,
   rowKeys,
   rowData,
+  footerData,
 }: TableProps<K>) {
   return (
     <table className="text-sm w-full" data-testid="table">
@@ -29,11 +38,16 @@ export default function Table<K extends string>({
       </thead>
       <tbody>
         {rowData.map((row) => (
-          <tr key={row.id} className="border-b border-gray-400 last:border-b-0">
+          <tr key={row.id} className="border-b border-gray-400">
             {rowKeys.map((rowKey) => (
               <td
                 key={`${row.id}-${rowKey}`}
-                className="p-4 align-middle font-medium"
+                className={clsx(
+                  "p-4",
+                  "font-medium",
+                  "align-middle",
+                  rowKey === "amount" ? "text-right" : "text-left"
+                )}
               >
                 {row[rowKey]}
               </td>
@@ -41,6 +55,24 @@ export default function Table<K extends string>({
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          {footerData.map(({ id, value, colSpan }) => (
+            <td
+              className={clsx(
+                "p-4",
+                "font-medium",
+                "align-middle",
+                colSpan === 3 ? "text-left" : "text-right"
+              )}
+              key={id}
+              colSpan={colSpan}
+            >
+              {value}
+            </td>
+          ))}
+        </tr>
+      </tfoot>
     </table>
   );
 }
