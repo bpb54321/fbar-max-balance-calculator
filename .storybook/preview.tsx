@@ -11,7 +11,7 @@ const GeistSans = localFont({
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <div className={`font-sans ${GeistSans.variable}`}>
+      <div className={`font-sans ${GeistSans.variable} antialiased`}>
         <Story />
       </div>
     ),
