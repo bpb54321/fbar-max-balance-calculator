@@ -7,12 +7,21 @@ const GeistSans = localFont({
   variable: "--font-geist-sans",
 });
 
+// Define --font-geist-sans in the root element (<html>) since
+// Tailwind --font-sans, which is applied to :root, references
+// --font-geist-sans, and if it is undefined, --font-sans will
+// also be undefined.
+if (typeof document !== "undefined") {
+  const root = document.documentElement;
+  root.style.setProperty("--font-geist-sans", GeistSans.variable);
+}
+
 import "../css/output.css";
 
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <div className={`${GeistSans.className} antialiased`}>
+      <div className={`font-sans antialiased`}>
         <Story />
       </div>
     ),
