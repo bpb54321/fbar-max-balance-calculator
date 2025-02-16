@@ -1,4 +1,4 @@
-import type { StorybookConfig } from "@storybook/nextjs";
+import { StorybookConfig } from "@storybook/experimental-nextjs-vite";
 
 const config: StorybookConfig = {
   stories: ["../design-system/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -8,15 +8,5 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
   ],
   framework: "@storybook/experimental-nextjs-vite",
-  staticDirs: [
-    {
-      from: "../node_modules/geist/dist/fonts/geist-sans",
-      to: "/fonts/geist-sans",
-    },
-    {
-      from: "../node_modules/geist/dist/fonts/geist-mono",
-      to: "/fonts/geist-mono",
-    },
-  ],
 };
 export default config;
