@@ -29,14 +29,26 @@ export default function Table<K extends string>({
       <caption className="mt-4">{caption}</caption>
       <thead>
         <tr className="border-b border-gray-400">
-          {columnHeaders.map((header) => (
-            <th
-              key={header}
-              className="h-12 px-4 text-left align-middle font-medium text-gray-500"
-            >
-              {header}
-            </th>
-          ))}
+          {columnHeaders.map((header, index) => {
+            return (
+              <th
+                key={header}
+                className={clsx(
+                  "h-12",
+                  "px-4",
+                  "align-middle",
+                  "font-medium",
+                  "text-gray-500",
+                  index === columnHeaders.length - 1
+                    ? "text-right"
+                    : "text-left",
+                  index === 0 && "w-[100px]"
+                )}
+              >
+                {header}
+              </th>
+            );
+          })}
         </tr>
       </thead>
       <tbody>
