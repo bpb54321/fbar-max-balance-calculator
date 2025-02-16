@@ -26,9 +26,9 @@ export default function Table<K extends string>({
 }: TableProps<K>) {
   return (
     <table className="text-sm w-full caption-bottom" data-testid="table">
-      <caption className="mt-4">{caption}</caption>
+      <caption className="mt-4 text-muted-foreground">{caption}</caption>
       <thead>
-        <tr className="border-b border-gray-400">
+        <tr className="border-b border-border">
           {columnHeaders.map((header, index) => {
             return (
               <th
@@ -53,7 +53,7 @@ export default function Table<K extends string>({
       </thead>
       <tbody>
         {rowData.map((row) => (
-          <tr key={row.id} className="border-b border-gray-400">
+          <tr key={row.id} className="border-b border-border">
             {rowKeys.map((rowKey) => (
               <td
                 key={`${row.id}-${rowKey}`}
@@ -71,7 +71,7 @@ export default function Table<K extends string>({
           </tr>
         ))}
       </tbody>
-      <tfoot>
+      <tfoot className="bg-muted/50">
         <tr>
           {footerData.map(({ id, value, colSpan }) => (
             <td

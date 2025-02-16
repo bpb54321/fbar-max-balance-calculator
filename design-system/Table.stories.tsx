@@ -75,7 +75,7 @@ const footerData = [
     colSpan: 1,
   },
 ];
-const caption = "A list of your recent invoices";
+const caption = "A list of your recent invoices.";
 
 export const Primary: StoryObj<typeof Table<RowKey>> = {
   args: {

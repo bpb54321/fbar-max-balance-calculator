@@ -5,4 +5,6 @@
 
   --color-muted-foreground: hsl(240 3.8% 46.1%);
   --color-foreground: hsl(240 10% 3.9%);
+  --color-muted: hsl(240 4.8% 95.9%);
+  --color-border: hsl(240 6% 90%);
 }
