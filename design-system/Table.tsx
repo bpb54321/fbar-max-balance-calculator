@@ -38,7 +38,7 @@ export default function Table<K extends string>({
                   "px-4",
                   "align-middle",
                   "font-medium",
-                  "text-gray-500",
+                  "text-muted-foreground",
                   index === columnHeaders.length - 1
                     ? "text-right"
                     : "text-left",
@@ -59,8 +59,9 @@ export default function Table<K extends string>({
                 key={`${row.id}-${rowKey}`}
                 className={clsx(
                   "p-4",
-                  "font-medium",
+                  rowKey === "invoice" ? "font-medium" : "font-normal",
                   "align-middle",
+                  "text-foreground",
                   rowKey === "amount" ? "text-right" : "text-left"
                 )}
               >

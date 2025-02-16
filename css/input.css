@@ -2,4 +2,7 @@
 
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-muted-foreground: hsl(240 3.8% 46.1%);
+  --color-foreground: hsl(240 10% 3.9%);
 }
