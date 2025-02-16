@@ -73,7 +73,7 @@ const footerData = [
     colSpan: 1,
   },
 ];
-const caption = "A list of your recent invoices";
+const caption = "A list of your recent invoices.";
 
 export default function AccountTable() {
   const selectedAccounts = useSelectedAccounts();
