@@ -1,0 +1,11 @@
+/* 
+    Manually import the Vercel Geist Sans font, since the Next.js
+    font loader doesn't seem to work in Storybook.
+*/
+@font-face {
+  font-family: GeistSans;
+  src: url("../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2")
+    format("woff2");
+  font-display: swap;
+  font-weight: 100 900;
+}

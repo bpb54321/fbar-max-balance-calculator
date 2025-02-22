@@ -1,24 +1,10 @@
 import React from "react";
 import type { Preview } from "@storybook/react";
-import localFont from "next/font/local";
 
-// Have to use localFont to import the Geist font files in node_modules,
-// because `import { GeistSans } from "geist/font/sans";` does not
-// work with Storybook Vite server with framework: "@storybook/experimental-nextjs-vite",
-// at least as of this writing.
-const GeistSans = localFont({
-  src: "../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2",
-  variable: "--font-geist-sans",
-});
-
-// Define --font-geist-sans in the root element (<html>) since
-// Tailwind --font-sans, which is applied to :root, references
-// --font-geist-sans, and if it is undefined, --font-sans will
-// also be undefined.
-if (typeof document !== "undefined") {
-  const htmlElement = document.documentElement;
-  htmlElement.style.setProperty("--font-geist-sans", GeistSans.variable);
-}
+// Manually import the CSS file which imports the Geist Sans font definition
+// file from node modules because Next.js font loader doesn't seem to
+// work in Storybook.
+import "./fonts.css";
 
 import "../css/output.css";
 

@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
+/* 
+@theme is a CSS layer defined in the imported tailwindcss CSS file.
+*/
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* 
+    Hardcode the "GeistSans" font family rather than the
+    CSS variable for the font name which is output by import { GeistSans } from "geist/font/sans";
+    in layout.tsx, so that the Tailwind --font-sans variable can also
+    be used in Storybook.
+  */
+  --font-sans: "GeistSans", "Geist", ui-sans-serif, system-ui, sans-serif;
 
   --color-muted-foreground: hsl(240 3.8% 46.1%);
   --color-foreground: hsl(240 10% 3.9%);
