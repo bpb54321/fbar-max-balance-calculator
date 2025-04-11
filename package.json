@@ -11,7 +11,8 @@
     "test": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "tailwind:watch": "tailwindcss -i css/input.css -o css/output.css --watch"
+    "tailwind:watch": "tailwindcss -i css/input.css -o css/output.css --watch",
+    "design-system:test": "playwright test design-system/"
   },
   "dependencies": {
     "clsx": "^2.1.1",
