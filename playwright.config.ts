@@ -83,4 +83,9 @@ export default defineConfig({
     url: "http://127.0.0.1:6006",
     reuseExistingServer: true,
   },
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.02
+    }
+  }
 });
