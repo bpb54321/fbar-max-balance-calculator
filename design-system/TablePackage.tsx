@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Table2 from "./Table2";
+import Table from "./Table";
 
 interface FooterDataCell {
   id: string;
@@ -26,7 +26,7 @@ export default function TablePackage<K extends string>({
   caption,
 }: TableProps<K>) {
   return (
-    <Table2>
+    <Table>
       <caption className="mt-4 text-muted-foreground">{caption}</caption>
       <thead>
         <tr className="border-b border-border">
@@ -90,6 +90,6 @@ export default function TablePackage<K extends string>({
           ))}
         </tr>
       </tfoot>
-    </Table2>
+    </Table>
   );
 }
