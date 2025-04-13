@@ -18,7 +18,7 @@ interface TableProps<K extends string> {
   caption: string;
 }
 
-export default function Table<K extends string>({
+export default function TablePackage<K extends string>({
   columnHeaders,
   rowKeys,
   rowData,

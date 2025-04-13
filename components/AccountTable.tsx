@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelectedAccounts } from "@/contexts/accountsContext";
-import Table from "@/design-system/Table";
+import TablePackage from "@/design-system/TablePackage";
 import formatAmount from "@/formatters/formatAmount";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
@@ -81,7 +81,7 @@ export default function AccountTable() {
   return (
     <div>
       <div className="w-[590px]">
-        <Table
+        <TablePackage
           columnHeaders={columnHeaders}
           rowKeys={rowKeys}
           rowData={rowData}

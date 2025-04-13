@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import Table from "./Table";
+import TablePackage from "./TablePackage";
 import { v4 as uuidv4 } from "uuid";
 
-const meta: Meta<typeof Table> = {
+const meta: Meta<typeof TablePackage> = {
   title: "Table",
-  component: Table,
+  component: TablePackage,
 };
 
 export default meta;
@@ -77,7 +77,7 @@ const footerData = [
 ];
 const caption = "A list of your recent invoices.";
 
-export const Primary: StoryObj<typeof Table<RowKey>> = {
+export const Primary: StoryObj<typeof TablePackage<RowKey>> = {
   args: {
     columnHeaders,
     rowKeys,
