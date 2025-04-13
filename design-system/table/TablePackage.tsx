@@ -28,7 +28,7 @@ export default function TablePackage<K extends string>({
 }: TableProps<K>) {
   return (
     <Table>
-      <Caption caption={caption} />
+      <Caption>{caption}</Caption>
       <thead>
         <tr className="border-b border-border">
           {columnHeaders.map((header, index) => {

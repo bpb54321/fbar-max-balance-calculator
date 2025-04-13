@@ -1,7 +1,9 @@
+import { ReactNode } from "react";
+
 interface CaptionProps {
-  caption: string;
+  children: ReactNode;
 }
 
-export default function Caption({ caption }: CaptionProps) {
-  return <caption className="mt-4 text-muted-foreground">{caption}</caption>;
+export default function Caption({ children }: CaptionProps) {
+  return <caption className="mt-4 text-muted-foreground">{children}</caption>;
 }
