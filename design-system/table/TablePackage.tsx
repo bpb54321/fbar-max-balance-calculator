@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Table from "./Table";
+import Caption from "./Caption";
 
 interface FooterDataCell {
   id: string;
@@ -27,7 +28,7 @@ export default function TablePackage<K extends string>({
 }: TableProps<K>) {
   return (
     <Table>
-      <caption className="mt-4 text-muted-foreground">{caption}</caption>
+      <Caption caption={caption} />
       <thead>
         <tr className="border-b border-border">
           {columnHeaders.map((header, index) => {
