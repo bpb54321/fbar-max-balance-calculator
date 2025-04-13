@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import TablePackage from "./TablePackage";
+import TablePackage from "./table/TablePackage";
 import { v4 as uuidv4 } from "uuid";
 
 const meta: Meta<typeof TablePackage> = {

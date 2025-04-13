@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelectedAccounts } from "@/contexts/accountsContext";
-import TablePackage from "@/design-system/TablePackage";
+import TablePackage from "@/design-system/table/TablePackage";
 import formatAmount from "@/formatters/formatAmount";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
