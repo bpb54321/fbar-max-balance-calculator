@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Table from "./Table";
 import Caption from "./Caption";
+import TableHeader from "./TableHeader";
 
 interface FooterDataCell {
   id: string;
@@ -29,7 +30,7 @@ export default function TablePackage<K extends string>({
   return (
     <Table>
       <Caption>{caption}</Caption>
-      <thead>
+      <TableHeader>
         <tr className="border-b border-border">
           {columnHeaders.map((header, index) => {
             return (
@@ -52,7 +53,7 @@ export default function TablePackage<K extends string>({
             );
           })}
         </tr>
-      </thead>
+      </TableHeader>
       <tbody>
         {rowData.map((row) => (
           <tr key={row.id} className="border-b border-border">
