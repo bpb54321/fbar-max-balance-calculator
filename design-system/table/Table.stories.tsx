@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from "@storybook/react";
-import TablePackage from "./TablePackage";
 import { v4 as uuidv4 } from "uuid";
 import Table from "./Table";
 import Caption from "./Caption";
@@ -74,18 +73,6 @@ const rowData = [
     amount: "$300.00",
   },
 ];
-const footerData = [
-  {
-    id: "total",
-    value: "Total",
-    colSpan: 3,
-  },
-  {
-    id: "totalAmount",
-    value: "$2,500.00",
-    colSpan: 1,
-  },
-];
 const caption = "A list of your recent invoices.";
 
 export const Primary: StoryObj<typeof Table> = {
@@ -133,20 +120,23 @@ export const Primary: StoryObj<typeof Table> = {
         </TableBody>
         <TableFooter>
           <TableFooterRow>
-            {footerData.map(({ id, value, colSpan }) => (
-              <TableFooterCell
-                key={id}
-                colSpan={colSpan}
-                textAlignment={
-                  colSpan === 3 ? TextAlignment.Left : TextAlignment.Right
-                }
-              >
-                {value}
-              </TableFooterCell>
-            ))}
+            <TableFooterCell
+              key="total"
+              colSpan={3}
+              textAlignment={TextAlignment.Left}
+            >
+              Total
+            </TableFooterCell>
+            <TableFooterCell
+              key="totalAmount"
+              colSpan={1}
+              textAlignment={TextAlignment.Right}
+            >
+              $2,500.00
+            </TableFooterCell>
           </TableFooterRow>
         </TableFooter>
       </Table>
     </div>
-  )
+  ),
 };
