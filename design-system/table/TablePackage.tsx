@@ -3,7 +3,7 @@ import Table from "./Table";
 import Caption from "./Caption";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
-import TableHeaderCell from "./TableHeaderCell";
+import TableHeaderCell, { TextAlignment } from "./TableHeaderCell";
 
 interface FooterDataCell {
   id: string;
@@ -38,7 +38,7 @@ export default function TablePackage<K extends string>({
             return (
               <TableHeaderCell
                 key={header}
-                isLast={index === columnHeaders.length - 1}
+                textAlignment={index === columnHeaders.length - 1 ? TextAlignment.Right : TextAlignment.Left}
                 isFirst={index === 0}
               >
                 {header}

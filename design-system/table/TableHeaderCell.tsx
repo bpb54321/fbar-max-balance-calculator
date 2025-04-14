@@ -1,15 +1,20 @@
 import React from 'react';
 import clsx from 'clsx';
 
+export enum TextAlignment {
+  Left = 'left',
+  Right = 'right'
+}
+
 interface TableHeaderCellProps {
   children: React.ReactNode;
-  isLast?: boolean;
+  textAlignment?: TextAlignment;
   isFirst?: boolean;
 }
 
 export default function TableHeaderCell({ 
   children, 
-  isLast = false, 
+  textAlignment = TextAlignment.Left, 
   isFirst = false 
 }: TableHeaderCellProps) {
   return (
@@ -20,7 +25,7 @@ export default function TableHeaderCell({
         "align-middle",
         "font-medium",
         "text-muted-foreground",
-        isLast ? "text-right" : "text-left",
+        textAlignment === TextAlignment.Right ? "text-right" : "text-left",
         isFirst && "w-[100px]"
       )}
     >
