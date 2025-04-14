@@ -27,6 +27,18 @@
         "uriFormat": "%s",
         "webRoot": "${workspaceFolder}"
       }
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Debug Storybook",
+      "url": "http://localhost:6006",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "/@fs/*": "${webRoot}/*",
+        "/@vite/*": "${webRoot}/node_modules/*",
+        "/src/*": "${webRoot}/*"
+      }
     }
   ]
 }
