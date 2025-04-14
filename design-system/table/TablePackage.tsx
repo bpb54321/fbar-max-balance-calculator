@@ -53,11 +53,11 @@ export default function TablePackage<K extends string>({
       <TableBody>
         {rowData.map((row) => (
           <TableRow key={row.id}>
-            {rowKeys.map((rowKey) => (
+            {rowKeys.map((rowKey, index) => (
               <TableDataCell
                 key={`${row.id}-${rowKey}`}
-                textAlignment={rowKey === "amount" ? TextAlignment.Right : TextAlignment.Left}
-                fontWeight={rowKey === "invoice" ? FontWeight.Medium : FontWeight.Normal}
+                textAlignment={index === rowKeys.length - 1 ? TextAlignment.Right : TextAlignment.Left}
+                fontWeight={index === 0 ? FontWeight.Medium : FontWeight.Normal}
               >
                 {row[rowKey]}
               </TableDataCell>
