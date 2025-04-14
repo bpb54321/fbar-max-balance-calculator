@@ -2,6 +2,7 @@ import clsx from "clsx";
 import Table from "./Table";
 import Caption from "./Caption";
 import TableHeader from "./TableHeader";
+import TableRow from "./TableRow";
 
 interface FooterDataCell {
   id: string;
@@ -31,7 +32,7 @@ export default function TablePackage<K extends string>({
     <Table>
       <Caption>{caption}</Caption>
       <TableHeader>
-        <tr className="border-b border-border">
+        <TableRow>
           {columnHeaders.map((header, index) => {
             return (
               <th
@@ -52,11 +53,11 @@ export default function TablePackage<K extends string>({
               </th>
             );
           })}
-        </tr>
+        </TableRow>
       </TableHeader>
       <tbody>
         {rowData.map((row) => (
-          <tr key={row.id} className="border-b border-border">
+          <TableRow key={row.id}>
             {rowKeys.map((rowKey) => (
               <td
                 key={`${row.id}-${rowKey}`}
@@ -71,7 +72,7 @@ export default function TablePackage<K extends string>({
                 {row[rowKey]}
               </td>
             ))}
-          </tr>
+          </TableRow>
         ))}
       </tbody>
       <tfoot className="bg-muted/50">
