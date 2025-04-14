@@ -19,13 +19,13 @@ const meta: Meta<typeof Table> = {
 
 export default meta;
 
-type RowKey = "invoice" | "status" | "method" | "amount";
-const rowKeys: RowKey[] = ["invoice", "status", "method", "amount"];
+type ColumnKey = "invoice" | "status" | "method" | "amount";
+const columnKeys: ColumnKey[] = ["invoice", "status", "method", "amount"];
 const columnHeaders = [
-  { rowKey: "invoice" as RowKey, displayValue: "Invoice" },
-  { rowKey: "status" as RowKey, displayValue: "Status" },
-  { rowKey: "method" as RowKey, displayValue: "Method" },
-  { rowKey: "amount" as RowKey, displayValue: "Amount" },
+  { columnKey: "invoice" as ColumnKey, displayValue: "Invoice" },
+  { columnKey: "status" as ColumnKey, displayValue: "Status" },
+  { columnKey: "method" as ColumnKey, displayValue: "Method" },
+  { columnKey: "amount" as ColumnKey, displayValue: "Amount" },
 ];
 const rowData = [
   {
@@ -87,15 +87,15 @@ export const Primary: StoryObj<typeof Table> = {
         <Caption>{caption}</Caption>
         <TableHeader>
           <TableRow>
-            {rowKeys.map((rowKey, index) => {
+            {columnKeys.map((columnKey, index) => {
               const columnHeader = columnHeaders.find(
-                (columnHeader) => columnHeader.rowKey === rowKey
+                (columnHeader) => columnHeader.columnKey === columnKey
               );
               return (
                 <TableHeaderCell
-                  key={`column-header-${rowKey}`}
+                  key={`column-header-${columnKey}`}
                   textAlignment={
-                    index === rowKeys.length - 1
+                    index === columnKeys.length - 1
                       ? TextAlignment.Right
                       : TextAlignment.Left
                   }
@@ -110,11 +110,11 @@ export const Primary: StoryObj<typeof Table> = {
         <TableBody>
           {rowData.map((row) => (
             <TableRow key={row.id}>
-              {rowKeys.map((rowKey, index) => (
+              {columnKeys.map((columnKey, index) => (
                 <TableBodyCell
-                  key={`${row.id}-${rowKey}`}
+                  key={`${row.id}-${columnKey}`}
                   textAlignment={
-                    index === rowKeys.length - 1
+                    index === columnKeys.length - 1
                       ? TextAlignment.Right
                       : TextAlignment.Left
                   }
@@ -122,7 +122,7 @@ export const Primary: StoryObj<typeof Table> = {
                     index === 0 ? FontWeight.Medium : FontWeight.Normal
                   }
                 >
-                  {row[rowKey]}
+                  {row[columnKey]}
                 </TableBodyCell>
               ))}
             </TableRow>
