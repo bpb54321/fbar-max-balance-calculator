@@ -6,6 +6,7 @@ import TableRow from "./TableRow";
 import TableHeaderCell from "./TableHeaderCell";
 import TableBody from "./TableBody";
 import TableBodyCell from "./TableBodyCell";
+import TableFooter from "./TableFooter";
 import { TextAlignment, FontWeight } from "./enums";
 
 interface FooterDataCell {
@@ -65,7 +66,7 @@ export default function TablePackage<K extends string>({
           </TableRow>
         ))}
       </TableBody>
-      <tfoot className="bg-muted/50">
+      <TableFooter>
         <tr>
           {footerData.map(({ id, value, colSpan }) => (
             <td
@@ -82,7 +83,7 @@ export default function TablePackage<K extends string>({
             </td>
           ))}
         </tr>
-      </tfoot>
+      </TableFooter>
     </Table>
   );
 }
