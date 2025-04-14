@@ -21,12 +21,12 @@ export default meta;
 
 type ColumnKey = "invoice" | "status" | "method" | "amount";
 const columnKeys: ColumnKey[] = ["invoice", "status", "method", "amount"];
-const columnHeaders = [
-  { columnKey: "invoice" as ColumnKey, displayValue: "Invoice" },
-  { columnKey: "status" as ColumnKey, displayValue: "Status" },
-  { columnKey: "method" as ColumnKey, displayValue: "Method" },
-  { columnKey: "amount" as ColumnKey, displayValue: "Amount" },
-];
+const columnHeaders: Record<ColumnKey, string> = {
+  invoice: "Invoice",
+  status: "Status",
+  method: "Method",
+  amount: "Amount",
+};
 const rowData = [
   {
     id: uuidv4(),
@@ -88,9 +88,6 @@ export const Primary: StoryObj<typeof Table> = {
         <TableHeader>
           <TableRow>
             {columnKeys.map((columnKey, index) => {
-              const columnHeader = columnHeaders.find(
-                (columnHeader) => columnHeader.columnKey === columnKey
-              );
               return (
                 <TableHeaderCell
                   key={`column-header-${columnKey}`}
@@ -101,7 +98,7 @@ export const Primary: StoryObj<typeof Table> = {
                   }
                   fixedWidth={index === 0 ? 100 : null}
                 >
-                  {columnHeader?.displayValue}
+                  {columnHeaders[columnKey]}
                 </TableHeaderCell>
               );
             })}
