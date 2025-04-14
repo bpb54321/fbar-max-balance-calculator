@@ -4,6 +4,7 @@ import Caption from "./Caption";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 import TableHeaderCell, { TextAlignment } from "./TableHeaderCell";
+import TableBody from "./TableBody";
 
 interface FooterDataCell {
   id: string;
@@ -47,7 +48,7 @@ export default function TablePackage<K extends string>({
           })}
         </TableRow>
       </TableHeader>
-      <tbody>
+      <TableBody>
         {rowData.map((row) => (
           <TableRow key={row.id}>
             {rowKeys.map((rowKey) => (
@@ -66,7 +67,7 @@ export default function TablePackage<K extends string>({
             ))}
           </TableRow>
         ))}
-      </tbody>
+      </TableBody>
       <tfoot className="bg-muted/50">
         <tr>
           {footerData.map(({ id, value, colSpan }) => (
