@@ -2,17 +2,17 @@ import React from 'react';
 import clsx from 'clsx';
 import { TextAlignment, FontWeight } from './enums';
 
-interface TableDataCellProps {
+interface TableBodyCellProps {
   children: React.ReactNode;
   textAlignment?: TextAlignment;
   fontWeight?: FontWeight;
 }
 
-export default function TableDataCell({ 
+export default function TableBodyCell({ 
   children, 
   textAlignment = TextAlignment.Left,
   fontWeight = FontWeight.Normal
-}: TableDataCellProps) {
+}: TableBodyCellProps) {
   return (
     <td
       className={clsx(

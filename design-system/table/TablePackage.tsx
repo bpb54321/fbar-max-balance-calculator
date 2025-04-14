@@ -5,7 +5,7 @@ import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 import TableHeaderCell from "./TableHeaderCell";
 import TableBody from "./TableBody";
-import TableDataCell from "./TableDataCell";
+import TableBodyCell from "./TableBodyCell";
 import { TextAlignment, FontWeight } from "./enums";
 
 interface FooterDataCell {
@@ -54,13 +54,13 @@ export default function TablePackage<K extends string>({
         {rowData.map((row) => (
           <TableRow key={row.id}>
             {rowKeys.map((rowKey, index) => (
-              <TableDataCell
+              <TableBodyCell
                 key={`${row.id}-${rowKey}`}
                 textAlignment={index === rowKeys.length - 1 ? TextAlignment.Right : TextAlignment.Left}
                 fontWeight={index === 0 ? FontWeight.Medium : FontWeight.Normal}
               >
                 {row[rowKey]}
-              </TableDataCell>
+              </TableBodyCell>
             ))}
           </TableRow>
         ))}
