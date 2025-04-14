@@ -8,6 +8,7 @@ import TableBody from "./TableBody";
 import TableBodyCell from "./TableBodyCell";
 import TableFooter from "./TableFooter";
 import TableFooterRow from "./TableFooterRow";
+import TableFooterCell from "./TableFooterCell";
 import { TextAlignment, FontWeight } from "./enums";
 
 interface FooterDataCell {
@@ -70,18 +71,13 @@ export default function TablePackage<K extends string>({
       <TableFooter>
         <TableFooterRow>
           {footerData.map(({ id, value, colSpan }) => (
-            <td
-              className={clsx(
-                "p-4",
-                "font-medium",
-                "align-middle",
-                colSpan === 3 ? "text-left" : "text-right"
-              )}
+            <TableFooterCell
               key={id}
               colSpan={colSpan}
+              textAlignment={colSpan === 3 ? TextAlignment.Left : TextAlignment.Right}
             >
               {value}
-            </td>
+            </TableFooterCell>
           ))}
         </TableFooterRow>
       </TableFooter>
