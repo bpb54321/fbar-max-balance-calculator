@@ -21,7 +21,12 @@ export default meta;
 
 type RowKey = "invoice" | "status" | "method" | "amount";
 const rowKeys: RowKey[] = ["invoice", "status", "method", "amount"];
-const columnHeaders = ["Invoice", "Status", "Method", "Amount"];
+const columnHeaders = [
+  { rowKey: "invoice" as RowKey, displayValue: "Invoice" },
+  { rowKey: "status" as RowKey, displayValue: "Status" },
+  { rowKey: "method" as RowKey, displayValue: "Method" },
+  { rowKey: "amount" as RowKey, displayValue: "Amount" },
+];
 const rowData = [
   {
     id: uuidv4(),
@@ -82,19 +87,24 @@ export const Primary: StoryObj<typeof Table> = {
         <Caption>{caption}</Caption>
         <TableHeader>
           <TableRow>
-            {columnHeaders.map((header, index) => (
-              <TableHeaderCell
-                key={header}
-                textAlignment={
-                  index === columnHeaders.length - 1
-                    ? TextAlignment.Right
-                    : TextAlignment.Left
-                }
-                fixedWidth={index === 0 ? 100 : null}
-              >
-                {header}
-              </TableHeaderCell>
-            ))}
+            {rowKeys.map((rowKey, index) => {
+              const columnHeader = columnHeaders.find(
+                (columnHeader) => columnHeader.rowKey === rowKey
+              );
+              return (
+                <TableHeaderCell
+                  key={`column-header-${rowKey}`}
+                  textAlignment={
+                    index === rowKeys.length - 1
+                      ? TextAlignment.Right
+                      : TextAlignment.Left
+                  }
+                  fixedWidth={index === 0 ? 100 : null}
+                >
+                  {columnHeader?.displayValue}
+                </TableHeaderCell>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody>
