@@ -1,10 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-
-export enum TextAlignment {
-  Left = 'left',
-  Right = 'right'
-}
+import { TextAlignment } from './enums';
 
 interface TableHeaderCellProps {
   children: React.ReactNode;

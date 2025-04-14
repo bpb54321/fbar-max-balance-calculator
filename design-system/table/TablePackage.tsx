@@ -3,8 +3,10 @@ import Table from "./Table";
 import Caption from "./Caption";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
-import TableHeaderCell, { TextAlignment } from "./TableHeaderCell";
+import TableHeaderCell from "./TableHeaderCell";
 import TableBody from "./TableBody";
+import TableDataCell from "./TableDataCell";
+import { TextAlignment, FontWeight } from "./enums";
 
 interface FooterDataCell {
   id: string;
@@ -52,18 +54,13 @@ export default function TablePackage<K extends string>({
         {rowData.map((row) => (
           <TableRow key={row.id}>
             {rowKeys.map((rowKey) => (
-              <td
+              <TableDataCell
                 key={`${row.id}-${rowKey}`}
-                className={clsx(
-                  "p-4",
-                  rowKey === "invoice" ? "font-medium" : "font-normal",
-                  "align-middle",
-                  "text-foreground",
-                  rowKey === "amount" ? "text-right" : "text-left"
-                )}
+                textAlignment={rowKey === "amount" ? TextAlignment.Right : TextAlignment.Left}
+                fontWeight={rowKey === "invoice" ? FontWeight.Medium : FontWeight.Normal}
               >
                 {row[rowKey]}
-              </td>
+              </TableDataCell>
             ))}
           </TableRow>
         ))}
