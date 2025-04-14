@@ -39,7 +39,7 @@ export default function TablePackage<K extends string>({
               <TableHeaderCell
                 key={header}
                 textAlignment={index === columnHeaders.length - 1 ? TextAlignment.Right : TextAlignment.Left}
-                isFirst={index === 0}
+                fixedWidth={index === 0 ? 100 : null}
               >
                 {header}
               </TableHeaderCell>

@@ -9,13 +9,13 @@ export enum TextAlignment {
 interface TableHeaderCellProps {
   children: React.ReactNode;
   textAlignment?: TextAlignment;
-  isFirst?: boolean;
+  fixedWidth?: number | null;
 }
 
 export default function TableHeaderCell({ 
   children, 
   textAlignment = TextAlignment.Left, 
-  isFirst = false 
+  fixedWidth = null
 }: TableHeaderCellProps) {
   return (
     <th
@@ -26,7 +26,7 @@ export default function TableHeaderCell({
         "font-medium",
         "text-muted-foreground",
         textAlignment === TextAlignment.Right ? "text-right" : "text-left",
-        isFirst && "w-[100px]"
+        fixedWidth && `w-[${fixedWidth}px]`
       )}
     >
       {children}
