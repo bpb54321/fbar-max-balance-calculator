@@ -3,6 +3,7 @@ import Table from "./Table";
 import Caption from "./Caption";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
+import TableHeaderCell from "./TableHeaderCell";
 
 interface FooterDataCell {
   id: string;
@@ -35,22 +36,13 @@ export default function TablePackage<K extends string>({
         <TableRow>
           {columnHeaders.map((header, index) => {
             return (
-              <th
+              <TableHeaderCell
                 key={header}
-                className={clsx(
-                  "h-12",
-                  "px-4",
-                  "align-middle",
-                  "font-medium",
-                  "text-muted-foreground",
-                  index === columnHeaders.length - 1
-                    ? "text-right"
-                    : "text-left",
-                  index === 0 && "w-[100px]"
-                )}
+                isLast={index === columnHeaders.length - 1}
+                isFirst={index === 0}
               >
                 {header}
-              </th>
+              </TableHeaderCell>
             );
           })}
         </TableRow>
