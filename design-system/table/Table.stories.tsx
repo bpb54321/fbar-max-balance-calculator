@@ -1,10 +1,21 @@
 import { Meta, StoryObj } from "@storybook/react";
 import TablePackage from "./TablePackage";
 import { v4 as uuidv4 } from "uuid";
+import Table from "./Table";
+import Caption from "./Caption";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import TableFooter from "./TableFooter";
+import TableRow from "./TableRow";
+import TableHeaderCell from "./TableHeaderCell";
+import TableBodyCell from "./TableBodyCell";
+import TableFooterCell from "./TableFooterCell";
+import TableFooterRow from "./TableFooterRow";
+import { TextAlignment, FontWeight } from "./enums";
 
-const meta: Meta<typeof TablePackage> = {
+const meta: Meta<typeof Table> = {
   title: "Table",
-  component: TablePackage,
+  component: Table,
 };
 
 export default meta;
@@ -77,19 +88,65 @@ const footerData = [
 ];
 const caption = "A list of your recent invoices.";
 
-export const Primary: StoryObj<typeof TablePackage<RowKey>> = {
-  args: {
-    columnHeaders,
-    rowKeys,
-    rowData,
-    footerData,
-    caption,
-  },
-  decorators: (Story) => {
-    return (
-      <div className="w-[590px]">
-        <Story />
-      </div>
-    );
-  },
+export const Primary: StoryObj<typeof Table> = {
+  render: () => (
+    <div className="w-[590px]">
+      <Table>
+        <Caption>{caption}</Caption>
+        <TableHeader>
+          <TableRow>
+            {columnHeaders.map((header, index) => (
+              <TableHeaderCell
+                key={header}
+                textAlignment={
+                  index === columnHeaders.length - 1
+                    ? TextAlignment.Right
+                    : TextAlignment.Left
+                }
+                fixedWidth={index === 0 ? 100 : null}
+              >
+                {header}
+              </TableHeaderCell>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rowData.map((row) => (
+            <TableRow key={row.id}>
+              {rowKeys.map((rowKey, index) => (
+                <TableBodyCell
+                  key={`${row.id}-${rowKey}`}
+                  textAlignment={
+                    index === rowKeys.length - 1
+                      ? TextAlignment.Right
+                      : TextAlignment.Left
+                  }
+                  fontWeight={
+                    index === 0 ? FontWeight.Medium : FontWeight.Normal
+                  }
+                >
+                  {row[rowKey]}
+                </TableBodyCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableFooterRow>
+            {footerData.map(({ id, value, colSpan }) => (
+              <TableFooterCell
+                key={id}
+                colSpan={colSpan}
+                textAlignment={
+                  colSpan === 3 ? TextAlignment.Left : TextAlignment.Right
+                }
+              >
+                {value}
+              </TableFooterCell>
+            ))}
+          </TableFooterRow>
+        </TableFooter>
+      </Table>
+    </div>
+  )
 };
