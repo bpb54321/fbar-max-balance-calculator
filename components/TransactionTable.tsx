@@ -9,7 +9,6 @@ import {
 } from "@/contexts/accountsContext";
 import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
 import Table from "@/design-system/table/Table";
-
 import TableHeader from "@/design-system/table/TableHeader";
 import TableRow from "@/design-system/table/TableRow";
 import TableHeaderCell from "@/design-system/table/TableHeaderCell";
@@ -95,28 +94,33 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
         </TableBody>
       </Table>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Payee</th>
-            <th>Memo</th>
-            <th>Amount</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table>
+        <Caption>All Transactions</Caption>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Date</TableHeaderCell>
+            <TableHeaderCell>Payee</TableHeaderCell>
+            <TableHeaderCell>Memo</TableHeaderCell>
+            <TableHeaderCell>Amount</TableHeaderCell>
+            <TableHeaderCell>Balance</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {transactionsWithBalances.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.date}</td>
-              <td>{transaction.payeeName}</td>
-              <td>{transaction.memo}</td>
-              <td>{transaction.amount / 1000}</td>
-              <td>{transaction.balance / 1000}</td>
-            </tr>
+            <TableRow key={transaction.id}>
+              <TableBodyCell>{transaction.date}</TableBodyCell>
+              <TableBodyCell>{transaction.payeeName}</TableBodyCell>
+              <TableBodyCell>{transaction.memo}</TableBodyCell>
+              <TableBodyCell textAlignment={TextAlignment.Right}>
+                {transaction.amount / 1000}
+              </TableBodyCell>
+              <TableBodyCell textAlignment={TextAlignment.Right}>
+                {transaction.balance / 1000}
+              </TableBodyCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }
