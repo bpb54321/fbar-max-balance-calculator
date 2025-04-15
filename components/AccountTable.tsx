@@ -2,16 +2,15 @@
 
 import { useSelectedAccounts } from "@/contexts/accountsContext";
 import Caption from "@/design-system/table/Caption";
+import { FontWeight } from "@/design-system/table/enums";
 import Table from "@/design-system/table/Table";
-import TableHeader from "@/design-system/table/TableHeader";
-import TableRow from "@/design-system/table/TableRow";
-import TableHeaderCell from "@/design-system/table/TableHeaderCell";
-import formatAmount from "@/formatters/formatAmount";
-import Link from "next/link";
-import { v4 as uuidv4 } from "uuid";
-import { FontWeight, TextAlignment } from "@/design-system/table/enums";
 import TableBody from "@/design-system/table/TableBody";
 import TableBodyCell from "@/design-system/table/TableBodyCell";
+import TableHeader from "@/design-system/table/TableHeader";
+import TableHeaderCell from "@/design-system/table/TableHeaderCell";
+import TableRow from "@/design-system/table/TableRow";
+import formatAmount from "@/formatters/formatAmount";
+import Link from "next/link";
 
 export default function AccountTable() {
   const selectedAccounts = useSelectedAccounts();

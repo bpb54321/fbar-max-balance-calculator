@@ -7,15 +7,15 @@ import {
   useAccount,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
-import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
+import Caption from "@/design-system/table/Caption";
+import { TextAlignment } from "@/design-system/table/enums";
 import Table from "@/design-system/table/Table";
-import TableHeader from "@/design-system/table/TableHeader";
-import TableRow from "@/design-system/table/TableRow";
-import TableHeaderCell from "@/design-system/table/TableHeaderCell";
 import TableBody from "@/design-system/table/TableBody";
 import TableBodyCell from "@/design-system/table/TableBodyCell";
-import Caption from "@/design-system/table/Caption";
-import { FontWeight, TextAlignment } from "@/design-system/table/enums";
+import TableHeader from "@/design-system/table/TableHeader";
+import TableHeaderCell from "@/design-system/table/TableHeaderCell";
+import TableRow from "@/design-system/table/TableRow";
+import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
   const account = useAccount(accountId);
