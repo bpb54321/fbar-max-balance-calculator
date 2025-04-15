@@ -77,9 +77,7 @@ Then open [http://localhost:6006](http://localhost:6006) with your browser.
 To run the visual tests for the design system:
 
 ```bash
-npm run test:visual
+npm run design-system:test
 ```
-
-**Note:** Both the Tailwind CSS CLI and Storybook server must be running before visual tests will work correctly.
 
 This will capture and compare screenshots of components to ensure visual consistency.
