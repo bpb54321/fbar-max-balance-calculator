@@ -57,16 +57,12 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
         <Caption>Max Balances by Year</Caption>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell key="column-header-date">Date</TableHeaderCell>
-            <TableHeaderCell key="column-header-payee">Payee</TableHeaderCell>
-            <TableHeaderCell key="column-header-memo">Memo</TableHeaderCell>
-            <TableHeaderCell key="column-header-amount">Amount</TableHeaderCell>
-            <TableHeaderCell key="column-header-balance">
-              Balance
-            </TableHeaderCell>
-            <TableHeaderCell key="column-header-year">
-              Year of Max Balance
-            </TableHeaderCell>
+            <TableHeaderCell>Date</TableHeaderCell>
+            <TableHeaderCell>Payee</TableHeaderCell>
+            <TableHeaderCell>Memo</TableHeaderCell>
+            <TableHeaderCell>Amount</TableHeaderCell>
+            <TableHeaderCell>Balance</TableHeaderCell>
+            <TableHeaderCell>Year of Max Balance</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
