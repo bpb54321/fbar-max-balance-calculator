@@ -17,6 +17,7 @@ import TableHeaderCell from "@/design-system/table/TableHeaderCell";
 import TableRow from "@/design-system/table/TableRow";
 import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
 import formatAmount from "@/formatters/formatAmount";
+import Button from "@/design-system/button/Button";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
   const account = useAccount(accountId);
@@ -52,7 +53,7 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
 
   return (
     <div>
-      <button onClick={handleClick}>Reload transactions</button>
+      <Button onClick={handleClick}>Reload transactions</Button>
 
       <Table>
         <Caption>Max Balance Transactions</Caption>
