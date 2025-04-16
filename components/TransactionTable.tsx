@@ -16,6 +16,7 @@ import TableHeader from "@/design-system/table/TableHeader";
 import TableHeaderCell from "@/design-system/table/TableHeaderCell";
 import TableRow from "@/design-system/table/TableRow";
 import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
+import formatAmount from "@/formatters/formatAmount";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
   const account = useAccount(accountId);
@@ -78,10 +79,10 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
                 </TableBodyCell>
                 <TableBodyCell>{transactionWithBalance.memo}</TableBodyCell>
                 <TableBodyCell textAlignment={TextAlignment.Right}>
-                  {transactionWithBalance.amount / 1000}
+                  {formatAmount(transactionWithBalance.amount)}
                 </TableBodyCell>
                 <TableBodyCell textAlignment={TextAlignment.Right}>
-                  {transactionWithBalance.balance / 1000}
+                  {formatAmount(transactionWithBalance.balance)}
                 </TableBodyCell>
                 <TableBodyCell>{maxBalance.year}</TableBodyCell>
               </TableRow>
@@ -108,10 +109,10 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
               <TableBodyCell>{transaction.payeeName}</TableBodyCell>
               <TableBodyCell>{transaction.memo}</TableBodyCell>
               <TableBodyCell textAlignment={TextAlignment.Right}>
-                {transaction.amount / 1000}
+                {formatAmount(transaction.amount)}
               </TableBodyCell>
               <TableBodyCell textAlignment={TextAlignment.Right}>
-                {transaction.balance / 1000}
+                {formatAmount(transaction.balance)}
               </TableBodyCell>
             </TableRow>
           ))}
