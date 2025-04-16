@@ -3,5 +3,5 @@ interface Heading1Props {
 }
 
 export default function Heading1({ children }: Heading1Props) {
-  return <h1>{children}</h1>;
+  return <h1 className="text-5xl tracking-tight font-extrabold">{children}</h1>;
 }

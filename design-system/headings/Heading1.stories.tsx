@@ -11,6 +11,13 @@ export default meta;
 
 export const Primary: StoryObj<typeof Heading1> = {
   args: {
-    children: "The Joke Tax Chronicles",
+    children: "Taxing Laughter: The Joke Tax Chronicles",
   },
+  decorators: [
+    (Story) => (
+      <div className="w-[590px]">
+        <Story />
+      </div>
+    ),
+  ],
 };
