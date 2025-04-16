@@ -12,6 +12,7 @@ import Heading2 from "@/design-system/headings/heading2/Heading2";
 import getAccounts from "@/server-functions/getAccounts";
 import { Account } from "@/types/Account";
 import { ChangeEvent } from "react";
+import Button from "@/design-system/button/Button";
 
 export default function SettingsPage() {
   const { accounts } = useAccounts();
@@ -45,9 +46,11 @@ export default function SettingsPage() {
     <div>
       <MainNavigation />
       <Heading1>Settings Page</Heading1>
-      <button onClick={handleClick}>Reload accounts</button>
       <div className="flex">
         <Heading2>Accounts to Include in Analysis</Heading2>
+      </div>
+      <div className="mb-4">
+        <Button onClick={handleClick}>Reload accounts</Button>
       </div>
       <form>
         {accounts.map((account) => (
