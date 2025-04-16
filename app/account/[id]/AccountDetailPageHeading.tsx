@@ -1,6 +1,7 @@
 "use client";
 
 import { useAccount } from "@/contexts/accountsContext";
+import Heading1 from "@/design-system/headings/Heading1";
 
 export default function AccountDetailPageHeading({
   accountId,
@@ -10,7 +11,7 @@ export default function AccountDetailPageHeading({
   const account = useAccount(accountId);
   return (
     <div>
-      <h1>Account Detail Page</h1>
+      <Heading1>Account Detail Page</Heading1>
       <p>{account.name}</p>
     </div>
   );

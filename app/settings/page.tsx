@@ -7,6 +7,7 @@ import {
   useAccounts,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
+import Heading1 from "@/design-system/headings/Heading1";
 import getAccounts from "@/server-functions/getAccounts";
 import { Account } from "@/types/Account";
 import { ChangeEvent } from "react";
@@ -42,7 +43,7 @@ export default function SettingsPage() {
   return (
     <div>
       <MainNavigation />
-      <h1>Settings Page</h1>
+      <Heading1>Settings Page</Heading1>
       <button onClick={handleClick}>Reload accounts</button>
       <h2>Accounts to Include in Analysis</h2>
       <form>
