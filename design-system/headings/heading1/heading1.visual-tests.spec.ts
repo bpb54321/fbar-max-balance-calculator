@@ -15,12 +15,4 @@ test.describe("Heading1", () => {
 
     await expect(h1).toHaveScreenshot();
   });
-
-  // test("has correct visual appearance", async ({ page }) => {
-  //   await page.goto("https://ui.shadcn.com/docs/components/typography");
-
-  //   const h1 = page.getByText("Taxing Laughter: The Joke Tax Chronicles");
-
-  //   await expect(h1).toHaveScreenshot();
-  // });
 });

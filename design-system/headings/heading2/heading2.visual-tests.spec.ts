@@ -12,11 +12,4 @@ test.describe("Heading2", () => {
     });
     await expect(h2).toHaveScreenshot();
   });
-  // test("has correct visual appearance", async ({ page }) => {
-  //   await page.goto("https://ui.shadcn.com/docs/components/typography");
-  //   const h2 = page.getByRole("heading", {
-  //     name: "The People of the Kingdom",
-  //   });
-  //   await expect(h2).toHaveScreenshot();
-  // });
 });
