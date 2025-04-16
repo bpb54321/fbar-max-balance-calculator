@@ -1,17 +1,17 @@
-import React from 'react';
-import clsx from 'clsx';
-import { TextAlignment } from './enums';
+import React from "react";
+import clsx from "clsx";
+import { TextAlignment } from "./enums";
 
 interface TableHeaderCellProps {
   children: React.ReactNode;
   textAlignment?: TextAlignment;
-  fixedWidth?: number | null;
+  fixedWidth?: boolean;
 }
 
-export default function TableHeaderCell({ 
-  children, 
-  textAlignment = TextAlignment.Left, 
-  fixedWidth = null
+export default function TableHeaderCell({
+  children,
+  textAlignment = TextAlignment.Left,
+  fixedWidth = false,
 }: TableHeaderCellProps) {
   return (
     <th
@@ -22,10 +22,10 @@ export default function TableHeaderCell({
         "font-medium",
         "text-muted-foreground",
         textAlignment === TextAlignment.Right ? "text-right" : "text-left",
-        fixedWidth && `w-[${fixedWidth}px]`
+        fixedWidth && "w-[100px]"
       )}
     >
       {children}
     </th>
   );
-} 
+}

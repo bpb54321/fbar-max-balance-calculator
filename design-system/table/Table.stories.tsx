@@ -96,7 +96,7 @@ export const Primary: StoryObj<typeof Table> = {
                       ? TextAlignment.Right
                       : TextAlignment.Left
                   }
-                  fixedWidth={index === 0 ? 100 : null}
+                  fixedWidth={index === 0}
                 >
                   {columnHeaders[columnKey]}
                 </TableHeaderCell>
