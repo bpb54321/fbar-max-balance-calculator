@@ -1,0 +1,21 @@
+@font-face {
+  font-family: GeistSans;
+  src: url("../node_modules/geist/dist/fonts/geist-sans/Geist-Variable.woff2")
+    format("woff2");
+  font-display: swap;
+  font-weight: 100 900;
+}
+
+@import "tailwindcss";
+
+/* 
+@theme is a CSS layer defined in the imported tailwindcss CSS file.
+*/
+@theme {
+  --font-sans: "GeistSans", "Geist", ui-sans-serif, system-ui, sans-serif;
+
+  --color-muted-foreground: hsl(240 3.8% 46.1%);
+  --color-foreground: hsl(240 10% 3.9%);
+  --color-muted: hsl(240 4.8% 95.9%);
+  --color-border: hsl(240 6% 90%);
+}

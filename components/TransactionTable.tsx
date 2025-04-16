@@ -7,7 +7,16 @@ import {
   useAccount,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
+import Caption from "@/design-system/table/Caption";
+import { TextAlignment } from "@/design-system/table/enums";
+import Table from "@/design-system/table/Table";
+import TableBody from "@/design-system/table/TableBody";
+import TableBodyCell from "@/design-system/table/TableBodyCell";
+import TableHeader from "@/design-system/table/TableHeader";
+import TableHeaderCell from "@/design-system/table/TableHeaderCell";
+import TableRow from "@/design-system/table/TableRow";
 import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
+import formatAmount from "@/formatters/formatAmount";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
   const account = useAccount(accountId);
@@ -44,57 +53,71 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
   return (
     <div>
       <button onClick={handleClick}>Reload transactions</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Payee</th>
-            <th>Memo</th>
-            <th>Amount</th>
-            <th>Balance</th>
-            <th>Year of Max Balance</th>
-          </tr>
-        </thead>
-        <tbody>
+
+      <Table>
+        <Caption>Max Balance Transactions</Caption>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Date</TableHeaderCell>
+            <TableHeaderCell>Payee</TableHeaderCell>
+            <TableHeaderCell>Memo</TableHeaderCell>
+            <TableHeaderCell>Amount</TableHeaderCell>
+            <TableHeaderCell>Balance</TableHeaderCell>
+            <TableHeaderCell>Year of Max Balance</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {Object.values(maxBalancesByYear).map((maxBalance) => {
             const transactionWithBalance = transactionsWithBalances.find(
               (transaction) => transaction.id === maxBalance.transactionId
             ) ?? { date: "", payeeName: "", memo: "", amount: 0, balance: 0 };
             return (
-              <tr key={maxBalance.id}>
-                <td>{transactionWithBalance.date}</td>
-                <td>{transactionWithBalance.payeeName}</td>
-                <td>{transactionWithBalance.memo}</td>
-                <td>{transactionWithBalance.amount / 1000}</td>
-                <td>{transactionWithBalance.balance / 1000}</td>
-                <td>{maxBalance.year}</td>
-              </tr>
+              <TableRow key={maxBalance.id}>
+                <TableBodyCell>{transactionWithBalance.date}</TableBodyCell>
+                <TableBodyCell>
+                  {transactionWithBalance.payeeName}
+                </TableBodyCell>
+                <TableBodyCell>{transactionWithBalance.memo}</TableBodyCell>
+                <TableBodyCell textAlignment={TextAlignment.Right}>
+                  {formatAmount(transactionWithBalance.amount)}
+                </TableBodyCell>
+                <TableBodyCell textAlignment={TextAlignment.Right}>
+                  {formatAmount(transactionWithBalance.balance)}
+                </TableBodyCell>
+                <TableBodyCell>{maxBalance.year}</TableBodyCell>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Payee</th>
-            <th>Memo</th>
-            <th>Amount</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>
+        </TableBody>
+      </Table>
+
+      <Table>
+        <Caption>All Transactions</Caption>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>Date</TableHeaderCell>
+            <TableHeaderCell>Payee</TableHeaderCell>
+            <TableHeaderCell>Memo</TableHeaderCell>
+            <TableHeaderCell>Amount</TableHeaderCell>
+            <TableHeaderCell>Balance</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {transactionsWithBalances.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.date}</td>
-              <td>{transaction.payeeName}</td>
-              <td>{transaction.memo}</td>
-              <td>{transaction.amount / 1000}</td>
-              <td>{transaction.balance / 1000}</td>
-            </tr>
+            <TableRow key={transaction.id}>
+              <TableBodyCell>{transaction.date}</TableBodyCell>
+              <TableBodyCell>{transaction.payeeName}</TableBodyCell>
+              <TableBodyCell>{transaction.memo}</TableBodyCell>
+              <TableBodyCell textAlignment={TextAlignment.Right}>
+                {formatAmount(transaction.amount)}
+              </TableBodyCell>
+              <TableBodyCell textAlignment={TextAlignment.Right}>
+                {formatAmount(transaction.balance)}
+              </TableBodyCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }
