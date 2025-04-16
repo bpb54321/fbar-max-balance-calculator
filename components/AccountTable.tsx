@@ -21,21 +21,11 @@ export default function AccountTable() {
         <Caption>Accounts</Caption>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell key="column-header-account-name">
-              Account Name
-            </TableHeaderCell>
-            <TableHeaderCell key="column-header-max-balance-2022">
-              Max Balance 2022
-            </TableHeaderCell>
-            <TableHeaderCell key="column-header-max-balance-2023">
-              Max Balance 2023
-            </TableHeaderCell>
-            <TableHeaderCell key="column-header-max-balance-2024">
-              Max Balance 2024
-            </TableHeaderCell>
-            <TableHeaderCell key="column-header-max-balance-2025">
-              Max Balance 2025
-            </TableHeaderCell>
+            <TableHeaderCell>Account Name</TableHeaderCell>
+            <TableHeaderCell>Max Balance 2022</TableHeaderCell>
+            <TableHeaderCell>Max Balance 2023</TableHeaderCell>
+            <TableHeaderCell>Max Balance 2024</TableHeaderCell>
+            <TableHeaderCell>Max Balance 2025</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
