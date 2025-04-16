@@ -11,8 +11,7 @@ export default function AccountDetailPageHeading({
   const account = useAccount(accountId);
   return (
     <div>
-      <Heading1>Account Detail Page</Heading1>
-      <p>{account.name}</p>
+      <Heading1>{account.name} - Details</Heading1>
     </div>
   );
 }

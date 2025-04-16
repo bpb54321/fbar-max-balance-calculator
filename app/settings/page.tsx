@@ -8,6 +8,7 @@ import {
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
 import Heading1 from "@/design-system/headings/Heading1";
+import Heading2 from "@/design-system/headings/heading2/Heading2";
 import getAccounts from "@/server-functions/getAccounts";
 import { Account } from "@/types/Account";
 import { ChangeEvent } from "react";
@@ -45,7 +46,9 @@ export default function SettingsPage() {
       <MainNavigation />
       <Heading1>Settings Page</Heading1>
       <button onClick={handleClick}>Reload accounts</button>
-      <h2>Accounts to Include in Analysis</h2>
+      <div className="flex">
+        <Heading2>Accounts to Include in Analysis</Heading2>
+      </div>
       <form>
         {accounts.map((account) => (
           <div key={account.id}>
