@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
 import Providers from "@/components/Providers";
 import "@/css/output.css";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "FBAR Max Balance Calculator",
@@ -15,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`font-sans ${GeistSans.variable} antialiased`}>
-      <body className={`antialiased`}>
+    <html lang="en" className={`font-sans antialiased`}>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>
