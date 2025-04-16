@@ -46,9 +46,11 @@ export default function SettingsPage() {
     <div>
       <MainNavigation />
       <Heading1>Settings Page</Heading1>
-      <Button onClick={handleClick}>Reload accounts</Button>
       <div className="flex">
         <Heading2>Accounts to Include in Analysis</Heading2>
+      </div>
+      <div className="mb-4">
+        <Button onClick={handleClick}>Reload accounts</Button>
       </div>
       <form>
         {accounts.map((account) => (

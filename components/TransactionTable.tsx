@@ -53,8 +53,9 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
 
   return (
     <div>
-      <Button onClick={handleClick}>Reload transactions</Button>
-
+      <div className="mb-4">
+        <Button onClick={handleClick}>Reload transactions</Button>
+      </div>
       <Table>
         <Caption>Max Balance Transactions</Caption>
         <TableHeader>
