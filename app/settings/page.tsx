@@ -7,7 +7,7 @@ import {
   useAccounts,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
-import Heading1 from "@/design-system/headings/Heading1";
+import Heading1 from "@/design-system/headings/heading1/Heading1";
 import Heading2 from "@/design-system/headings/heading2/Heading2";
 import getAccounts from "@/server-functions/getAccounts";
 import { Account } from "@/types/Account";

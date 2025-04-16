@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount } from "@/contexts/accountsContext";
-import Heading1 from "@/design-system/headings/Heading1";
+import Heading1 from "@/design-system/headings/heading1/Heading1";
 
 export default function AccountDetailPageHeading({
   accountId,
