@@ -1,6 +1,7 @@
 import MainNavigation from "@/components/MainNavigation";
 import TransactionTable from "@/components/TransactionTable";
 import AccountDetailPageHeading from "./AccountDetailPageHeading";
+import Heading2 from "@/design-system/headings/heading2/Heading2";
 
 export default async function AccountDetailPage({
   params,
@@ -13,7 +14,9 @@ export default async function AccountDetailPage({
     <div>
       <MainNavigation />
       <AccountDetailPageHeading accountId={accountId} />
-      <h2>Transactions</h2>
+      <div className="flex">
+        <Heading2>Transactions</Heading2>
+      </div>
       <TransactionTable accountId={accountId} />
     </div>
   );

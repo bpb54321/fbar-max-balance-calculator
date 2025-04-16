@@ -4,11 +4,11 @@ test.describe("Table", () => {
   test("has correct visual appearance", async ({ page }) => {
     await page.goto("/?path=/story/table--primary");
 
-    const storybookIframe = await page
+    const storybookIframe = page
       .locator('iframe[title="storybook-preview-iframe"]')
       .contentFrame();
 
-    const table = await storybookIframe.getByTestId("table");
+    const table = storybookIframe.getByTestId("table");
 
     await expect(table).toHaveScreenshot();
   });
