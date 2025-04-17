@@ -1,16 +1,16 @@
-import Link from "next/link";
+import NavigationMenu, {
+  LinkData,
+} from "@/design-system/navigation-menu/NavigationMenu";
+
+const links: LinkData[] = [
+  { text: "Home", href: "/" },
+  { text: "Settings", href: "/settings" },
+];
 
 export default function MainNavigation() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/settings">Settings</Link>
-        </li>
-      </ul>
-    </nav>
+    <div className="mb-4">
+      <NavigationMenu links={links} />
+    </div>
   );
 }
