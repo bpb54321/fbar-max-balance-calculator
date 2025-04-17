@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "../link/Link";
 
 export interface LinkData {
   text: string;
@@ -15,9 +15,7 @@ export default function NavigationMenu({ links }: NavigationMenuProps) {
       <ul className="flex gap-1 items-center">
         {links.map((link, index) => (
           <li key={index}>
-            <Link href={link.href} className="text-foreground hover:underline">
-              {link.text}
-            </Link>
+            <Link href={link.href}>{link.text}</Link>
           </li>
         ))}
       </ul>
