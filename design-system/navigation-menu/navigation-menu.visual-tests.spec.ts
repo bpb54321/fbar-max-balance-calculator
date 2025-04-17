@@ -7,6 +7,13 @@ test.describe("NavigationMenu", () => {
       .locator('iframe[title="storybook-preview-iframe"]')
       .contentFrame();
     const navigationMenu = storybookIframe.getByRole("navigation");
-    await expect(navigationMenu).toHaveScreenshot();
+    await expect(navigationMenu).toHaveScreenshot("navigation-menu.png");
+
+    const homeLink = storybookIframe.getByText("Home");
+    await homeLink.hover();
+
+    await expect(homeLink).toHaveScreenshot(
+      "navigation-menu-home-link-hover-state.png"
+    );
   });
 });

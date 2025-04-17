@@ -15,7 +15,7 @@ export default function NavigationMenu({ links }: NavigationMenuProps) {
       <ul className="flex gap-1 items-center">
         {links.map((link, index) => (
           <li key={index}>
-            <Link href={link.href} className="text-foreground">
+            <Link href={link.href} className="text-foreground hover:underline">
               {link.text}
             </Link>
           </li>
