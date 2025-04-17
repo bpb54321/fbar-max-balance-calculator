@@ -9,6 +9,11 @@ export default defineConfig({
   },
   test: {
     mockReset: true,
-    exclude: ["node_modules", "dist", "**/*.visual-tests.spec.ts"],
+    exclude: [
+      "node_modules",
+      "dist",
+      "design-system/**/*.visual-tests.spec.ts",
+      "e2e",
+    ],
   },
 });
