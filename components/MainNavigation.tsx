@@ -1,7 +1,6 @@
 import NavigationMenu, {
   LinkData,
 } from "@/design-system/navigation-menu/NavigationMenu";
-import Link from "next/link";
 
 const links: LinkData[] = [
   { text: "Home", href: "/" },
