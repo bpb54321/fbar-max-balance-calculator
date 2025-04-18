@@ -6,20 +6,54 @@ test.describe("OAuth", () => {
     const authorizeYnabLink = page.getByRole("link", {
       name: "Authorize With YNAB",
     });
-    // Assert has correct YNAB authorization URL
-    await expect(authorizeYnabLink).toHaveAttribute(
-      "href",
-      /^https:\/\/app\.ynab\.com\/oauth\/authorize\?client_id=.*&redirect_uri=.*&response_type=token$/
-    );
+
     await authorizeYnabLink.click();
+
     await expect(page).toHaveURL("https://app.ynab.com/users/sign_in");
+
+    const cookieBanner = page.getByRole("region", {
+      name: "Cookie banner",
+    });
+    await cookieBanner
+      .getByRole("button", {
+        name: "OK",
+        exact: true,
+      })
+      .click();
+    await expect(cookieBanner).toBeHidden();
 
     await page.getByLabel("Email:").fill(process.env["YNAB_USERNAME"] ?? "");
     await page.getByLabel("Password:").fill(process.env["YNAB_PASSWORD"] ?? "");
     await page.getByRole("button", { name: "Log In" }).click();
 
-    await page.pause();
+    await expect(
+      page.getByRole("heading", {
+        name: "Authorize FBAR Max Balance Calculator",
+      })
+    ).toBeVisible();
+    await page
+      .getByRole("button", {
+        name: "Authorize",
+      })
+      .click();
 
-    await expect(page).toHaveURL(/#token=.*/);
+    await expect(
+      page.getByRole("heading", {
+        name: "Accounts",
+      })
+    ).toBeVisible();
+
+    await page
+      .getByRole("link", {
+        name: "Settings",
+      })
+      .click();
+    await page
+      .getByRole("button", {
+        name: "Reload accounts",
+      })
+      .click();
+
+    await expect(page.getByLabel("Checking Account A")).toBeVisible();
   });
 });

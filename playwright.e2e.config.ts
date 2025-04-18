@@ -37,6 +37,16 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+
+    launchOptions: {
+      args: [
+        "--disable-blink-features=AutomationControlled",
+        "--disable-features=IsolateOrigins,site-per-process",
+        "--disable-blink-features",
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+      ],
+    },
   },
 
   /* Configure projects for major browsers */
@@ -50,7 +60,6 @@ export default defineConfig({
     //   name: "firefox",
     //   use: { ...devices["Desktop Firefox"] },
     // },
-
     // {
     //   name: "webkit",
     //   use: { ...devices["Desktop Safari"] },
