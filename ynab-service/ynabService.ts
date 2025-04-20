@@ -22,26 +22,6 @@ export default class YnabService {
     }
   }
 
-  async getAccounts(ynabBudgetId: string): Promise<YnabAccount[]> {
-    const response = await fetch(
-      `${this.apiBaseUrl}/budgets/${ynabBudgetId}/accounts`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${this.ynabBearerToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Error fetching accounts: ${response.statusText}`);
-    }
-
-    const data: YnabAccountsResponse = await response.json();
-    return data.data.accounts;
-  }
-
   async getAccountTransactions(
     ynabBudgetId: string,
     accountId: string,
