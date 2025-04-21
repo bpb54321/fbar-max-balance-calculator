@@ -1,7 +1,7 @@
 import { YNAB_TOKEN_LOCAL_STORAGE_KEY } from "@/hooks/useYnabOauthToken";
 import * as ynab from "ynab";
 
-export default async function getAccounts(budgetId: string) {
+export default async function getAccounts() {
   const ynabToken = window.localStorage.getItem(YNAB_TOKEN_LOCAL_STORAGE_KEY);
 
   if (!ynabToken) {

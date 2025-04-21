@@ -1,7 +1,6 @@
 "use client";
 
 import MainNavigation from "@/components/MainNavigation";
-import { BUDGET_ID } from "@/constants/constants";
 import {
   AccountActionTypes,
   useAccounts,
@@ -30,7 +29,7 @@ export default function SettingsPage() {
   };
 
   const handleClick = async () => {
-    const fetchedAccounts = await getAccounts(BUDGET_ID);
+    const fetchedAccounts = await getAccounts();
     accountsDispatch({
       type: AccountActionTypes.AccountsLoadedFromStorage,
       loadedAccountState: {
