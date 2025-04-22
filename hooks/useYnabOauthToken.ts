@@ -1,9 +1,8 @@
 "use client";
+import { TokenManager } from "@/services/tokenManager";
 import { useEffect } from "react";
 
 const YNAB_TOKEN_URL_PARAM = "access_token";
-
-export const YNAB_TOKEN_LOCAL_STORAGE_KEY = "ynabAccessToken";
 
 export default function useYnabOauthToken() {
   useEffect(() => {
@@ -14,6 +13,6 @@ export default function useYnabOauthToken() {
     if (token === null) {
       return;
     }
-    window.localStorage.setItem(YNAB_TOKEN_LOCAL_STORAGE_KEY, token);
+    TokenManager.setToken(token);
   }, []);
 }

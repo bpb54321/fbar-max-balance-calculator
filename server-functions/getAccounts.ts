@@ -1,16 +1,8 @@
-import { YNAB_TOKEN_LOCAL_STORAGE_KEY } from "@/hooks/useYnabOauthToken";
+import { TokenManager } from "@/services/tokenManager";
 import * as ynab from "ynab";
 
 export default async function getAccounts() {
-  const ynabToken = window.localStorage.getItem(YNAB_TOKEN_LOCAL_STORAGE_KEY);
-
-  if (!ynabToken) {
-    throw new Error(
-      "YNAB access token not found. Please authenticate using OAuth."
-    );
-  }
-
-  const ynabApi = new ynab.api(ynabToken);
+  const ynabApi = new ynab.api(TokenManager.getToken());
 
   const budgets = await ynabApi.budgets.getBudgets(true);
   const defaultBudgetId = budgets.data.default_budget?.id;
