@@ -1,9 +1,9 @@
-import { mockAccounts, mockGetAccounts } from "@/__mocks__/ynab";
+import { mockGetAccounts } from "@/__mocks__/ynab";
 import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
 import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
 import { describe, expect, test, vi } from "vitest";
 import YnabService from "./ynabService";
-import { mockTransactions } from "./ynabService.test-data";
+import { mockTransactions, mockAccounts } from "./ynabService.test-data";
 
 vi.mock("ynab");
 

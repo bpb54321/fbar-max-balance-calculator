@@ -1,6 +1,7 @@
 import { YnabAccount, YnabAccountType } from "@/types/ynabApi/YnabAccount";
 import { YnabTransaction } from "@/types/ynabApi/YnabTransaction";
 
+// TODO: Use types from ynab package instead of our own
 export const mockAccounts: YnabAccount[] = [
   {
     id: "1234-5678-9011",
