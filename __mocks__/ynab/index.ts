@@ -1,6 +1,5 @@
 import { vi } from "vitest";
-
-export const mockGetAccounts = vi.fn();
+import { mockGetAccounts } from "./mockFunctions";
 
 export const api = vi.fn(function (
   this: { accounts: { getAccounts: typeof mockGetAccounts } },
