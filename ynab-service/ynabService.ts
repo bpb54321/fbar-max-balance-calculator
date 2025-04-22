@@ -4,22 +4,24 @@ import {
   YnabAccountTransactionsResponse,
 } from "@/types/ynabApi/ynabApiResponseTypes";
 import { YnabTransaction } from "@/types/ynabApi/YnabTransaction";
+import * as ynab from "ynab";
 
 export default class YnabService {
   private apiBaseUrl = "https://api.ynab.com/v1";
   private ynabBearerToken: string;
+  private ynabApi: ynab.api;
 
-  constructor() {
-    if (process.env.NODE_ENV === "test") {
-      this.ynabBearerToken = "test-token";
-    } else {
-      const ynabBearerToken = process.env.YNAB_BEARER_TOKEN;
-
-      if (!ynabBearerToken) {
-        throw new Error("YNAB_BEARER_TOKEN not defined in env variables");
-      }
-      this.ynabBearerToken = ynabBearerToken;
+  constructor(ynabBearerToken: string) {
+    if (!ynabBearerToken) {
+      throw new Error("YNAB bearer token is required");
     }
+    this.ynabBearerToken = ynabBearerToken;
+    this.ynabApi = new ynab.api(this.ynabBearerToken);
+  }
+
+  async getAccounts(budgetId: string) {
+    const accountResponse = await this.ynabApi.accounts.getAccounts(budgetId);
+    return accountResponse.data.accounts;
   }
 
   async getAccountTransactions(

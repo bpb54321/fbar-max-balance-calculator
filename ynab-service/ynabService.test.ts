@@ -1,11 +1,11 @@
+import { mockAccounts, mockGetAccounts } from "@/__mocks__/ynab";
+import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
+import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
 import { describe, expect, test, vi } from "vitest";
 import YnabService from "./ynabService";
-import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
-import { mockAccounts, mockTransactions } from "./ynabService.test-data";
-import {
-  YnabAccountsResponse,
-  YnabAccountTransactionsResponse,
-} from "@/types/ynabApi/ynabApiResponseTypes";
+import { mockTransactions } from "./ynabService.test-data";
+
+vi.mock("ynab");
 
 const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
 vi.stubGlobal("fetch", mockFetch);
@@ -14,16 +14,13 @@ describe("YnabService", () => {
   describe("getAccounts", () => {
     test("gets all accounts for the user and budget", async () => {
       // arrange
-      const mockAccountData = {
+      const testYnabToken = "test-ynab-token";
+      const ynabService = new YnabService(testYnabToken);
+      mockGetAccounts.mockResolvedValueOnce({
         data: {
           accounts: mockAccounts,
         },
-      };
-      mockFetch.mockImplementation(
-        getMockFetchImplementation<YnabAccountsResponse>(mockAccountData)
-      );
-
-      const ynabService = new YnabService();
+      });
 
       // act
       const mockYnabBudgetId = "12345";
@@ -31,16 +28,7 @@ describe("YnabService", () => {
 
       // assert
       expect(accounts).toEqual(mockAccounts);
-      expect(mockFetch).toHaveBeenCalledWith(
-        `https://api.ynab.com/v1/budgets/${mockYnabBudgetId}/accounts`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer test-token`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      expect(mockGetAccounts).toHaveBeenCalledWith(mockYnabBudgetId);
     });
   });
   describe("getAccountTransactions", () => {
@@ -57,7 +45,7 @@ describe("YnabService", () => {
         )
       );
 
-      const ynabService = new YnabService();
+      const ynabService = new YnabService("test-token");
 
       // act
       const mockYnabBudgetId = "mock-budget-id";
