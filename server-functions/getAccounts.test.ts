@@ -1,39 +1,47 @@
-import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
-import { YnabAccountsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
+import { api as mockYnabApi } from "@/__mocks__/ynab";
+import {
+  mockGetAccounts,
+  mockGetBudgets,
+} from "@/__mocks__/ynab/mockFunctions";
+import { TokenManager } from "@/services/__mocks__/tokenManager";
 import { mockAccounts } from "@/ynab-service/ynabService.test-data";
 import { describe, expect, test, vi } from "vitest";
 import getAccounts from "./getAccounts";
 
-const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
-vi.stubGlobal("fetch", mockFetch);
+vi.mock(import("@/services/tokenManager"));
+vi.mock(import("ynab"));
 
 describe("getAccounts", () => {
   test("gets all accounts for the user and budget", async () => {
     // arrange
+    const mockYnabToken = "mock ynab token";
+    TokenManager.getToken.mockReturnValue(mockYnabToken);
+
     const mockAccountData = {
       data: {
         accounts: mockAccounts,
       },
     };
-    mockFetch.mockImplementation(
-      getMockFetchImplementation<YnabAccountsResponse>(mockAccountData)
-    );
+    mockGetAccounts.mockResolvedValue(mockAccountData);
+
+    const mockDefaultBudgetId = "12345";
+    const mockBudgetData = {
+      data: {
+        default_budget: {
+          id: mockDefaultBudgetId,
+        },
+      },
+    };
+    mockGetBudgets.mockResolvedValue(mockBudgetData);
 
     // act
-    const mockYnabBudgetId = "12345";
-    const accounts = await getAccounts(mockYnabBudgetId);
+    const accounts = await getAccounts();
 
     // assert
+    expect(TokenManager.getToken).toHaveBeenCalled();
+    expect(mockYnabApi).toHaveBeenCalledWith(mockYnabToken);
+    expect(mockGetBudgets).toHaveBeenCalled();
+    expect(mockGetAccounts).toHaveBeenCalledWith(mockDefaultBudgetId);
     expect(accounts).toEqual(mockAccounts);
-    expect(mockFetch).toHaveBeenCalledWith(
-      `https://api.ynab.com/v1/budgets/${mockYnabBudgetId}/accounts`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer test-token`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
   });
 });

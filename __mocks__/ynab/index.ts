@@ -1,11 +1,16 @@
 import { vi } from "vitest";
-import { mockGetAccounts } from "./mockFunctions";
+import { mockGetAccounts, mockGetBudgets } from "./mockFunctions";
 
-export const api = vi.fn(function (
-  this: { accounts: { getAccounts: typeof mockGetAccounts } },
-  accessToken: string
-) {
+interface YnabApi {
+  accounts: { getAccounts: typeof mockGetAccounts };
+  budgets: { getBudgets: typeof mockGetBudgets };
+}
+
+export const api = vi.fn(function (this: YnabApi, accessToken: string) {
   this.accounts = {
     getAccounts: mockGetAccounts,
+  };
+  this.budgets = {
+    getBudgets: mockGetBudgets,
   };
 });

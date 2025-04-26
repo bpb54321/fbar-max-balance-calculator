@@ -2,7 +2,6 @@ export class TokenManager {
   private static readonly TOKEN_KEY = "ynabAccessToken";
 
   static getToken(): string {
-    debugger;
     const token = localStorage.getItem(this.TOKEN_KEY);
 
     if (token === null) {
