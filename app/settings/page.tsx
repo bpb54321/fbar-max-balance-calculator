@@ -11,6 +11,7 @@ import Heading1 from "@/design-system/headings/heading1/Heading1";
 import Heading2 from "@/design-system/headings/heading2/Heading2";
 import { Account } from "@/types/Account";
 import getAccounts from "@/utility-functions/getAccounts";
+import getDefaultBudgetId from "@/utility-functions/getDefaultBudgetId";
 import { ChangeEvent } from "react";
 
 export default function SettingsPage() {
@@ -29,7 +30,8 @@ export default function SettingsPage() {
   };
 
   const handleClick = async () => {
-    const fetchedAccounts = await getAccounts();
+    const defaultBudgetId = await getDefaultBudgetId();
+    const fetchedAccounts = await getAccounts(defaultBudgetId);
     accountsDispatch({
       type: AccountActionTypes.AccountsLoadedFromStorage,
       loadedAccountState: {

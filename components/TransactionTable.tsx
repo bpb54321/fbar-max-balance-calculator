@@ -1,7 +1,6 @@
 "use client";
 import getMaxBalances from "@/calculation-functions/getMaxBalances";
 import getTransactionsWithBalances from "@/calculation-functions/getTransactionsWithBalances";
-import { BUDGET_ID } from "@/constants/constants";
 import {
   AccountActionTypes,
   useAccount,
@@ -26,7 +25,7 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
 
   const handleClick = async () => {
     const transactions = await getTransactionsForAccount(
-      BUDGET_ID,
+      "12345",
       accountId,
       "2022-01-01"
     );

@@ -1,8 +1,5 @@
 import { api as mockYnabApi } from "@/__mocks__/ynab";
-import {
-  mockGetAccounts,
-  mockGetBudgets,
-} from "@/__mocks__/ynab/mockFunctions";
+import { mockGetAccounts } from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/__mocks__/tokenManager";
 import { mockAccounts } from "@/services/ynab-service/ynabService.test-data";
 import { describe, expect, test, vi } from "vitest";
@@ -24,23 +21,13 @@ describe("getAccounts", () => {
     };
     mockGetAccounts.mockResolvedValue(mockAccountData);
 
-    const mockDefaultBudgetId = "12345";
-    const mockBudgetData = {
-      data: {
-        default_budget: {
-          id: mockDefaultBudgetId,
-        },
-      },
-    };
-    mockGetBudgets.mockResolvedValue(mockBudgetData);
-
     // act
-    const accounts = await getAccounts();
+    const mockDefaultBudgetId = "12345";
+    const accounts = await getAccounts(mockDefaultBudgetId);
 
     // assert
     expect(TokenManager.getToken).toHaveBeenCalled();
     expect(mockYnabApi).toHaveBeenCalledWith(mockYnabToken);
-    expect(mockGetBudgets).toHaveBeenCalled();
     expect(mockGetAccounts).toHaveBeenCalledWith(mockDefaultBudgetId);
     expect(accounts).toEqual(mockAccounts);
   });

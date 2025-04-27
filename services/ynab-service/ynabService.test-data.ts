@@ -1,4 +1,4 @@
-import { Account, AccountType, TransactionDetail } from "ynab";
+import { type Account, AccountType, type TransactionDetail } from "ynab";
 
 export const mockAccounts: Account[] = [
   {
