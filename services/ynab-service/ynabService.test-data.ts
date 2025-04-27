@@ -1,16 +1,29 @@
-import { YnabAccount, YnabAccountType } from "@/types/ynabApi/YnabAccount";
-import { TransactionDetail } from "ynab";
+import { Account, AccountType, TransactionDetail } from "ynab";
 
-export const mockAccounts: YnabAccount[] = [
+export const mockAccounts: Account[] = [
   {
     id: "1234-5678-9011",
     name: "My Checking Account",
-    type: YnabAccountType.Checking,
+    type: AccountType.Checking,
+    on_budget: false,
+    closed: false,
+    balance: 0,
+    cleared_balance: 0,
+    uncleared_balance: 0,
+    transfer_payee_id: null,
+    deleted: false,
   },
   {
     id: "97be-aabb-5566",
     name: "My Savings Account",
-    type: YnabAccountType.Savings,
+    type: AccountType.Savings,
+    on_budget: false,
+    closed: false,
+    balance: 0,
+    cleared_balance: 0,
+    uncleared_balance: 0,
+    transfer_payee_id: null,
+    deleted: false,
   },
 ];
 
