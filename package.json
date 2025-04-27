@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev --turbopack",
-    "build": "next build",
+    "build": "npm run tailwind && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "tailwind:watch": "tailwindcss -i css/input.css -o css/output.css --watch",
+    "tailwind": "tailwindcss -i css/input.css -o css/output.css",
+    "tailwind:watch": "npm run tailwind -- --watch",
     "design-system:test": "playwright test --config=playwright.config.ts",
     "test:e2e": "playwright test --config=playwright.e2e.config.ts"
   },
