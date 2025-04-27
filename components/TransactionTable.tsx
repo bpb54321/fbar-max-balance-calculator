@@ -6,6 +6,7 @@ import {
   useAccount,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
+import { useBudgetState } from "@/contexts/budgetContext";
 import Button from "@/design-system/button/Button";
 import Caption from "@/design-system/table/Caption";
 import { TextAlignment } from "@/design-system/table/enums";
@@ -19,13 +20,14 @@ import formatAmount from "@/formatters/formatAmount";
 import getTransactionsForAccount from "@/utility-functions/getTransactionsForAccount";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
-  const account = useAccount(accountId);
-  const { transactionsWithBalances, maxBalancesByYear } = account;
+  const { transactionsWithBalances, maxBalancesByYear } = useAccount(accountId);
   const accountsDispatch = useAccountsDispatch();
+
+  const { defaultBudgetId } = useBudgetState();
 
   const handleClick = async () => {
     const transactions = await getTransactionsForAccount(
-      "12345",
+      defaultBudgetId,
       accountId,
       "2022-01-01"
     );
