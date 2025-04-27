@@ -22,7 +22,7 @@ export enum BudgetActionTypes {
 
 interface DefaultBudgetIdSetAction extends BaseAction {
   type: BudgetActionTypes.DefaultBudgetIdSet;
-  defaultBudgetId: "string";
+  defaultBudgetId: string;
 }
 
 interface StateLoadedFromStorageAction extends BaseAction {
