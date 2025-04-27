@@ -3,16 +3,11 @@ import {
   mockGetBudgets,
   mockGetTransactionsByAccount,
 } from "@/__mocks__/ynab/mockFunctions";
-import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
 import { describe, expect, test, vi } from "vitest";
 import YnabService from "./ynabService";
 import { mockAccounts, mockTransactions } from "./ynabService.test-data";
 
 vi.mock(import("ynab"));
-
-// TODO: Remove fetch mock once getAccountTransactions is refactored.
-const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
-vi.stubGlobal("fetch", mockFetch);
 
 describe("YnabService", () => {
   describe("getAccounts", () => {
