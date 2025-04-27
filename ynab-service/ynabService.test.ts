@@ -1,14 +1,14 @@
 import {
   mockGetAccounts,
   mockGetBudgets,
+  mockGetTransactionsByAccount,
 } from "@/__mocks__/ynab/mockFunctions";
 import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
-import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
 import { describe, expect, test, vi } from "vitest";
 import YnabService from "./ynabService";
 import { mockAccounts, mockTransactions } from "./ynabService.test-data";
 
-vi.mock("ynab");
+vi.mock(import("ynab"));
 
 // TODO: Remove fetch mock once getAccountTransactions is refactored.
 const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
@@ -43,12 +43,7 @@ describe("YnabService", () => {
           transactions: mockTransactions,
         },
       };
-      mockFetch.mockImplementation(
-        getMockFetchImplementation<YnabAccountTransactionsResponse>(
-          mockTransactionData
-        )
-      );
-
+      mockGetTransactionsByAccount.mockResolvedValue(mockTransactionData);
       const ynabService = new YnabService("test-token");
 
       // act
@@ -63,15 +58,10 @@ describe("YnabService", () => {
 
       // assert
       expect(accountTransactions).toEqual(mockTransactions);
-      expect(mockFetch).toHaveBeenCalledWith(
-        `https://api.ynab.com/v1/budgets/${mockYnabBudgetId}/accounts/${mockAccountId}/transactions?since_date=${sinceDate}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer test-token`,
-            "Content-Type": "application/json",
-          },
-        }
+      expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
+        mockYnabBudgetId,
+        mockAccountId,
+        sinceDate
       );
     });
   });

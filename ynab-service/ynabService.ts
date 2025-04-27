@@ -1,5 +1,3 @@
-import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
-import { YnabTransaction } from "@/types/ynabApi/YnabTransaction";
 import * as ynab from "ynab";
 
 export default class YnabService {
@@ -29,25 +27,14 @@ export default class YnabService {
     ynabBudgetId: string,
     accountId: string,
     dateSince: string
-  ): Promise<YnabTransaction[]> {
-    const url = new URL(
-      `${this.apiBaseUrl}/budgets/${ynabBudgetId}/accounts/${accountId}/transactions`
-    );
-    url.searchParams.append("since_date", dateSince);
+  ) {
+    const transactionsResponse =
+      await this.ynabApi.transactions.getTransactionsByAccount(
+        ynabBudgetId,
+        accountId,
+        dateSince
+      );
 
-    const response = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${this.ynabBearerToken}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error fetching transactions: ${response.statusText}`);
-    }
-
-    const data: YnabAccountTransactionsResponse = await response.json();
-    return data.data.transactions;
+    return transactionsResponse.data.transactions;
   }
 }
