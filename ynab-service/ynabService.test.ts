@@ -83,7 +83,7 @@ describe("YnabService", () => {
       const mockDefaultBudgetId = "mock default budget id";
       mockGetBudgets.mockResolvedValueOnce({
         data: {
-          default_budget: mockDefaultBudgetId,
+          default_budget: { id: mockDefaultBudgetId },
         },
       });
 
