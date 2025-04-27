@@ -1,25 +1,25 @@
-import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
-import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
-import { describe, expect, test, vi } from "vitest";
+import { api as mockYnabApi } from "@/__mocks__/ynab";
+import { mockGetTransactionsByAccount } from "@/__mocks__/ynab/mockFunctions";
+import { TokenManager } from "@/services/__mocks__/tokenManager";
 import { mockTransactions } from "@/ynab-service/ynabService.test-data";
+import { describe, expect, test, vi } from "vitest";
 import getTransactionsForAccount from "./getTransactionsForAccount";
 
-const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
-vi.stubGlobal("fetch", mockFetch);
+vi.mock(import("ynab"));
+vi.mock(import("@/services/tokenManager"));
 
 describe("getTransactionsForAccount", () => {
   test("gets all transactions since a given date", async () => {
     // arrange
+    const mockYnabToken = "mock ynab token";
+    TokenManager.getToken.mockReturnValue(mockYnabToken);
+
     const mockTransactionData = {
       data: {
         transactions: mockTransactions,
       },
     };
-    mockFetch.mockImplementation(
-      getMockFetchImplementation<YnabAccountTransactionsResponse>(
-        mockTransactionData
-      )
-    );
+    mockGetTransactionsByAccount.mockResolvedValue(mockTransactionData);
 
     // act
     const mockYnabBudgetId = "mock-budget-id";
@@ -32,16 +32,12 @@ describe("getTransactionsForAccount", () => {
     );
 
     // assert
+    expect(mockYnabApi).toHaveBeenCalledWith(mockYnabToken);
     expect(accountTransactions).toEqual(mockTransactions);
-    expect(mockFetch).toHaveBeenCalledWith(
-      `https://api.ynab.com/v1/budgets/${mockYnabBudgetId}/accounts/${mockAccountId}/transactions?since_date=${sinceDate}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer test-token`,
-          "Content-Type": "application/json",
-        },
-      }
+    expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
+      mockYnabBudgetId,
+      mockAccountId,
+      sinceDate
     );
   });
 });

@@ -1,5 +1,4 @@
-"use server";
-
+import { TokenManager } from "@/services/tokenManager";
 import YnabService from "@/ynab-service/ynabService";
 
 export default async function getTransactionsForAccount(
@@ -7,7 +6,8 @@ export default async function getTransactionsForAccount(
   accountId: string,
   dateSince: string
 ) {
-  const ynabService = new YnabService();
+  const ynabToken = TokenManager.getToken();
+  const ynabService = new YnabService(ynabToken);
 
   const transactions = await ynabService.getAccountTransactions(
     budgetId,

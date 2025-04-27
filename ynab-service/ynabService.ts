@@ -1,7 +1,6 @@
 import * as ynab from "ynab";
 
 export default class YnabService {
-  private apiBaseUrl = "https://api.ynab.com/v1";
   private ynabBearerToken: string;
   private ynabApi: ynab.api;
 
