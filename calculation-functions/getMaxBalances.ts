@@ -1,11 +1,11 @@
-import { MaxBalance, MaxBalancesByYear } from "@/types/MaxBalanceTransaction";
+import { MaxBalancesByYear } from "@/types/MaxBalanceTransaction";
 import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 
 export default function getMaxBalances(
   transactions: TransactionWithBalance[],
   accountId: string
 ): MaxBalancesByYear {
-  const maxBalances: { [year: string]: MaxBalance } = {};
+  const maxBalances: MaxBalancesByYear = {};
 
   transactions.forEach((transaction) => {
     const year = transaction.date.split("-")[0];

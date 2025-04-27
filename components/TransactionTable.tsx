@@ -1,12 +1,13 @@
 "use client";
 import getMaxBalances from "@/calculation-functions/getMaxBalances";
 import getTransactionsWithBalances from "@/calculation-functions/getTransactionsWithBalances";
-import { BUDGET_ID } from "@/constants/constants";
 import {
   AccountActionTypes,
   useAccount,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
+import { useBudgetState } from "@/contexts/budgetContext";
+import Button from "@/design-system/button/Button";
 import Caption from "@/design-system/table/Caption";
 import { TextAlignment } from "@/design-system/table/enums";
 import Table from "@/design-system/table/Table";
@@ -15,18 +16,18 @@ import TableBodyCell from "@/design-system/table/TableBodyCell";
 import TableHeader from "@/design-system/table/TableHeader";
 import TableHeaderCell from "@/design-system/table/TableHeaderCell";
 import TableRow from "@/design-system/table/TableRow";
-import getTransactionsForAccount from "@/server-functions/getTransactionsForAccount";
 import formatAmount from "@/formatters/formatAmount";
-import Button from "@/design-system/button/Button";
+import getTransactionsForAccount from "@/utility-functions/getTransactionsForAccount";
 
 export default function TransactionTable({ accountId }: { accountId: string }) {
-  const account = useAccount(accountId);
-  const { transactionsWithBalances, maxBalancesByYear } = account;
+  const { transactionsWithBalances, maxBalancesByYear } = useAccount(accountId);
   const accountsDispatch = useAccountsDispatch();
+
+  const { defaultBudgetId } = useBudgetState();
 
   const handleClick = async () => {
     const transactions = await getTransactionsForAccount(
-      BUDGET_ID,
+      defaultBudgetId,
       accountId,
       "2022-01-01"
     );
