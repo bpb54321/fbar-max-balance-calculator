@@ -1,8 +1,4 @@
-import { YnabAccount } from "@/types/ynabApi/YnabAccount";
-import {
-  YnabAccountsResponse,
-  YnabAccountTransactionsResponse,
-} from "@/types/ynabApi/ynabApiResponseTypes";
+import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
 import { YnabTransaction } from "@/types/ynabApi/YnabTransaction";
 import * as ynab from "ynab";
 
@@ -22,6 +18,11 @@ export default class YnabService {
   async getAccounts(budgetId: string) {
     const accountResponse = await this.ynabApi.accounts.getAccounts(budgetId);
     return accountResponse.data.accounts;
+  }
+
+  async getDefaultBudgetId() {
+    const budgetResponse = await this.ynabApi.budgets.getBudgets();
+    return budgetResponse.data.default_budget;
   }
 
   async getAccountTransactions(

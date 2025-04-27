@@ -1,4 +1,7 @@
-import { mockGetAccounts } from "@/__mocks__/ynab/mockFunctions";
+import {
+  mockGetAccounts,
+  mockGetBudgets,
+} from "@/__mocks__/ynab/mockFunctions";
 import getMockFetchImplementation from "@/test-utilities/getMockFetchImplementation";
 import { YnabAccountTransactionsResponse } from "@/types/ynabApi/ynabApiResponseTypes";
 import { describe, expect, test, vi } from "vitest";
@@ -7,6 +10,7 @@ import { mockAccounts, mockTransactions } from "./ynabService.test-data";
 
 vi.mock("ynab");
 
+// TODO: Remove fetch mock once getAccountTransactions is refactored.
 const mockFetch = vi.fn(getMockFetchImplementation<object>({}));
 vi.stubGlobal("fetch", mockFetch);
 
@@ -69,6 +73,26 @@ describe("YnabService", () => {
           },
         }
       );
+    });
+  });
+  describe("getDefaultBudgetId", () => {
+    test("gets the user's default budget id", async () => {
+      // arrange
+      const testYnabToken = "test-ynab-token";
+      const ynabService = new YnabService(testYnabToken);
+      const mockDefaultBudgetId = "mock default budget id";
+      mockGetBudgets.mockResolvedValueOnce({
+        data: {
+          default_budget: mockDefaultBudgetId,
+        },
+      });
+
+      // act
+      const actualDefaultBudgetId = await ynabService.getDefaultBudgetId();
+
+      // assert
+      expect(actualDefaultBudgetId).toEqual(mockDefaultBudgetId);
+      expect(mockGetBudgets).toHaveBeenCalled();
     });
   });
 });

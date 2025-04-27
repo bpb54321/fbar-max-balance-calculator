@@ -5,7 +5,7 @@ import * as ynab from "ynab";
 export default async function getAccounts() {
   const token = TokenManager.getToken();
   const ynabApi = new ynab.api(token);
-
+  // TODO: Refactor this function to only use YnabService, which itself uses the ynab client.
   const ynabService = new YnabService(token);
 
   const budgets = await ynabApi.budgets.getBudgets();
