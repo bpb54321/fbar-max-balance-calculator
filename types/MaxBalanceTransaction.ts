@@ -1,4 +1,4 @@
-export interface MaxBalance {
+export interface MaxBalanceTransaction {
   id: string;
   transactionId: string;
   year: string;
@@ -6,5 +6,5 @@ export interface MaxBalance {
 }
 
 export interface MaxBalancesByYear {
-  [year: string]: MaxBalance;
+  [year: string]: MaxBalanceTransaction;
 }
