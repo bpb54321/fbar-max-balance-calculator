@@ -6,12 +6,12 @@ import {
   useAccounts,
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
+import Button from "@/design-system/button/Button";
 import Heading1 from "@/design-system/headings/heading1/Heading1";
 import Heading2 from "@/design-system/headings/heading2/Heading2";
-import getAccounts from "@/server-functions/getAccounts";
 import { Account } from "@/types/Account";
+import getAccounts from "@/utility-functions/getAccounts";
 import { ChangeEvent } from "react";
-import Button from "@/design-system/button/Button";
 
 export default function SettingsPage() {
   const { accounts } = useAccounts();

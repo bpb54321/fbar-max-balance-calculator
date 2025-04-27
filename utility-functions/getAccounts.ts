@@ -1,6 +1,8 @@
 import { TokenManager } from "@/services/tokenManager";
 import YnabService from "@/ynab-service/ynabService";
 
+// TODO: Rename containing folder "utility-functions"
+
 export default async function getAccounts() {
   const token = TokenManager.getToken();
   const ynabService = new YnabService(token);
