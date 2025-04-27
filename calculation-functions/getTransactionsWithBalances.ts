@@ -1,8 +1,8 @@
 import { TransactionWithBalance } from "@/types/TransactionWithBalance";
-import { YnabTransaction } from "@/types/ynabApi/YnabTransaction";
+import { TransactionDetail } from "ynab";
 
 export default function getTransactionsWithBalances(
-  transactions: YnabTransaction[]
+  transactions: TransactionDetail[]
 ): TransactionWithBalance[] {
   let runningBalance = 0;
   const transactionsWithBalances = transactions.map(
