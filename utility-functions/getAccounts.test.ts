@@ -4,7 +4,7 @@ import {
   mockGetBudgets,
 } from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/__mocks__/tokenManager";
-import { mockAccounts } from "@/ynab-service/ynabService.test-data";
+import { mockAccounts } from "@/services/ynab-service/ynabService.test-data";
 import { describe, expect, test, vi } from "vitest";
 import getAccounts from "./getAccounts";
 

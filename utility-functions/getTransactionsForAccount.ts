@@ -1,5 +1,5 @@
 import { TokenManager } from "@/services/tokenManager";
-import YnabService from "@/ynab-service/ynabService";
+import YnabService from "@/services/ynab-service/ynabService";
 
 export default async function getTransactionsForAccount(
   budgetId: string,

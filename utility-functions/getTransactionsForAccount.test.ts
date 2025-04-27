@@ -1,7 +1,7 @@
 import { api as mockYnabApi } from "@/__mocks__/ynab";
 import { mockGetTransactionsByAccount } from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/__mocks__/tokenManager";
-import { mockTransactions } from "@/ynab-service/ynabService.test-data";
+import { mockTransactions } from "@/services/ynab-service/ynabService.test-data";
 import { describe, expect, test, vi } from "vitest";
 import getTransactionsForAccount from "./getTransactionsForAccount";
 
