@@ -30,7 +30,7 @@ export default function DefaultBudgetIdFetcher() {
       }
     };
     updateBudgetId();
-  }, []);
+  }, [budgetDispatch]);
 
   if (invalidTokenError) {
     return (
