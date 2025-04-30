@@ -5,6 +5,7 @@ import NavigationMenu, {
 const links: LinkData[] = [
   { text: "Home", href: "/" },
   { text: "Settings", href: "/settings" },
+  { text: "Privacy Policy", href: "/privacy-policy" },
 ];
 
 export default function MainNavigation() {

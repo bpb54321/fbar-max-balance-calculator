@@ -1,6 +1,5 @@
 import Accounts from "@/components/Accounts";
 import DefaultBudgetIdFetcher from "@/components/DefaultBudgetIdFetcher";
-import MainNavigation from "@/components/MainNavigation";
 import YnabAuthorization from "@/components/YnabAuthorization";
 
 export default function Home() {
@@ -8,7 +7,6 @@ export default function Home() {
   return (
     <div>
       <YnabAuthorization />
-      <MainNavigation />
       <a href={ynabAuthorizationUrl}>Authorize With YNAB</a>
       <DefaultBudgetIdFetcher />
       <Accounts />
