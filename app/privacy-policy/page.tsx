@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
       </Paragraph>
       <Paragraph>
         You can delete the data stored on your browser at any time by clearing
-        the local storage of your browser for the application's hostname.
+        the local storage of your browser for the application&apos;s hostname.
       </Paragraph>
       <Heading2>Third parties</Heading2>
       <Paragraph>
