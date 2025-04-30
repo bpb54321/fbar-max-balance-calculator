@@ -1,6 +1,5 @@
 "use client";
 
-import MainNavigation from "@/components/MainNavigation";
 import {
   AccountActionTypes,
   useAccounts,
@@ -46,7 +45,6 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <MainNavigation />
       <Heading1>Settings Page</Heading1>
       <div className="flex">
         <Heading2>Accounts to Include in Analysis</Heading2>

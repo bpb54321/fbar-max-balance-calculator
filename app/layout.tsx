@@ -1,3 +1,4 @@
+import MainNavigation from "@/components/MainNavigation";
 import Providers from "@/components/Providers";
 import "@/css/output.css";
 import type { Metadata } from "next";
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`font-sans antialiased`}>
       <body className="p-4">
+        <MainNavigation />
         <Providers>{children}</Providers>
       </body>
     </html>
