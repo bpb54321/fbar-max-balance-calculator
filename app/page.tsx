@@ -1,5 +1,6 @@
 import Accounts from "@/components/Accounts";
 import DefaultBudgetIdFetcher from "@/components/DefaultBudgetIdFetcher";
+import Disclaimer from "@/components/Disclaimer";
 import YnabAuthorization from "@/components/YnabAuthorization";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <a href={ynabAuthorizationUrl}>Authorize With YNAB</a>
       <DefaultBudgetIdFetcher />
       <Accounts />
+      <Disclaimer />
     </div>
   );
 }
