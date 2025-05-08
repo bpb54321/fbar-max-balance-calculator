@@ -17,7 +17,7 @@ export default function HelpPage() {
           Visit the Settings page by clicking its link in the main nagivation.
         </li>
         <li className="my-2">
-          Click "Reload accounts" to load all your YNAB accounts.
+          Click &quot;Reload accounts&quot; to load all your YNAB accounts.
         </li>
         <li className="my-2">
           Check all the accounts that you want to include in the max balance
@@ -28,11 +28,12 @@ export default function HelpPage() {
           table.
         </li>
         <li className="my-2">
-          For every account, click on the account name to go to that account's
-          detail page.
+          For every account, click on the account name to go to that
+          account&apos;s detail page.
         </li>
         <li className="my-2">
-          Once on the detail page, click the "Reload transactions" button.
+          Once on the detail page, click the &quot;Reload transactions&quot;
+          button.
         </li>
         <li className="my-2">
           All the transactions from that account since 2022 will be loaded and
@@ -55,13 +56,13 @@ export default function HelpPage() {
       <ul className="my-6 ml-6 list-disc">
         <li className="my-2">
           Account transaction and max balance data will be stored locally in
-          your browser, so that you won't need to repeat the process of loading
-          transactions.
+          your browser, so that you won&apos;t need to repeat the process of
+          loading transactions.
         </li>
         <li className="my-2">
-          You can delete the locally stored data by selecting "Delete browsing
-          data" or specificaly, "Delete local storage" for the domain of the
-          FBAR Max Balance calculator,
+          You can delete the locally stored data by selecting &quot;Delete
+          browsing data&quot; or specificaly, &quot;Delete local storage&quot;
+          for the domain of the FBAR Max Balance calculator,
           https://fbar-max-balance-calculator.vercel.app/
         </li>
       </ul>
@@ -69,7 +70,7 @@ export default function HelpPage() {
       <ul className="my-6 ml-6 list-disc">
         <li className="my-2">
           In order to reload transactions for a given account, press the button
-          "Reload transactions" from the account's detail page.
+          &quot;Reload transactions&quot; from the account&apos;s detail page.
         </li>
       </ul>
     </>
