@@ -25,7 +25,6 @@ export default function AccountTable() {
             <TableHeaderCell>Max Balance 2022</TableHeaderCell>
             <TableHeaderCell>Max Balance 2023</TableHeaderCell>
             <TableHeaderCell>Max Balance 2024</TableHeaderCell>
-            <TableHeaderCell>Max Balance 2025</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -42,9 +41,6 @@ export default function AccountTable() {
               </TableBodyCell>
               <TableBodyCell>
                 {formatAmount(account.maxBalancesByYear?.["2024"]?.balance)}
-              </TableBodyCell>
-              <TableBodyCell>
-                {formatAmount(account.maxBalancesByYear?.["2025"]?.balance)}
               </TableBodyCell>
             </TableRow>
           ))}
