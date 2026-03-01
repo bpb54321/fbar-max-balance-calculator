@@ -1,5 +1,5 @@
 import { describe, it, vi, expect } from "vitest";
-import { prettyDOM, render, screen } from "@testing-library/react";
+import { prettyDOM, render, screen, within } from "@testing-library/react";
 import AccountTable from "./AccountTable";
 import { useSelectedAccounts } from "@/contexts/accountsContext";
 import { mockSelectedAccounts } from "./AccountTable.test-data";
@@ -15,11 +15,21 @@ describe("AccountTable", () => {
     render(<AccountTable />);
 
     // assert
-    console.log(prettyDOM(document));
-
     const columnHeaders = screen.getAllByRole("columnheader");
     expect(columnHeaders).toHaveLength(4); // Account name header, then 3 mock max balance years
 
     expect(columnHeaders[0]).toHaveTextContent("Account Name");
+    expect(columnHeaders[1]).toHaveTextContent("Max Balance 2024");
+    expect(columnHeaders[2]).toHaveTextContent("Max Balance 2025");
+    expect(columnHeaders[3]).toHaveTextContent("Max Balance 2026");
+
+    const rows = screen.getAllByRole("row");
+    const firstAccountCells = within(rows[0]).getAllByRole("cell");
+    expect(firstAccountCells[0]).toHaveTextContent(
+      "Wealthsimple_Checking_Account",
+    );
+    expect(firstAccountCells[1]).toHaveTextContent("0");
+    expect(firstAccountCells[2]).toHaveTextContent("3500");
+    expect(firstAccountCells[3]).toHaveTextContent("3000");
   });
 });
