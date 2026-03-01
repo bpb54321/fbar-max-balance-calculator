@@ -1,6 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
-import path from "path";
 
 // Read from ".env" file using relative path
 if (!process.env.CI) {
