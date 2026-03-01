@@ -44,11 +44,9 @@ describe("YnabService", () => {
       // act
       const mockYnabBudgetId = "mock-budget-id";
       const mockAccountId = "mock-account-id";
-      const sinceDate = "2024-01-01";
       const accountTransactions = await ynabService.getAccountTransactions(
         mockYnabBudgetId,
         mockAccountId,
-        sinceDate
       );
 
       // assert
@@ -56,7 +54,6 @@ describe("YnabService", () => {
       expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
         mockYnabBudgetId,
         mockAccountId,
-        sinceDate
       );
     });
   });
