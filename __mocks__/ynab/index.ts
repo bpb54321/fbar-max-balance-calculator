@@ -14,7 +14,7 @@ interface YnabApi {
   };
 }
 
-export const api = vi.fn(function (this: YnabApi, accessToken: string) {
+export const api = vi.fn(function (this: YnabApi) {
   this.accounts = {
     getAccounts: mockGetAccounts,
   };
