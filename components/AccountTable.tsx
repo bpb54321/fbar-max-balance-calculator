@@ -15,6 +15,10 @@ import Link from "next/link";
 export default function AccountTable() {
   const selectedAccounts = useSelectedAccounts();
 
+  if (selectedAccounts.length === 0) {
+    return null;
+  }
+
   // derive a sorted list of years from all accounts' maxBalancesByYear keys
   const allYearsFromAccounts = selectedAccounts.flatMap((a) =>
     a.maxBalancesByYear ? Object.keys(a.maxBalancesByYear) : [],
