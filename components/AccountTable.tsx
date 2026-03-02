@@ -23,32 +23,30 @@ export default function AccountTable() {
   const sortedYears = uniqueYears.sort((a, b) => Number(a) - Number(b));
 
   return (
-    <div className="w-[590px]">
-      <Table>
-        <Caption>Accounts</Caption>
-        <TableHeader>
-          <TableRow>
-            <TableHeaderCell>Account Name</TableHeaderCell>
+    <Table>
+      <Caption>Accounts</Caption>
+      <TableHeader>
+        <TableRow>
+          <TableHeaderCell>Account Name</TableHeaderCell>
+          {sortedYears.map((year) => (
+            <TableHeaderCell key={year}>Max Balance {year}</TableHeaderCell>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {selectedAccounts.map((account) => (
+          <TableRow key={account.id}>
+            <TableBodyCell fontWeight={FontWeight.Medium}>
+              <Link href={`/account/${account.id}`}>{account.name}</Link>
+            </TableBodyCell>
             {sortedYears.map((year) => (
-              <TableHeaderCell key={year}>Max Balance {year}</TableHeaderCell>
+              <TableBodyCell key={year}>
+                {formatAmount(account.maxBalancesByYear?.[year]?.balance)}
+              </TableBodyCell>
             ))}
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {selectedAccounts.map((account) => (
-            <TableRow key={account.id}>
-              <TableBodyCell fontWeight={FontWeight.Medium}>
-                <Link href={`/account/${account.id}`}>{account.name}</Link>
-              </TableBodyCell>
-              {sortedYears.map((year) => (
-                <TableBodyCell key={year}>
-                  {formatAmount(account.maxBalancesByYear?.[year]?.balance)}
-                </TableBodyCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
