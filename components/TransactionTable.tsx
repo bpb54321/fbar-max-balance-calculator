@@ -29,7 +29,6 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
     const transactions = await getTransactionsForAccount(
       defaultBudgetId,
       accountId,
-      "2022-01-01"
     );
 
     const transactionsWithBalances = getTransactionsWithBalances(transactions);
@@ -42,7 +41,7 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
 
     const maxBalancesByYear = getMaxBalances(
       transactionsWithBalances,
-      accountId
+      accountId,
     );
 
     accountsDispatch({
@@ -72,7 +71,7 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
         <TableBody>
           {Object.values(maxBalancesByYear).map((maxBalance) => {
             const transactionWithBalance = transactionsWithBalances.find(
-              (transaction) => transaction.id === maxBalance.transactionId
+              (transaction) => transaction.id === maxBalance.transactionId,
             ) ?? { date: "", payeeName: "", memo: "", amount: 0, balance: 0 };
             return (
               <TableRow key={maxBalance.id}>

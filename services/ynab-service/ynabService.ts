@@ -22,16 +22,11 @@ export default class YnabService {
     return budgetResponse.data.default_budget?.id ?? "";
   }
 
-  async getAccountTransactions(
-    ynabBudgetId: string,
-    accountId: string,
-    dateSince: string
-  ) {
+  async getAccountTransactions(ynabBudgetId: string, accountId: string) {
     const transactionsResponse =
       await this.ynabApi.transactions.getTransactionsByAccount(
         ynabBudgetId,
         accountId,
-        dateSince
       );
 
     return transactionsResponse.data.transactions;

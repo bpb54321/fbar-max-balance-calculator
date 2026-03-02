@@ -2,7 +2,7 @@ import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 import { TransactionDetail } from "ynab";
 
 export default function getTransactionsWithBalances(
-  transactions: TransactionDetail[]
+  transactions: TransactionDetail[],
 ): TransactionWithBalance[] {
   let runningBalance = 0;
   const transactionsWithBalances = transactions.map(
@@ -18,7 +18,7 @@ export default function getTransactionsWithBalances(
       };
       runningBalance = currentBalance;
       return transactionWithBalance;
-    }
+    },
   );
   return transactionsWithBalances;
 }

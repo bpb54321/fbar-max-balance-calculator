@@ -9,7 +9,7 @@ vi.mock(import("ynab"));
 vi.mock(import("@/services/tokenManager"));
 
 describe("getTransactionsForAccount", () => {
-  test("gets all transactions since a given date", async () => {
+  test("gets all transactions for a given account", async () => {
     // arrange
     const mockYnabToken = "mock ynab token";
     TokenManager.getToken.mockReturnValue(mockYnabToken);
@@ -24,11 +24,9 @@ describe("getTransactionsForAccount", () => {
     // act
     const mockYnabBudgetId = "mock-budget-id";
     const mockAccountId = "mock-account-id";
-    const sinceDate = "2024-01-01";
     const accountTransactions = await getTransactionsForAccount(
       mockYnabBudgetId,
       mockAccountId,
-      sinceDate
     );
 
     // assert
@@ -37,7 +35,6 @@ describe("getTransactionsForAccount", () => {
     expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
       mockYnabBudgetId,
       mockAccountId,
-      sinceDate
     );
   });
 });

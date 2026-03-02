@@ -6,7 +6,7 @@ interface TableProps {
 
 export default function Table({ children }: TableProps) {
   return (
-    <table className="text-sm w-full caption-bottom" data-testid="table">
+    <table className="text-sm caption-bottom" data-testid="table">
       {children}
     </table>
   );

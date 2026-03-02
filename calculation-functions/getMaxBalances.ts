@@ -3,14 +3,14 @@ import { TransactionWithBalance } from "@/types/TransactionWithBalance";
 
 export default function getMaxBalances(
   transactions: TransactionWithBalance[],
-  accountId: string
+  accountId: string,
 ): MaxBalancesByYear {
   const maxBalances: MaxBalancesByYear = {};
 
   transactions.forEach((transaction) => {
     const year = transaction.date.split("-")[0];
     if (
-      maxBalances[year] === undefined ||
+      !(year in maxBalances) ||
       transaction.balance > maxBalances[year].balance
     ) {
       maxBalances[year] = {
