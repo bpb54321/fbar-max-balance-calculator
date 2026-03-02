@@ -1,5 +1,5 @@
 import { describe, it, vi, expect } from "vitest";
-import { prettyDOM, render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import AccountTable from "./AccountTable";
 import { useSelectedAccounts } from "@/contexts/accountsContext";
 import { mockSelectedAccounts } from "./AccountTable.test-data";
@@ -24,7 +24,8 @@ describe("AccountTable", () => {
     expect(columnHeaders[3]).toHaveTextContent("Max Balance 2026");
 
     const rows = screen.getAllByRole("row");
-    const firstAccountCells = within(rows[0]).getAllByRole("cell");
+    const firstAccountRow = rows[1];
+    const firstAccountCells = within(firstAccountRow).getAllByRole("cell");
     expect(firstAccountCells[0]).toHaveTextContent(
       "Wealthsimple_Checking_Account",
     );

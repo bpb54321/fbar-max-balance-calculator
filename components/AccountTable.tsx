@@ -15,6 +15,13 @@ import Link from "next/link";
 export default function AccountTable() {
   const selectedAccounts = useSelectedAccounts();
 
+  // derive a sorted list of years from all accounts' maxBalancesByYear keys
+  const allYearsFromAccounts = selectedAccounts.flatMap((a) =>
+    a.maxBalancesByYear ? Object.keys(a.maxBalancesByYear) : [],
+  );
+  const uniqueYears = Array.from(new Set(allYearsFromAccounts));
+  const sortedYears = uniqueYears.sort((a, b) => Number(a) - Number(b));
+
   return (
     <div className="w-[590px]">
       <Table>
@@ -22,9 +29,9 @@ export default function AccountTable() {
         <TableHeader>
           <TableRow>
             <TableHeaderCell>Account Name</TableHeaderCell>
-            <TableHeaderCell>Max Balance 2022</TableHeaderCell>
-            <TableHeaderCell>Max Balance 2023</TableHeaderCell>
-            <TableHeaderCell>Max Balance 2024</TableHeaderCell>
+            {sortedYears.map((year) => (
+              <TableHeaderCell key={year}>Max Balance {year}</TableHeaderCell>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -33,15 +40,11 @@ export default function AccountTable() {
               <TableBodyCell fontWeight={FontWeight.Medium}>
                 <Link href={`/account/${account.id}`}>{account.name}</Link>
               </TableBodyCell>
-              <TableBodyCell>
-                {formatAmount(account.maxBalancesByYear?.["2022"]?.balance)}
-              </TableBodyCell>
-              <TableBodyCell>
-                {formatAmount(account.maxBalancesByYear?.["2023"]?.balance)}
-              </TableBodyCell>
-              <TableBodyCell>
-                {formatAmount(account.maxBalancesByYear?.["2024"]?.balance)}
-              </TableBodyCell>
+              {sortedYears.map((year) => (
+                <TableBodyCell key={year}>
+                  {formatAmount(account.maxBalancesByYear?.[year]?.balance)}
+                </TableBodyCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>
