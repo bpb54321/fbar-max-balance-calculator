@@ -34,8 +34,8 @@ export const wealthsimpleCheckingTransactions: NewTransaction[] = [
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-09-12",
-    amount: -25000,
-    payee_name: "ATM Withdrawal",
+    amount: 2500000,
+    payee_name: "Paycheck",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
