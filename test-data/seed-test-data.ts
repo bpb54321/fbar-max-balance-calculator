@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import Ynab from "ynab";
 import { wealthsimpleCheckingTransactions } from "./wealthsimple-checking-transactions.ts";
 import { tdSavingsTransactions } from "./td-savings-transactions.ts";
+import { bncCreditCardTransactions } from "./bnc-credit-card-transactions.ts";
 
 // load environment variables from .env.e2e.local so the script can be run from CLI
 dotenv.config({ path: ".env.e2e.local" });
@@ -27,13 +28,13 @@ async function main() {
   const budgetId = budgets[0].id;
   console.log(`using budget ${budgetId}`);
 
-  // create the transactions (including both checking and savings)
   const createResponse = await client.transactions.createTransactions(
     budgetId,
     {
       transactions: [
         ...wealthsimpleCheckingTransactions,
         ...tdSavingsTransactions,
+        ...bncCreditCardTransactions,
       ],
     },
   );
