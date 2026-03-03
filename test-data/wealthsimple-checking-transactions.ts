@@ -4,8 +4,8 @@ export const wealthsimpleCheckingTransactions: NewTransaction[] = [
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2026-03-01",
-    amount: 350000,
-    payee_name: "Employer Payroll",
+    amount: 5000,
+    payee_name: "Refund",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
@@ -58,7 +58,7 @@ export const wealthsimpleCheckingTransactions: NewTransaction[] = [
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-05-30",
-    amount: 5000,
-    payee_name: "Refund",
+    amount: 350000,
+    payee_name: "Employer Payroll",
   },
 ];
