@@ -15,7 +15,8 @@
     "tailwind": "tailwindcss -i css/input.css -o css/output.css",
     "tailwind:watch": "npm run tailwind -- --watch",
     "design-system:test": "playwright test --config=playwright.config.ts",
-    "test:e2e": "playwright test --config=playwright.e2e.config.ts"
+    "test:e2e": "playwright test --config=playwright.e2e.config.ts",
+    "seed-test-data": "ts-node test-data/seed-test-data.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -49,6 +50,7 @@
     "jsdom": "^28.1.0",
     "storybook": "^8.5.3",
     "tailwindcss": "^4.0.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5",
     "uuid": "^11.0.5",
     "vitest": "^3.0.4"
