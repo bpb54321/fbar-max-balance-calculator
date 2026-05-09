@@ -17,9 +17,13 @@ export default class YnabService {
     return accountResponse.data.accounts;
   }
 
-  async getDefaultBudgetId() {
+  async getDefaultBudget() {
     const budgetResponse = await this.ynabApi.budgets.getBudgets();
-    return budgetResponse.data.default_budget?.id ?? "";
+    const defaultBudget = budgetResponse.data.default_budget;
+    return {
+      id: defaultBudget?.id ?? "",
+      currencyIsoCode: defaultBudget?.currency_format?.iso_code ?? "",
+    };
   }
 
   async getAccountTransactions(ynabBudgetId: string, accountId: string) {
