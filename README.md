@@ -53,13 +53,13 @@ npm run lint
 To compile CSS with Tailwind:
 
 ```bash
-npx tailwindcss -i ./styles/input.css -o ./styles/output.css
+npx tailwindcss -i ./css/input.css -o ./css/output.css
 ```
 
 For watching for changes during development:
 
 ```bash
-npx tailwindcss -i ./styles/input.css -o ./styles/output.css --watch
+npx tailwindcss -i ./css/input.css -o ./css/output.css --watch
 ```
 
 ### Storybook
