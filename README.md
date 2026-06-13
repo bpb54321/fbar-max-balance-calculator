@@ -12,6 +12,11 @@ npm install
 
 ### Running the App Locally
 
+Copy `.env.example` to `.env`.
+
+Fill in `YNAB_OATH_CLIENT_ID` (available at https://app.ynab.com/oauth/applications/. You'll have to create
+your own YNAB OAuth application to get your own client ID, as I am not making my client ID public for this app.
+
 Run the development server:
 
 ```bash
