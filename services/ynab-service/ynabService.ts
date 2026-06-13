@@ -23,12 +23,13 @@ export default class YnabService {
   }
 
   async getAccountTransactions(ynabBudgetId: string, accountId: string) {
+    const transactionStartDate = "2022-01-01";
     const transactionsResponse =
       await this.ynabApi.transactions.getTransactionsByAccount(
         ynabBudgetId,
         accountId,
+        transactionStartDate,
       );
-
     return transactionsResponse.data.transactions;
   }
 }
