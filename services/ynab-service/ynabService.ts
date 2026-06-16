@@ -23,7 +23,11 @@ export default class YnabService {
   }
 
   async getAccountTransactions(ynabBudgetId: string, accountId: string) {
-    const transactionStartDate = "2022-01-01";
+    const budgetResponse = await this.ynabApi.budgets.getBudgets();
+    const budget = budgetResponse.data.budgets.find(
+      (b) => b.id === ynabBudgetId,
+    );
+    const transactionStartDate = budget?.first_month ?? "2000-01-01";
     const transactionsResponse =
       await this.ynabApi.transactions.getTransactionsByAccount(
         ynabBudgetId,
