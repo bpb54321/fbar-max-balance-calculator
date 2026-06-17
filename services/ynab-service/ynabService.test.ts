@@ -31,19 +31,24 @@ describe("YnabService", () => {
     });
   });
   describe("getAccountTransactions", () => {
-    test("gets all transactions since a given date", async () => {
+    const mockYnabBudgetId = "mock-budget-id";
+    const mockAccountId = "mock-account-id";
+    const mockTransactionData = {
+      data: { transactions: mockTransactions },
+    };
+
+    test("uses the budget's first_month as the transaction start date", async () => {
       // arrange
-      const mockTransactionData = {
+      const mockFirstMonth = "2022-01-01";
+      mockGetBudgets.mockResolvedValueOnce({
         data: {
-          transactions: mockTransactions,
+          budgets: [{ id: mockYnabBudgetId, first_month: mockFirstMonth }],
         },
-      };
-      mockGetTransactionsByAccount.mockResolvedValue(mockTransactionData);
+      });
+      mockGetTransactionsByAccount.mockResolvedValueOnce(mockTransactionData);
       const ynabService = new YnabService("test-token");
 
       // act
-      const mockYnabBudgetId = "mock-budget-id";
-      const mockAccountId = "mock-account-id";
       const accountTransactions = await ynabService.getAccountTransactions(
         mockYnabBudgetId,
         mockAccountId,
@@ -51,9 +56,32 @@ describe("YnabService", () => {
 
       // assert
       expect(accountTransactions).toEqual(mockTransactions);
+      expect(mockGetBudgets).toHaveBeenCalled();
       expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
         mockYnabBudgetId,
         mockAccountId,
+        mockFirstMonth,
+      );
+    });
+
+    test("falls back to 2000-01-01 when budget has no first_month", async () => {
+      // arrange
+      mockGetBudgets.mockResolvedValueOnce({
+        data: {
+          budgets: [{ id: mockYnabBudgetId, first_month: undefined }],
+        },
+      });
+      mockGetTransactionsByAccount.mockResolvedValueOnce(mockTransactionData);
+      const ynabService = new YnabService("test-token");
+
+      // act
+      await ynabService.getAccountTransactions(mockYnabBudgetId, mockAccountId);
+
+      // assert
+      expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
+        mockYnabBudgetId,
+        mockAccountId,
+        "2000-01-01",
       );
     });
   });
