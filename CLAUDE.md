@@ -1,23 +1,14 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Coding Standards
+
+Always use TDD (test-driven development) when developing.
+
+DO NOT mock child components or component internals in unit and integration tests.
 
 ## Project Overview
 
 FBAR Max Balance Calculator — a Next.js 15 app that integrates with the YNAB (You Need A Budget) API via OAuth to calculate maximum account balances needed for FBAR (Report of Foreign Bank and Financial Accounts) filing. Users authenticate with YNAB, and the app fetches their accounts and transactions to compute yearly max balances.
-
-## Commands
-
-- `npm run dev` — Start dev server with Turbopack (http://localhost:3000)
-- `npm run build` — Compile Tailwind CSS then build Next.js for production
-- `npm start` — Start production server
-- `npm test` — Run unit tests (Vitest, runs in watch mode)
-- `npm run test:e2e` — Run end-to-end tests (Playwright, auto-starts dev server)
-- `npm run design-system:test` — Run design system visual regression tests (Playwright against Storybook)
-- `npm run typecheck` — TypeScript type checking (`tsc --noEmit`)
-- `npm run lint` — ESLint
-- `npm run storybook` — Start Storybook component explorer (http://localhost:6006)
-- `npm run tailwind:watch` — Watch and compile Tailwind CSS (`css/input.css` → `css/output.css`)
 
 CI runs typecheck → lint → test on PRs to main.
 
