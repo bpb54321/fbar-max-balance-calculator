@@ -1,5 +1,8 @@
 import { api as mockYnabApi } from "@/__mocks__/ynab";
-import { mockGetTransactionsByAccount } from "@/__mocks__/ynab/mockFunctions";
+import {
+  mockGetBudgets,
+  mockGetTransactionsByAccount,
+} from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/__mocks__/tokenManager";
 import { mockTransactions } from "@/services/ynab-service/ynabService.test-data";
 import { describe, expect, test, vi } from "vitest";
@@ -21,8 +24,15 @@ describe("getTransactionsForAccount", () => {
     };
     mockGetTransactionsByAccount.mockResolvedValue(mockTransactionData);
 
-    // act
+    const mockFirstMonth = "2022-01-01";
     const mockYnabBudgetId = "mock-budget-id";
+    mockGetBudgets.mockResolvedValueOnce({
+      data: {
+        budgets: [{ id: mockYnabBudgetId, first_month: mockFirstMonth }],
+      },
+    });
+
+    // act
     const mockAccountId = "mock-account-id";
     const accountTransactions = await getTransactionsForAccount(
       mockYnabBudgetId,
@@ -35,6 +45,7 @@ describe("getTransactionsForAccount", () => {
     expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
       mockYnabBudgetId,
       mockAccountId,
+      mockFirstMonth,
     );
   });
 });
