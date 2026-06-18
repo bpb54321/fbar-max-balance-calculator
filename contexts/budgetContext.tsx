@@ -13,16 +13,18 @@ import {
 
 interface State {
   defaultBudgetId: string;
+  defaultBudgetCurrencyIsoCode: string;
 }
 
 export enum BudgetActionTypes {
-  DefaultBudgetIdSet = "DefaultBudgetIdSet",
+  DefaultBudgetSet = "DefaultBudgetSet",
   StateLoadedFromStorage = "StateLoadedFromStorage",
 }
 
-interface DefaultBudgetIdSetAction extends BaseAction {
-  type: BudgetActionTypes.DefaultBudgetIdSet;
+interface DefaultBudgetSetAction extends BaseAction {
+  type: BudgetActionTypes.DefaultBudgetSet;
   defaultBudgetId: string;
+  defaultBudgetCurrencyIsoCode: string;
 }
 
 interface StateLoadedFromStorageAction extends BaseAction {
@@ -31,7 +33,7 @@ interface StateLoadedFromStorageAction extends BaseAction {
 }
 
 export type BudgetAction =
-  | DefaultBudgetIdSetAction
+  | DefaultBudgetSetAction
   | StateLoadedFromStorageAction;
 
 const StateContext = createContext<State | null>(null);
@@ -40,9 +42,10 @@ const DispatchContext = createContext<Dispatch<BudgetAction> | null>(null);
 
 function budgetReducer(state: State, action: BudgetAction): State {
   switch (action.type) {
-    case BudgetActionTypes.DefaultBudgetIdSet:
+    case BudgetActionTypes.DefaultBudgetSet:
       return {
         defaultBudgetId: action.defaultBudgetId,
+        defaultBudgetCurrencyIsoCode: action.defaultBudgetCurrencyIsoCode,
       };
     case BudgetActionTypes.StateLoadedFromStorage:
       return action.loadedState;
@@ -53,6 +56,7 @@ function budgetReducer(state: State, action: BudgetAction): State {
 
 const initialState: State = {
   defaultBudgetId: "",
+  defaultBudgetCurrencyIsoCode: "",
 };
 
 interface BudgetProviderProps {

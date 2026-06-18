@@ -85,24 +85,39 @@ describe("YnabService", () => {
       );
     });
   });
-  describe("getDefaultBudgetId", () => {
-    test("gets the user's default budget id", async () => {
+  describe("getDefaultBudget", () => {
+    test("returns the default budget's id and currency iso code", async () => {
       // arrange
       const testYnabToken = "test-ynab-token";
       const ynabService = new YnabService(testYnabToken);
       const mockDefaultBudgetId = "mock default budget id";
       mockGetBudgets.mockResolvedValueOnce({
         data: {
-          default_budget: { id: mockDefaultBudgetId },
+          default_budget: {
+            id: mockDefaultBudgetId,
+            currency_format: { iso_code: "GBP" },
+          },
         },
       });
 
       // act
-      const actualDefaultBudgetId = await ynabService.getDefaultBudgetId();
+      const actualDefaultBudget = await ynabService.getDefaultBudget();
 
       // assert
-      expect(actualDefaultBudgetId).toEqual(mockDefaultBudgetId);
+      expect(actualDefaultBudget).toEqual({
+        id: mockDefaultBudgetId,
+        currencyIsoCode: "GBP",
+      });
       expect(mockGetBudgets).toHaveBeenCalled();
+    });
+
+    test("falls back to empty strings when no default budget is set", async () => {
+      const ynabService = new YnabService("test-ynab-token");
+      mockGetBudgets.mockResolvedValueOnce({ data: {} });
+
+      const actualDefaultBudget = await ynabService.getDefaultBudget();
+
+      expect(actualDefaultBudget).toEqual({ id: "", currencyIsoCode: "" });
     });
   });
 });

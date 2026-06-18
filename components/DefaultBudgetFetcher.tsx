@@ -1,7 +1,7 @@
 "use client";
 
 import { BudgetActionTypes, useBudgetDispatch } from "@/contexts/budgetContext";
-import getDefaultBudgetId from "@/utility-functions/getDefaultBudgetId";
+import getDefaultBudget from "@/utility-functions/getDefaultBudget";
 import { useEffect, useState } from "react";
 
 interface YnabError {
@@ -12,24 +12,25 @@ interface YnabError {
   };
 }
 
-export default function DefaultBudgetIdFetcher() {
+export default function DefaultBudgetFetcher() {
   const [invalidTokenError, setInvalidTokenError] = useState<YnabError | null>(
     null
   );
   const budgetDispatch = useBudgetDispatch();
   useEffect(() => {
-    const updateBudgetId = async () => {
+    const updateBudget = async () => {
       try {
-        const defaultBudgetId = await getDefaultBudgetId();
+        const { id, currencyIsoCode } = await getDefaultBudget();
         budgetDispatch({
-          type: BudgetActionTypes.DefaultBudgetIdSet,
-          defaultBudgetId,
+          type: BudgetActionTypes.DefaultBudgetSet,
+          defaultBudgetId: id,
+          defaultBudgetCurrencyIsoCode: currencyIsoCode,
         });
       } catch (e) {
         setInvalidTokenError(e as YnabError);
       }
     };
-    updateBudgetId();
+    updateBudget();
   }, [budgetDispatch]);
 
   if (invalidTokenError) {
