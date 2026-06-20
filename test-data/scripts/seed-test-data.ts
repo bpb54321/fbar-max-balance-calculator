@@ -25,22 +25,60 @@ async function main() {
     throw new Error("No budgets returned from YNAB API");
   }
 
-  const budgetId = budgets[0].id;
-  console.log(`using budget ${budgetId}`);
+  const budget = budgets[0];
+  console.log(`using budget ${budget.id}`);
 
-  const createResponse = await client.transactions.createTransactions(
-    budgetId,
-    {
-      transactions: [
-        ...wealthsimpleCheckingTransactions,
-        ...tdSavingsTransactions,
-        ...bncCreditCardTransactions,
-      ],
-    },
+  const budgetStartDate = budget.first_month ?? "2000-01-01";
+
+  // Step 1: Delete all existing transactions
+  const existingResponse = await client.transactions.getTransactions(
+    budget.id,
+    budgetStartDate,
+  );
+  const existing = existingResponse.data.transactions;
+  console.log(`deleting ${existing.length} existing transactions`);
+  await Promise.all(
+    existing.map((t) => client.transactions.deleteTransaction(budget.id, t.id)),
   );
 
+  // Step 2: Verify there are 0 transactions
+  const afterDeleteResponse = await client.transactions.getTransactions(
+    budget.id,
+  );
+  const remainingCount = afterDeleteResponse.data.transactions.length;
+  if (remainingCount !== 0) {
+    throw new Error(
+      `Expected 0 transactions after deletion but found ${remainingCount}`,
+    );
+  }
+  console.log("verified 0 transactions after deletion");
+
+  // Step 3: Seed test transactions
+  const testTransactions = [
+    ...wealthsimpleCheckingTransactions,
+    ...tdSavingsTransactions,
+    ...bncCreditCardTransactions,
+  ];
+  const createResponse = await client.transactions.createTransactions(
+    budget.id,
+    { transactions: testTransactions },
+  );
   console.log(
     `created ${createResponse.data.transactions?.length ?? 0} transactions`,
+  );
+
+  // Step 4: Verify total count matches the number of test transactions
+  const afterSeedResponse = await client.transactions.getTransactions(
+    budget.id,
+  );
+  const seededCount = afterSeedResponse.data.transactions.length;
+  if (seededCount !== testTransactions.length) {
+    throw new Error(
+      `Expected ${testTransactions.length} transactions after seeding but found ${seededCount}`,
+    );
+  }
+  console.log(
+    `verified ${seededCount} transactions match the ${testTransactions.length} test transactions`,
   );
 }
 
