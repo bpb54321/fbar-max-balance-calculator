@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import Ynab from "ynab";
-import { wealthsimpleCheckingTransactions } from "./wealthsimple-checking-transactions.ts";
-import { tdSavingsTransactions } from "./td-savings-transactions.ts";
-import { bncCreditCardTransactions } from "./bnc-credit-card-transactions.ts";
+import { wealthsimpleCheckingTransactions } from "../fixtures/wealthsimple-checking-transactions.ts";
+import { tdSavingsTransactions } from "../fixtures/td-savings-transactions.ts";
+import { bncCreditCardTransactions } from "../fixtures/bnc-credit-card-transactions.ts";
 
 // load environment variables from .env.e2e.local so the script can be run from CLI
 dotenv.config({ path: ".env.e2e.local" });

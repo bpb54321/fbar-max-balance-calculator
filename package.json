@@ -17,7 +17,7 @@
     "tailwind:watch": "npm run tailwind -- --watch",
     "design-system:test": "playwright test --config=playwright.config.ts",
     "test:e2e": "playwright test --config=playwright.e2e.config.ts",
-    "seed-test-data": "ts-node test-data/seed-test-data.ts"
+    "seed-test-data": "ts-node test-data/scripts/seed-test-data.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
