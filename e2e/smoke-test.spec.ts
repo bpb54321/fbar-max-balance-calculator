@@ -13,13 +13,11 @@ test("shows Accounts heading and no YNAB error when personal access token is val
 }) => {
   await page.goto("/");
 
-  await expect(
-    page.getByRole("heading", { name: "Accounts" })
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Accounts" })).toBeVisible();
 
   await expect(
     page.getByText(
-      "There was an error retrieving information from YNAB. Please click on the preceding link to reauthorize the connection to YNAB."
-    )
+      "There was an error retrieving information from YNAB. Please click on the preceding link to reauthorize the connection to YNAB.",
+    ),
   ).not.toBeVisible();
 });
