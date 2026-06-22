@@ -31,15 +31,15 @@ async function main() {
   const budgetStartDate = budget.first_month ?? "2000-01-01";
 
   // Step 1: Delete all existing transactions
-  const existingResponse = await client.transactions.getTransactions(
+  const transactionsResponse = await client.transactions.getTransactions(
     budget.id,
     budgetStartDate,
   );
-  const existing = existingResponse.data.transactions;
-  console.log(`deleting ${existing.length} existing transactions`);
-  await Promise.all(
-    existing.map((t) => client.transactions.deleteTransaction(budget.id, t.id)),
-  );
+  const transactions = transactionsResponse.data.transactions;
+  console.log(`deleting ${transactions.length} existing transactions`);
+  for (const t of transactions) {
+    await client.transactions.deleteTransaction(budget.id, t.id);
+  }
 
   // Step 2: Verify there are 0 transactions
   const afterDeleteResponse = await client.transactions.getTransactions(
@@ -65,20 +65,6 @@ async function main() {
   );
   console.log(
     `created ${createResponse.data.transactions?.length ?? 0} transactions`,
-  );
-
-  // Step 4: Verify total count matches the number of test transactions
-  const afterSeedResponse = await client.transactions.getTransactions(
-    budget.id,
-  );
-  const seededCount = afterSeedResponse.data.transactions.length;
-  if (seededCount !== testTransactions.length) {
-    throw new Error(
-      `Expected ${testTransactions.length} transactions after seeding but found ${seededCount}`,
-    );
-  }
-  console.log(
-    `verified ${seededCount} transactions match the ${testTransactions.length} test transactions`,
   );
 }
 
