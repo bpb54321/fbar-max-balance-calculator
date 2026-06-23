@@ -73,5 +73,24 @@ test.describe("Critical user flows", () => {
     await expect(secondRow.getByRole("cell").nth(3)).toContainText("50");
     await expect(secondRow.getByRole("cell").nth(4)).toContainText("1411.36");
     await expect(secondRow.getByRole("cell").nth(5)).toContainText("2026");
+
+    // Go back to the accounts overview page and assert that max balances are displayed
+    await page.getByRole("link", { name: "Home" }).click();
+
+    const accountsTable = page.getByRole("table", {
+      name: "Accounts",
+    });
+
+    const accountRow = accountsTable
+      .locator("tbody > tr")
+      .filter({
+        has: page.getByRole("cell", { name: "Wealthsimple_Checking" }),
+      });
+
+    await expect(accountRow.getByRole("cell").nth(0)).toContainText(
+      "Wealthsimple_Checking",
+    );
+    await expect(accountRow.getByRole("cell").nth(1)).toContainText("2784.51");
+    await expect(accountRow.getByRole("cell").nth(2)).toContainText("1411.36");
   });
 });
