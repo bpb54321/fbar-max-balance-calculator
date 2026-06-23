@@ -12,6 +12,10 @@ test.describe("Critical user flows", () => {
 
     await page.goto("/");
 
+    await expect(
+      page.getByText("Using budget id: 1b4174d5-29c9-43e7-ae05-c3f609f07f12"),
+    ).toBeVisible();
+
     await page.getByRole("link", { name: "Settings" }).click();
     await page.getByRole("button", { name: "Reload accounts" }).click();
 
@@ -62,7 +66,9 @@ test.describe("Critical user flows", () => {
 
     // Assert second row content
     const secondRow = maxBalancesTable.locator("tbody").getByRole("row").nth(1);
-    await expect(secondRow.getByRole("cell").nth(0)).toContainText("2026-03-01");
+    await expect(secondRow.getByRole("cell").nth(0)).toContainText(
+      "2026-03-01",
+    );
     await expect(secondRow.getByRole("cell").nth(1)).toContainText("Refund");
     await expect(secondRow.getByRole("cell").nth(3)).toContainText("50");
     await expect(secondRow.getByRole("cell").nth(4)).toContainText("1411.36");
