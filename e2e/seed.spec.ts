@@ -42,5 +42,30 @@ test.describe("Critical user flows", () => {
     await expect(
       allTransactionsTable.locator("tbody").getByRole("row"),
     ).toHaveCount(10);
+
+    const maxBalancesTable = page.getByRole("table", {
+      name: "Max Balance Transactions",
+    });
+
+    // Assert the Max Balance Transactions table has 2 rows
+    await expect(
+      maxBalancesTable.locator("tbody").getByRole("row"),
+    ).toHaveCount(2);
+
+    // Assert first row content
+    const firstRow = maxBalancesTable.locator("tbody").getByRole("row").nth(0);
+    await expect(firstRow.getByRole("cell").nth(0)).toContainText("2025-09-12");
+    await expect(firstRow.getByRole("cell").nth(1)).toContainText("Paycheck");
+    await expect(firstRow.getByRole("cell").nth(3)).toContainText("2500");
+    await expect(firstRow.getByRole("cell").nth(4)).toContainText("2784.51");
+    await expect(firstRow.getByRole("cell").nth(5)).toContainText("2025");
+
+    // Assert second row content
+    const secondRow = maxBalancesTable.locator("tbody").getByRole("row").nth(1);
+    await expect(secondRow.getByRole("cell").nth(0)).toContainText("2026-03-01");
+    await expect(secondRow.getByRole("cell").nth(1)).toContainText("Refund");
+    await expect(secondRow.getByRole("cell").nth(3)).toContainText("50");
+    await expect(secondRow.getByRole("cell").nth(4)).toContainText("1411.36");
+    await expect(secondRow.getByRole("cell").nth(5)).toContainText("2026");
   });
 });
