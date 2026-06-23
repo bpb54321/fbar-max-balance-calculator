@@ -1,6 +1,10 @@
 "use client";
 
-import { BudgetActionTypes, useBudgetDispatch } from "@/contexts/budgetContext";
+import {
+  BudgetActionTypes,
+  useBudgetDispatch,
+  useBudgetState,
+} from "@/contexts/budgetContext";
 import getDefaultBudgetId from "@/utility-functions/getDefaultBudgetId";
 import { useEffect, useState } from "react";
 
@@ -13,10 +17,10 @@ interface YnabError {
 }
 
 export default function DefaultBudgetIdFetcher() {
-  const [invalidTokenError, setInvalidTokenError] = useState<YnabError | null>(
-    null
-  );
+  const [hasError, setError] = useState<Error | null>(null);
   const budgetDispatch = useBudgetDispatch();
+  const budgetState = useBudgetState();
+
   useEffect(() => {
     const updateBudgetId = async () => {
       try {
@@ -26,13 +30,13 @@ export default function DefaultBudgetIdFetcher() {
           defaultBudgetId,
         });
       } catch (e) {
-        setInvalidTokenError(e as YnabError);
+        setError(e as Error);
       }
     };
     updateBudgetId();
   }, [budgetDispatch]);
 
-  if (invalidTokenError) {
+  if (hasError) {
     return (
       <p className="mt-2 mb-2 text-red-600">
         There was an error retrieving information from YNAB. Please click on the
@@ -40,5 +44,13 @@ export default function DefaultBudgetIdFetcher() {
       </p>
     );
   }
+  if (budgetState.defaultBudgetId) {
+    return (
+      <p className="mt-2 mb-2">
+        Using budget id: {budgetState.defaultBudgetId}
+      </p>
+    );
+  }
+
   return null;
 }
