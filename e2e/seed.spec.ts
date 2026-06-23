@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import { execSync } from "child_process";
 
 const personalAccessToken = process.env.YNAB_E2E_PERSONAL_ACCESS_TOKEN;
 
@@ -7,8 +6,6 @@ test.describe("Critical user flows", () => {
   test("user can calculate the max value of a single account", async ({
     page,
   }) => {
-    // execSync("npm run seed-test-data", { stdio: "inherit" });
-
     await page.addInitScript((token) => {
       localStorage.setItem("ynabAccessToken", token ?? "");
     }, personalAccessToken);
