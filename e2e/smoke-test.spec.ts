@@ -1,23 +1,25 @@
 import { test, expect } from "@playwright/test";
 
-const personalAccessToken = process.env.YNAB_E2E_PERSONAL_ACCESS_TOKEN;
-
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript((token) => {
-    localStorage.setItem("ynabAccessToken", token ?? "");
-  }, personalAccessToken);
-});
-
-test("shows Accounts heading and no YNAB error when personal access token is valid", async ({
+test("shows Accounts heading after authenticating via YNAB OAuth", async ({
   page,
 }) => {
+  const username = process.env.YNAB_E2E_USERNAME;
+  const password = process.env.YNAB_E2E_PASSWORD;
+
+  if (!username || !password) {
+    throw new Error(
+      "Environment variables missing in test. YNAB_E2E_USERNAME " +
+        "and YNAB_E2E_PASSWORD must be added to the environment or to .env.e2e.local.",
+    );
+  }
+
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Accounts" })).toBeVisible();
+  await page.getByRole("link", { name: "Authorize With YNAB" }).click();
 
-  await expect(
-    page.getByText(
-      "There was an error retrieving information from YNAB. Please click on the preceding link to reauthorize the connection to YNAB.",
-    ),
-  ).not.toBeVisible();
+  await page.getByRole("textbox", { name: "Email:" }).fill(username);
+  await page.getByRole("textbox", { name: "Password:" }).fill(password);
+  await page.getByRole("button", { name: "Log In" }).click();
+
+  await expect(page.getByRole("heading", { name: "Accounts" })).toBeVisible();
 });
