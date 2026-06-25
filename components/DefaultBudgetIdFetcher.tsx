@@ -8,14 +8,6 @@ import {
 import getDefaultBudgetId from "@/utility-functions/getDefaultBudgetId";
 import { useEffect, useState } from "react";
 
-interface YnabError {
-  error: {
-    id: string;
-    name: string;
-    detail: string;
-  };
-}
-
 export default function DefaultBudgetIdFetcher() {
   const [hasError, setError] = useState<Error | null>(null);
   const budgetDispatch = useBudgetDispatch();
