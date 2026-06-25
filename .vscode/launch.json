@@ -39,14 +39,6 @@
         "/@vite/*": "${webRoot}/node_modules/*",
         "/src/*": "${webRoot}/*"
       }
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug seed-test-data",
-      "args": ["test-data/scripts/seed-test-data.ts"],
-      "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
