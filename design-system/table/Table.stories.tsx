@@ -4,12 +4,9 @@ import Table from "./Table";
 import Caption from "./Caption";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
-import TableFooter from "./TableFooter";
 import TableRow from "./TableRow";
 import TableHeaderCell from "./TableHeaderCell";
 import TableBodyCell from "./TableBodyCell";
-import TableFooterCell from "./TableFooterCell";
-import TableFooterRow from "./TableFooterRow";
 import { TextAlignment, FontWeight } from "./enums";
 
 const meta: Meta<typeof Table> = {
@@ -125,24 +122,6 @@ export const Primary: StoryObj<typeof Table> = {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableFooterRow>
-            <TableFooterCell
-              key="total"
-              colSpan={3}
-              textAlignment={TextAlignment.Left}
-            >
-              Total
-            </TableFooterCell>
-            <TableFooterCell
-              key="totalAmount"
-              colSpan={1}
-              textAlignment={TextAlignment.Right}
-            >
-              $2,500.00
-            </TableFooterCell>
-          </TableFooterRow>
-        </TableFooter>
       </Table>
     </div>
   ),

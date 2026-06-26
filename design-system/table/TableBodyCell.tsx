@@ -1,6 +1,5 @@
-import React from 'react';
-import clsx from 'clsx';
-import { TextAlignment, FontWeight } from './enums';
+import { Table as RTable } from "@radix-ui/themes";
+import { TextAlignment, FontWeight } from "./enums";
 
 interface TableBodyCellProps {
   children: React.ReactNode;
@@ -8,22 +7,17 @@ interface TableBodyCellProps {
   fontWeight?: FontWeight;
 }
 
-export default function TableBodyCell({ 
-  children, 
+export default function TableBodyCell({
+  children,
   textAlignment = TextAlignment.Left,
-  fontWeight = FontWeight.Normal
+  fontWeight = FontWeight.Normal,
 }: TableBodyCellProps) {
   return (
-    <td
-      className={clsx(
-        "p-4",
-        fontWeight === FontWeight.Medium ? "font-medium" : "font-normal",
-        "align-middle",
-        "text-foreground",
-        textAlignment === TextAlignment.Right ? "text-right" : "text-left"
-      )}
+    <RTable.Cell
+      justify={textAlignment === TextAlignment.Right ? "end" : "start"}
+      className={fontWeight === FontWeight.Medium ? "font-medium" : ""}
     >
       {children}
-    </td>
+    </RTable.Cell>
   );
-} 
+}

@@ -1,3 +1,4 @@
+import { Link as RadixLink } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { ReactNode } from "react";
 
@@ -8,8 +9,8 @@ export interface LinkProps {
 
 export default function Link({ href, children }: LinkProps) {
   return (
-    <NextLink href={href} className="text-foreground hover:underline">
-      {children}
-    </NextLink>
+    <RadixLink asChild>
+      <NextLink href={href}>{children}</NextLink>
+    </RadixLink>
   );
 }

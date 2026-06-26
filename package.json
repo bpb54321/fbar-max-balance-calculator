@@ -20,6 +20,7 @@
     "seed-test-data": "ts-node test-data/scripts/seed-test-data.ts"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.3.0",
     "clsx": "^2.1.1",
     "geist": "^1.3.1",
     "next": "15.1.11",

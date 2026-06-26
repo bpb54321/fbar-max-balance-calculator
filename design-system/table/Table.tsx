@@ -1,3 +1,4 @@
+import { Table as RTable } from "@radix-ui/themes";
 import { ReactNode } from "react";
 
 interface TableProps {
@@ -5,9 +6,5 @@ interface TableProps {
 }
 
 export default function Table({ children }: TableProps) {
-  return (
-    <table className="text-sm caption-bottom" data-testid="table">
-      {children}
-    </table>
-  );
+  return <RTable.Root data-testid="table">{children}</RTable.Root>;
 }

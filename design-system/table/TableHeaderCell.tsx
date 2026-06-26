@@ -1,5 +1,4 @@
-import React from "react";
-import clsx from "clsx";
+import { Table as RTable } from "@radix-ui/themes";
 import { TextAlignment } from "./enums";
 
 interface TableHeaderCellProps {
@@ -14,18 +13,11 @@ export default function TableHeaderCell({
   fixedWidth = false,
 }: TableHeaderCellProps) {
   return (
-    <th
-      className={clsx(
-        "h-12",
-        "px-4",
-        "align-middle",
-        "font-medium",
-        "text-muted-foreground",
-        textAlignment === TextAlignment.Right ? "text-right" : "text-left",
-        fixedWidth && "w-[100px]"
-      )}
+    <RTable.ColumnHeaderCell
+      justify={textAlignment === TextAlignment.Right ? "end" : "start"}
+      style={fixedWidth ? { width: "100px" } : undefined}
     >
       {children}
-    </th>
+    </RTable.ColumnHeaderCell>
   );
 }

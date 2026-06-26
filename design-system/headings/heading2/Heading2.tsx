@@ -1,11 +1,13 @@
+import { Heading } from "@radix-ui/themes";
+
 interface Heading2Props {
   children: React.ReactNode;
 }
 
 export default function Heading2({ children }: Heading2Props) {
   return (
-    <h2 className="border-b pb-2 text-3xl font-semibold tracking-tight mb-6">
+    <Heading as="h2" size="7" mb="6">
       {children}
-    </h2>
+    </Heading>
   );
 }

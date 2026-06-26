@@ -1,9 +1,9 @@
-import React from 'react';
+import { Table as RTable } from "@radix-ui/themes";
 
 interface TableHeaderProps {
   children: React.ReactNode;
 }
 
 export default function TableHeader({ children }: TableHeaderProps) {
-  return <thead>{children}</thead>;
-} 
+  return <RTable.Header>{children}</RTable.Header>;
+}

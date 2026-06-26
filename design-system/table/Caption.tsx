@@ -1,3 +1,4 @@
+import { Text } from "@radix-ui/themes";
 import { ReactNode } from "react";
 
 interface CaptionProps {
@@ -5,5 +6,11 @@ interface CaptionProps {
 }
 
 export default function Caption({ children }: CaptionProps) {
-  return <caption className="mt-4 text-muted-foreground">{children}</caption>;
+  return (
+    <caption className="mt-4">
+      <Text as="span" size="2" color="gray">
+        {children}
+      </Text>
+    </caption>
+  );
 }

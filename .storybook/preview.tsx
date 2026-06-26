@@ -1,14 +1,17 @@
-import React from "react";
 import type { Preview } from "@storybook/react";
+import { Theme } from "@radix-ui/themes";
 
 import "../css/output.css";
+import "@radix-ui/themes/styles.css";
 
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <div className={`font-sans antialiased`}>
-        <Story />
-      </div>
+      <Theme>
+        <div className={`font-sans antialiased`}>
+          <Story />
+        </div>
+      </Theme>
     ),
   ],
 };
