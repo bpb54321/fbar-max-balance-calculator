@@ -2,10 +2,6 @@ import { test, expect } from "@playwright/test";
 
 const personalAccessToken = process.env.YNAB_E2E_PERSONAL_ACCESS_TOKEN;
 
-console.log("-------------------------------------------------------");
-console.log(`personalAccessToken: ${personalAccessToken}`);
-console.log("-------------------------------------------------------");
-
 test.describe("Critical user flows", () => {
   test("user can calculate the max value of a single account", async ({
     page,
