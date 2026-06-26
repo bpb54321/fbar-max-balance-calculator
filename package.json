@@ -13,7 +13,7 @@
     "test": "NODE_OPTIONS='--disable-warning=DEP0040' vitest --run",
     "tailwind": "tailwindcss -i css/input.css -o css/output.css",
     "tailwind:watch": "npm run tailwind -- --watch",
-    "test:e2e": "playwright test --config=playwright.e2e.config.ts",
+    "test:e2e": "playwright test",
     "seed-test-data": "ts-node test-data/scripts/seed-test-data.ts"
   },
   "dependencies": {
