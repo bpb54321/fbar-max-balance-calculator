@@ -1,8 +1,6 @@
 import MainNavigation from "@/components/MainNavigation";
 import Providers from "@/components/Providers";
 import "@/css/output.css";
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,10 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`font-sans antialiased`}>
       <body className="p-4">
-        <Theme>
-          <MainNavigation />
-          <Providers>{children}</Providers>
-        </Theme>
+        <MainNavigation />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

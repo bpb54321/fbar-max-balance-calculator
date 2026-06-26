@@ -1,16 +1,18 @@
 import { defineConfig, devices } from "@playwright/test";
-import dotenv from "dotenv";
 
-// Read from ".env" file using relative path
-if (!process.env.CI) {
-  dotenv.config({ path: ".env.e2e.local" });
-}
+/**
+ * Read environment variables from file.
+ * https://github.com/motdotla/dotenv
+ */
+// import dotenv from 'dotenv';
+// import path from 'path';
+// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: "./design-system",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -24,20 +26,10 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: "http://127.0.0.1:6006",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-
-    launchOptions: {
-      args: [
-        "--disable-blink-features=AutomationControlled",
-        "--disable-features=IsolateOrigins,site-per-process",
-        "--disable-blink-features",
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-      ],
-    },
   },
 
   /* Configure projects for major browsers */
@@ -51,6 +43,7 @@ export default defineConfig({
     //   name: "firefox",
     //   use: { ...devices["Desktop Firefox"] },
     // },
+
     // {
     //   name: "webkit",
     //   use: { ...devices["Desktop Safari"] },
@@ -86,8 +79,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run tailwind && npm run dev",
-    url: "http://127.0.0.1:3000",
+    command: "npm run storybook",
+    url: "http://127.0.0.1:6006",
     reuseExistingServer: true,
   },
   expect: {
