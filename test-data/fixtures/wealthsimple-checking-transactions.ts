@@ -4,31 +4,31 @@ export const wealthsimpleCheckingTransactions: NewTransaction[] = [
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2026-03-01",
-    amount: 5000,
+    amount: 50000,
     payee_name: "Refund",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2026-01-15",
-    amount: -15240,
+    amount: -152400,
     payee_name: "Grocery Store",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-12-31",
-    amount: -6500,
+    amount: -65000,
     payee_name: "Gas Station",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-11-20",
-    amount: -575,
+    amount: -5750,
     payee_name: "Coffee Shop",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-10-05",
-    amount: -120000,
+    amount: -1200000,
     payee_name: "Rent Payment",
   },
   {
@@ -40,19 +40,19 @@ export const wealthsimpleCheckingTransactions: NewTransaction[] = [
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-08-01",
-    amount: -1299,
+    amount: -12990,
     payee_name: "Netflix",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-07-22",
-    amount: -4850,
+    amount: -48500,
     payee_name: "Restaurant",
   },
   {
     account_id: "ce3a3579-2ef6-4be1-9830-7caf62d7e629",
     date: "2025-06-15",
-    amount: -3999,
+    amount: -4000,
     payee_name: "Online Retailer",
   },
   {

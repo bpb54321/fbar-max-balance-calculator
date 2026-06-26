@@ -10,7 +10,7 @@ export const bncCreditCardTransactions: NewTransaction[] = [
   {
     account_id: "4488b540-bd11-418f-b518-1a3a6ee005ec",
     date: "2025-02-14",
-    amount: -4899,
+    amount: -48990,
     payee_name: "Grocery Store",
   },
   {
@@ -46,7 +46,7 @@ export const bncCreditCardTransactions: NewTransaction[] = [
   {
     account_id: "4488b540-bd11-418f-b518-1a3a6ee005ec",
     date: "2026-02-05",
-    amount: -4299,
+    amount: -42990,
     payee_name: "Restaurant",
   },
   {

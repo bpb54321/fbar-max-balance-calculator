@@ -104,5 +104,27 @@ describe("YnabService", () => {
       expect(actualDefaultBudgetId).toEqual(mockDefaultBudgetId);
       expect(mockGetBudgets).toHaveBeenCalled();
     });
+
+    test("returns the first budget id when no default_budget exists", async () => {
+      // arrange
+      const testYnabToken = "test-ynab-token";
+      const ynabService = new YnabService(testYnabToken);
+      const mockFirstBudgetId = "first-budget-id";
+      mockGetBudgets.mockResolvedValueOnce({
+        data: {
+          default_budget: undefined,
+          budgets: [
+            { id: mockFirstBudgetId },
+            { id: "second-budget-id" },
+          ],
+        },
+      });
+
+      // act
+      const actualDefaultBudgetId = await ynabService.getDefaultBudgetId();
+
+      // assert
+      expect(actualDefaultBudgetId).toEqual(mockFirstBudgetId);
+    });
   });
 });
