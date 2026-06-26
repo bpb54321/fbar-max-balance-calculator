@@ -31,7 +31,7 @@ CI runs typecheck → lint → test on PRs to main.
 - **`services/tokenManager.ts`** — OAuth token persistence in localStorage
 - **`calculation-functions/`** — Pure functions: `getMaxBalances`, `getTransactionsWithBalances`
 - **`utility-functions/`** — Data fetching helpers (`getAccounts`, `getTransactionsForAccount`, `getDefaultBudgetId`)
-- **`design-system/`** — Reusable UI primitives (Button, Table, Typography, etc.) with Storybook stories and visual tests
+- **`design-system/`** — Reusable UI primitives (Button, Table, Typography, etc.)
 - **`formatters/`** — Display formatting (e.g., `formatAmount` for currency)
 - **`types/`** — TypeScript type definitions (`Account`, `TransactionWithBalance`, `MaxBalanceTransaction`)
 - **`hooks/`** — Custom hooks (`useYnabOauthToken`, `useLocalStorage`)
@@ -43,7 +43,6 @@ Uses React Context with reducer pattern (not Redux). `BudgetProvider` and `Accou
 ### Testing
 
 - **Unit tests**: Vitest + React Testing Library, co-located with components (`*.test.tsx`). Mocks in `__mocks__/`.
-- **Visual regression tests**: Playwright screenshots against Storybook (`*.visual-tests.spec.ts` in `design-system/`)
 - **E2E tests**: Playwright against the running app (`e2e/` directory)
 
 ### Environment Setup
@@ -52,4 +51,4 @@ Copy `.env.example` to `.env` and set `YNAB_OATH_CLIENT_ID` (obtain from https:/
 
 ### Tech Stack
 
-Next.js 15 (App Router, Turbopack), React 19, TypeScript (strict), Tailwind CSS 4, `ynab` SDK, Vitest, Playwright, Storybook 8, Geist font.
+Next.js 15 (App Router, Turbopack), React 19, TypeScript (strict), Tailwind CSS 4, `ynab` SDK, Vitest, Playwright, Geist font.
