@@ -1,4 +1,4 @@
-import Heading2 from "@/design-system/headings/heading2/Heading2";
+import Heading2 from "@/components/headings/heading2/Heading2";
 
 export default function Disclaimer() {
   return (

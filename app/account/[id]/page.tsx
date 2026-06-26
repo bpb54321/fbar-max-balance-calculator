@@ -1,5 +1,5 @@
 import TransactionTable from "@/components/TransactionTable";
-import Heading2 from "@/design-system/headings/heading2/Heading2";
+import Heading2 from "@/components/headings/heading2/Heading2";
 import AccountDetailPageHeading from "./AccountDetailPageHeading";
 
 export default async function AccountDetailPage({

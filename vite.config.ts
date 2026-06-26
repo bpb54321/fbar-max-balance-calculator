@@ -17,7 +17,6 @@ export default defineConfig({
     exclude: [
       "node_modules",
       "dist",
-      "design-system/**/*.visual-tests.spec.ts",
       "e2e",
     ],
   },
