@@ -6,5 +6,5 @@ interface TableProps {
 }
 
 export default function Table({ children }: TableProps) {
-  return <RTable.Root data-testid="table">{children}</RTable.Root>;
+  return <RTable.Root>{children}</RTable.Root>;
 }
