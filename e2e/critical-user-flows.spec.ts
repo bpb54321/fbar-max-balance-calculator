@@ -2,6 +2,10 @@ import { test, expect } from "@playwright/test";
 
 const personalAccessToken = process.env.YNAB_E2E_PERSONAL_ACCESS_TOKEN;
 
+console.log("-------------------------------------------------------");
+console.log(`personalAccessToken: ${personalAccessToken}`);
+console.log("-------------------------------------------------------");
+
 test.describe("Critical user flows", () => {
   test("user can calculate the max value of a single account", async ({
     page,
@@ -81,11 +85,9 @@ test.describe("Critical user flows", () => {
       name: "Accounts",
     });
 
-    const accountRow = accountsTable
-      .locator("tbody > tr")
-      .filter({
-        has: page.getByRole("cell", { name: "Wealthsimple_Checking" }),
-      });
+    const accountRow = accountsTable.locator("tbody > tr").filter({
+      has: page.getByRole("cell", { name: "Wealthsimple_Checking" }),
+    });
 
     await expect(accountRow.getByRole("cell").nth(0)).toContainText(
       "Wealthsimple_Checking",
