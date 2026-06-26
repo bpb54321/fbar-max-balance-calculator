@@ -1,14 +1,14 @@
 "use client";
 
 import { useSelectedAccounts } from "@/contexts/accountsContext";
-import Caption from "@/components/table/Caption";
-import { FontWeight } from "@/components/table/enums";
-import Table from "@/components/table/Table";
-import TableBody from "@/components/table/TableBody";
-import TableBodyCell from "@/components/table/TableBodyCell";
-import TableHeader from "@/components/table/TableHeader";
-import TableHeaderCell from "@/components/table/TableHeaderCell";
-import TableRow from "@/components/table/TableRow";
+import Caption from "@/design-system/table/Caption";
+import { FontWeight } from "@/design-system/table/enums";
+import Table from "@/design-system/table/Table";
+import TableBody from "@/design-system/table/TableBody";
+import TableBodyCell from "@/design-system/table/TableBodyCell";
+import TableHeader from "@/design-system/table/TableHeader";
+import TableHeaderCell from "@/design-system/table/TableHeaderCell";
+import TableRow from "@/design-system/table/TableRow";
 import formatAmount from "@/formatters/formatAmount";
 import Link from "next/link";
 
