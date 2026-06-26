@@ -1,11 +1,9 @@
 {
+  "_comment": "This configures MCP servers for Claude Code. See https://code.claude.com/docs/en/mcp",
   "mcpServers": {
     "playwright-test": {
       "command": "npx",
-      "args": [
-        "playwright",
-        "run-test-mcp-server"
-      ]
+      "args": ["playwright", "run-test-mcp-server"]
     }
   }
 }
