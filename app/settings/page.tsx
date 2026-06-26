@@ -6,9 +6,9 @@ import {
   useAccountsDispatch,
 } from "@/contexts/accountsContext";
 import { useBudgetState } from "@/contexts/budgetContext";
-import Button from "@/design-system/button/Button";
-import Heading1 from "@/design-system/headings/heading1/Heading1";
-import Heading2 from "@/design-system/headings/heading2/Heading2";
+import Button from "@/components/button/Button";
+import Heading1 from "@/components/headings/heading1/Heading1";
+import Heading2 from "@/components/headings/heading2/Heading2";
 import { Account } from "@/types/Account";
 import getAccounts from "@/utility-functions/getAccounts";
 import { ChangeEvent } from "react";

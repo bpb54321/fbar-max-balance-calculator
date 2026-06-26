@@ -20,18 +20,17 @@ CI runs typecheck → lint → test on PRs to main.
 2. `DefaultBudgetIdFetcher` retrieves the user's budget via `YnabService` → stored in `BudgetProvider` context
 3. Components fetch accounts/transactions through `YnabService` (constructed with bearer token)
 4. Pure calculation functions in `calculation-functions/` compute max balances and running balances
-5. Results rendered through components using the `design-system/` component library
+5. Results rendered through components in `components/`
 
 ### Key Directories
 
 - **`app/`** — Next.js App Router pages (home, account detail, help, settings, privacy policy)
-- **`components/`** — Application-level React components (most are `"use client"`)
+- **`components/`** — Application-level React components and UI primitives (Button, Table, Typography, etc.)
 - **`contexts/`** — React Context + useReducer for state (`budgetContext`, `accountsContext`)
 - **`services/ynab-service/`** — `YnabService` class wrapping the `ynab` SDK
 - **`services/tokenManager.ts`** — OAuth token persistence in localStorage
 - **`calculation-functions/`** — Pure functions: `getMaxBalances`, `getTransactionsWithBalances`
 - **`utility-functions/`** — Data fetching helpers (`getAccounts`, `getTransactionsForAccount`, `getDefaultBudgetId`)
-- **`design-system/`** — Reusable UI primitives (Button, Table, Typography, etc.) with Storybook stories and visual tests
 - **`formatters/`** — Display formatting (e.g., `formatAmount` for currency)
 - **`types/`** — TypeScript type definitions (`Account`, `TransactionWithBalance`, `MaxBalanceTransaction`)
 - **`hooks/`** — Custom hooks (`useYnabOauthToken`, `useLocalStorage`)
@@ -43,7 +42,6 @@ Uses React Context with reducer pattern (not Redux). `BudgetProvider` and `Accou
 ### Testing
 
 - **Unit tests**: Vitest + React Testing Library, co-located with components (`*.test.tsx`). Mocks in `__mocks__/`.
-- **Visual regression tests**: Playwright screenshots against Storybook (`*.visual-tests.spec.ts` in `design-system/`)
 - **E2E tests**: Playwright against the running app (`e2e/` directory)
 
 ### Environment Setup
@@ -52,4 +50,4 @@ Copy `.env.example` to `.env` and set `YNAB_OATH_CLIENT_ID` (obtain from https:/
 
 ### Tech Stack
 
-Next.js 15 (App Router, Turbopack), React 19, TypeScript (strict), Tailwind CSS 4, `ynab` SDK, Vitest, Playwright, Storybook 8, Geist font.
+Next.js 15 (App Router, Turbopack), React 19, TypeScript (strict), Tailwind CSS 4, `ynab` SDK, Vitest, Playwright, Geist font.

@@ -67,22 +67,3 @@ For watching for changes during development:
 npx tailwindcss -i ./css/input.css -o ./css/output.css --watch
 ```
 
-### Storybook
-
-To view the component library in Storybook:
-
-```bash
-npm run storybook
-```
-
-Then open [http://localhost:6006](http://localhost:6006) with your browser.
-
-### Design System Visual Tests
-
-To run the visual tests for the design system:
-
-```bash
-npm run design-system:test
-```
-
-This will capture and compare screenshots of components to ensure visual consistency.
