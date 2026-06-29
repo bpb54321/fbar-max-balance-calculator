@@ -18,7 +18,7 @@ describe("useAuth", () => {
     );
   });
 
-  it("returns Authenticated when a token exists and the YNAB API call succeeds", async () => {
+  it("returns TokenValid when a token exists and the YNAB API call succeeds", async () => {
     localStorage.setItem("ynabAccessToken", "test-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
@@ -26,7 +26,7 @@ describe("useAuth", () => {
 
     await waitFor(() =>
       expect(result.current.authenticationState).toBe(
-        AuthenticationState.Authenticated,
+        AuthenticationState.TokenValid,
       ),
     );
     expect(mockGetUser).toHaveBeenCalled();

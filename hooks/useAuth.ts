@@ -4,17 +4,17 @@ import { TokenManager } from "@/services/tokenManager";
 import YnabService from "@/services/ynab-service/ynabService";
 
 export enum AuthenticationState {
-  Checking = "CHECKING",
+  CheckingToken = "CHECKING_TOKEN",
   TokenAbsent = "TOKEN_ABSENT",
   TokenInvalidOrExpired = "TOKEN_INVALID_OR_EXPIRED",
-  Authenticated = "AUTHENTICATED",
+  TokenValid = "TOKEN_VALID",
 }
 
 export default function useAuth() {
   const [authenticationState, setAuthenticationState] =
     useState<AuthenticationState>(
       TokenManager.hasToken()
-        ? AuthenticationState.Checking
+        ? AuthenticationState.CheckingToken
         : AuthenticationState.TokenAbsent,
     );
 
@@ -23,12 +23,12 @@ export default function useAuth() {
       try {
         const ynabService = new YnabService(TokenManager.getToken());
         await ynabService.getUser(); // This call is made solely to check the validity of the token.
-        setAuthenticationState(AuthenticationState.Authenticated);
+        setAuthenticationState(AuthenticationState.TokenValid);
       } catch {
         setAuthenticationState(AuthenticationState.TokenInvalidOrExpired);
       }
     };
-    if (authenticationState === AuthenticationState.Checking) {
+    if (authenticationState === AuthenticationState.CheckingToken) {
       checkAuth();
     }
   }, [authenticationState]);
