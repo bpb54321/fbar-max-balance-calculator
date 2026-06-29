@@ -1,8 +1,32 @@
 # CLAUDE.md
 
-## Coding Standards
+## Coding Workflow - human-AI pair-programming TDD
 
-Always use TDD (test-driven development) when developing.
+Follow an approach I'm calling "human-AI pair-programming TDD".
+
+Before modifying any code, write a failing test first.
+Ensure the test fails for the right reason: that the desired behaviour has not yet been implemented.
+Then stop and let me verify and/or modify the test.
+This is the "red" phase.
+
+Once I tell you to continue, make the minimum change to the production code that gets the test to pass.
+Once again, wait for me to verify and/or modify the production code.
+This is the "green" phase.
+
+Once I tell you to continue, evaluate the quality of the production code file(s) and test file(s).
+Is there anything that code be refactored to improve the code quality? If you have any refactor ideas,
+propose them to me and let me decide if I want us to go ahead with any of the proposals.
+This is the "refactor" phase.
+
+Then I will manually commit the diff.
+
+Follow this cycle when making changes or implementing new features.
+If what we're working on is a larger or higher-level task, write out an overall plan to achieve our goal
+before starting the TDD cycles. Save the plan in a Markdown file for future reference.
+
+If, while developing, we realize we need to change the plan, we should not be afraid to do so.
+
+## Testing principles
 
 DO NOT mock child components or component internals in unit and integration tests.
 
