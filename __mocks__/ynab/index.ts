@@ -4,6 +4,7 @@ import {
   mockGetAccounts,
   mockGetBudgets,
   mockGetTransactionsByAccount,
+  mockGetUser,
 } from "./mockFunctions";
 
 interface YnabApi {
@@ -12,6 +13,7 @@ interface YnabApi {
   transactions: {
     getTransactionsByAccount: typeof mockGetTransactionsByAccount;
   };
+  user: { getUser: typeof mockGetUser };
 }
 
 export const api = vi.fn(function (this: YnabApi) {
@@ -23,6 +25,9 @@ export const api = vi.fn(function (this: YnabApi) {
   };
   this.transactions = {
     getTransactionsByAccount: mockGetTransactionsByAccount,
+  };
+  this.user = {
+    getUser: mockGetUser,
   };
 });
 
