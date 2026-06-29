@@ -3,28 +3,35 @@ import { useState, useEffect } from "react";
 import { TokenManager } from "@/services/tokenManager";
 import YnabService from "@/services/ynab-service/ynabService";
 
+export enum AuthenticationState {
+  Checking = "CHECKING",
+  TokenAbsent = "TOKEN_ABSENT",
+  TokenInvalidOrExpired = "TOKEN_INVALID_OR_EXPIRED",
+  Authenticated = "AUTHENTICATED",
+}
+
 export default function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authenticationState, setAuthenticationState] =
+    useState<AuthenticationState>(
+      TokenManager.hasToken()
+        ? AuthenticationState.Checking
+        : AuthenticationState.TokenAbsent,
+    );
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (!TokenManager.hasToken()) {
-        return;
-      }
       try {
         const ynabService = new YnabService(TokenManager.getToken());
-
-        // We don't actually need the user data, this just serves as a ping
-        // to the YNAB API to verify that auth token is still valid
-        await ynabService.getUser();
-
-        setIsAuthenticated(true);
+        await ynabService.getUser(); // This call is made solely to check the validity of the token.
+        setAuthenticationState(AuthenticationState.Authenticated);
       } catch {
-        // token is expired or invalid
+        setAuthenticationState(AuthenticationState.TokenInvalidOrExpired);
       }
     };
-    checkAuth();
-  }, []);
+    if (authenticationState === AuthenticationState.Checking) {
+      checkAuth();
+    }
+  }, [authenticationState]);
 
-  return { isAuthenticated };
+  return { authenticationState };
 }
