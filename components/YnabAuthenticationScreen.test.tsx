@@ -33,6 +33,11 @@ describe("YnabAuthenticationScreen", () => {
     );
 
     expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
+    expect(screen.getByText(/authorized with YNAB/i)).toHaveClass(
+      "text-lg",
+      "font-semibold",
+      "text-amber-700",
+    );
     expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 
