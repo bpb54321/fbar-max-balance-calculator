@@ -37,6 +37,11 @@ describe("useAuth", () => {
 
     const { result } = renderHook(() => useAuth());
 
+    // Initially returns CheckingToken enum while validating the token
+    expect(result.current.authenticationState).toBe(
+      AuthenticationState.CheckingToken,
+    );
+
     await waitFor(() =>
       expect(result.current.authenticationState).toBe(
         AuthenticationState.TokenValid,
