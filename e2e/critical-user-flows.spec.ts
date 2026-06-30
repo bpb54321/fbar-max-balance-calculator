@@ -9,10 +9,10 @@ test.describe("Critical user flows", () => {
     await page.goto("/");
 
     await expect(
-      page.getByText("Please authenticate with YNAB to use this app"),
+      page.getByText("Please authorize this app to access your YNAB account."),
     ).toBeVisible();
 
-    await page.getByRole("link", { name: /authorize with YNAB/i }).click();
+    await page.getByRole("link", { name: /Authorize YNAB/i }).click();
     await expect(page).toHaveURL("https://app.ynab.com/users/sign_in");
 
     await page.goto(`/#access_token=${personalAccessToken}`);
