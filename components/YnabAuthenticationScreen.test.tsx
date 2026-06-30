@@ -5,6 +5,7 @@ import {
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import YnabAuthenticationScreen from "./YnabAuthenticationScreen";
+import { api } from "@/__mocks__/ynab";
 import { mockGetUser } from "@/__mocks__/ynab/mockFunctions";
 
 vi.mock(import("ynab"));
@@ -69,5 +70,26 @@ describe("YnabAuthenticationScreen", () => {
     expect(
       screen.getByText(/please authenticate with YNAB/i),
     ).toBeInTheDocument();
+  });
+
+  it("displays authorized message and next button when a valid access token is present in the URL hash", async () => {
+    window.location.hash = "#access_token=url-token";
+    mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
+
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    expect(
+      screen.getByRole("status", { name: /checking YNAB authorization/i }),
+    ).toBeInTheDocument();
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+    );
+
+    expect(api).toHaveBeenCalledWith("url-token");
+    expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /next/i })).toBeInTheDocument();
   });
 });

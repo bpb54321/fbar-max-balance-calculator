@@ -15,13 +15,22 @@ type YnabAuthenticationScreenProps = {
   ynabAuthorizationUrl: string;
 };
 
+function initYnabOauthToken() {
+  const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
+  if (tokenFromUrlHash) {
+    return tokenFromUrlHash;
+  } else {
+    return TokenManager.getToken();
+  }
+}
+
 export default function YnabAuthenticationScreen({
   ynabAuthorizationUrl,
 }: YnabAuthenticationScreenProps) {
   const [authState, setAuthState] = useState<AuthenticationState>(
     AuthenticationState.CheckingToken,
   );
-  const [ynabAuthToken] = useState<string | null>(TokenManager.getToken());
+  const [ynabAuthToken] = useState<string | null>(initYnabOauthToken);
 
   useEffect(() => {
     if (ynabAuthToken === null) {
