@@ -16,15 +16,6 @@ type YnabAuthenticationScreenProps = {
   ynabAuthorizationUrl: string;
 };
 
-function getYnabOauthToken() {
-  const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
-  if (tokenFromUrlHash) {
-    return tokenFromUrlHash;
-  } else {
-    return TokenManager.getToken();
-  }
-}
-
 export default function YnabAuthenticationScreen({
   ynabAuthorizationUrl,
 }: YnabAuthenticationScreenProps) {
@@ -33,21 +24,30 @@ export default function YnabAuthenticationScreen({
   );
 
   useEffect(() => {
-    const ynabAuthToken = getYnabOauthToken();
-
-    if (ynabAuthToken === null) {
-      setAuthState(AuthenticationState.TokenAbsent);
-      return;
-    }
-
-    checkTokenValidity(ynabAuthToken).then((isValid) => {
-      if (isValid) {
-        setAuthState(AuthenticationState.TokenValid);
-        TokenManager.setToken(ynabAuthToken);
+    const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
+    if (tokenFromUrlHash) {
+      checkTokenValidity(tokenFromUrlHash).then((isValid) => {
+        if (isValid) {
+          setAuthState(AuthenticationState.TokenValid);
+          TokenManager.setToken(tokenFromUrlHash);
+        } else {
+          setAuthState(AuthenticationState.TokenInvalidOrExpired);
+        }
+      });
+    } else {
+      const storedToken = TokenManager.getToken();
+      if (storedToken === null) {
+        setAuthState(AuthenticationState.TokenAbsent);
       } else {
-        setAuthState(AuthenticationState.TokenInvalidOrExpired);
+        checkTokenValidity(storedToken).then((isValid) => {
+          if (isValid) {
+            setAuthState(AuthenticationState.TokenValid);
+          } else {
+            setAuthState(AuthenticationState.TokenInvalidOrExpired);
+          }
+        });
       }
-    });
+    }
   }, []);
 
   if (authState === AuthenticationState.CheckingToken) {
