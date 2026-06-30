@@ -13,7 +13,7 @@ export class TokenManager {
   }
 
   static getToken() {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return localStorage.getItem(this.TOKEN_KEY) ?? "";
   }
 
   static setToken(token: string): void {

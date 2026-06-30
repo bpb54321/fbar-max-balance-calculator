@@ -36,7 +36,7 @@ export default function YnabAuthenticationScreen({
       });
     } else {
       const storedToken = TokenManager.getToken();
-      if (storedToken === null) {
+      if (storedToken === "") {
         setAuthState(AuthenticationState.TokenAbsent);
       } else {
         checkTokenValidity(storedToken).then((isValid) => {
