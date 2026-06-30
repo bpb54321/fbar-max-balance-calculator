@@ -15,7 +15,7 @@ type YnabAuthenticationScreenProps = {
   ynabAuthorizationUrl: string;
 };
 
-function initYnabOauthToken() {
+function getYnabOauthToken() {
   const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
   if (tokenFromUrlHash) {
     return tokenFromUrlHash;
@@ -30,22 +30,24 @@ export default function YnabAuthenticationScreen({
   const [authState, setAuthState] = useState<AuthenticationState>(
     AuthenticationState.CheckingToken,
   );
-  const [ynabAuthToken] = useState<string | null>(initYnabOauthToken);
 
   useEffect(() => {
+    const ynabAuthToken = getYnabOauthToken();
+
     if (ynabAuthToken === null) {
       setAuthState(AuthenticationState.TokenAbsent);
       return;
     }
 
     checkTokenValidity(ynabAuthToken).then((isValid) => {
-      setAuthState(
-        isValid
-          ? AuthenticationState.TokenValid
-          : AuthenticationState.TokenInvalidOrExpired,
-      );
+      if (isValid) {
+        setAuthState(AuthenticationState.TokenValid);
+        TokenManager.setToken(ynabAuthToken);
+      } else {
+        setAuthState(AuthenticationState.TokenInvalidOrExpired);
+      }
     });
-  }, [ynabAuthToken]);
+  }, []);
 
   if (authState === AuthenticationState.CheckingToken) {
     return (
@@ -59,7 +61,7 @@ export default function YnabAuthenticationScreen({
     return (
       <div>
         <p>You are authorized with YNAB.</p>
-        <button>Next</button>
+        <Link href="/home">Next</Link>
       </div>
     );
   }
