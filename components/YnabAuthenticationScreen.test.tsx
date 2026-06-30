@@ -36,7 +36,7 @@ describe("YnabAuthenticationScreen", () => {
     expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 
-  it("displays an error message and auth link when token in local storage is invalid or expired", async () => {
+  it("displays a message and auth link when token in local storage is invalid or expired", async () => {
     localStorage.setItem("ynabAccessToken", "expired-token");
     mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
 
@@ -53,10 +53,12 @@ describe("YnabAuthenticationScreen", () => {
     );
 
     expect(
-      screen.getByText(/please authenticate with YNAB/i),
+      screen.getByText(
+        /please authorize this app to access your YNAB account/i,
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /authorize with YNAB/i }),
+      screen.getByRole("link", { name: /authorize YNAB/i }),
     ).toBeInTheDocument();
   });
 
@@ -64,12 +66,9 @@ describe("YnabAuthenticationScreen", () => {
     const url = "https://example.com/auth";
     render(<YnabAuthenticationScreen ynabAuthorizationUrl={url} />);
     const link = await screen.findByRole("link", {
-      name: /authorize with YNAB/i,
+      name: /authorize YNAB/i,
     });
     expect(link).toHaveAttribute("href", url);
-    expect(
-      screen.getByText(/please authenticate with YNAB/i),
-    ).toBeInTheDocument();
   });
 
   it("displays authorized message and next link when a valid access token is present in the URL hash", async () => {

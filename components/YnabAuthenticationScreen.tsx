@@ -69,9 +69,9 @@ export default function YnabAuthenticationScreen({
   return (
     <div>
       <p className="text-lg font-semibold text-amber-700">
-        Please authenticate with YNAB to use this app.
+        Please authorize this app to access your YNAB account.
       </p>
-      <Link href={ynabAuthorizationUrl}>Authorize with YNAB</Link>
+      <Link href={ynabAuthorizationUrl}>Authorize YNAB</Link>
     </div>
   );
 }
