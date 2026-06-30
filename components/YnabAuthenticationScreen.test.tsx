@@ -1,8 +1,13 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import YnabAuthenticationScreen from "./YnabAuthenticationScreen";
 
 describe("YnabAuthenticationScreen", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    window.location.hash = "";
+  });
+
   it("displays a message asking the user to authenticate with YNAB", () => {
     render(
       <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
