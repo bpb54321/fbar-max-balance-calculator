@@ -16,7 +16,7 @@ describe("YnabAuthenticationScreen", () => {
     window.location.hash = "";
   });
 
-  it("displays authorized message and next button when token in local storage is valid", async () => {
+  it("displays authorized message and next link when token in local storage is valid", async () => {
     localStorage.setItem("ynabAccessToken", "fake-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
@@ -33,7 +33,7 @@ describe("YnabAuthenticationScreen", () => {
     );
 
     expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /next/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 
   it("displays an error message and auth link when token in local storage is invalid or expired", async () => {
@@ -72,7 +72,7 @@ describe("YnabAuthenticationScreen", () => {
     ).toBeInTheDocument();
   });
 
-  it("displays authorized message and next button when a valid access token is present in the URL hash", async () => {
+  it("displays authorized message and next link when a valid access token is present in the URL hash", async () => {
     window.location.hash = "#access_token=url-token";
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
@@ -90,6 +90,6 @@ describe("YnabAuthenticationScreen", () => {
 
     expect(api).toHaveBeenCalledWith("url-token");
     expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /next/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 });
