@@ -18,6 +18,19 @@ describe("useAuth", () => {
     );
   });
 
+  it("returns TokenInvalidOrExpired when a token exists but the YNAB API call fails", async () => {
+    localStorage.setItem("ynabAccessToken", "test-token");
+    mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
+
+    const { result } = renderHook(() => useAuth());
+
+    await waitFor(() =>
+      expect(result.current.authenticationState).toBe(
+        AuthenticationState.TokenInvalidOrExpired,
+      ),
+    );
+  });
+
   it("returns TokenValid when a token exists and the YNAB API call succeeds", async () => {
     localStorage.setItem("ynabAccessToken", "test-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
