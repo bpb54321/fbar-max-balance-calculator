@@ -1,5 +1,12 @@
 import Link from "@/design-system/link/Link";
 
+export enum AuthenticationState {
+  CheckingToken = "CHECKING_TOKEN",
+  TokenAbsent = "TOKEN_ABSENT",
+  TokenInvalidOrExpired = "TOKEN_INVALID_OR_EXPIRED",
+  TokenValid = "TOKEN_VALID",
+}
+
 type YnabAuthenticationScreenProps = {
   ynabAuthorizationUrl: string;
 };
