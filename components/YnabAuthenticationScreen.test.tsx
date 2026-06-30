@@ -35,6 +35,30 @@ describe("YnabAuthenticationScreen", () => {
     expect(screen.getByRole("button", { name: /next/i })).toBeInTheDocument();
   });
 
+  it("displays an error message and auth link when token in local storage is invalid or expired", async () => {
+    localStorage.setItem("ynabAccessToken", "expired-token");
+    mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
+
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    expect(
+      screen.getByRole("status", { name: /checking YNAB authorization/i }),
+    ).toBeInTheDocument();
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+    );
+
+    expect(
+      screen.getByText(/please authenticate with YNAB/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /authorize with YNAB/i }),
+    ).toBeInTheDocument();
+  });
+
   it("displays an auth link when token not present in local storage ", async () => {
     const url = "https://example.com/auth";
     render(<YnabAuthenticationScreen ynabAuthorizationUrl={url} />);

@@ -21,9 +21,7 @@ export default function YnabAuthenticationScreen({
   const [authState, setAuthState] = useState<AuthenticationState>(
     AuthenticationState.CheckingToken,
   );
-  const [ynabAuthToken, setYnabAuthToken] = useState<string | null>(
-    TokenManager.getToken(),
-  );
+  const [ynabAuthToken] = useState<string | null>(TokenManager.getToken());
 
   useEffect(() => {
     if (ynabAuthToken === null) {
@@ -31,8 +29,12 @@ export default function YnabAuthenticationScreen({
       return;
     }
 
-    checkTokenValidity(ynabAuthToken).then(() => {
-      setAuthState(AuthenticationState.TokenValid);
+    checkTokenValidity(ynabAuthToken).then((isValid) => {
+      setAuthState(
+        isValid
+          ? AuthenticationState.TokenValid
+          : AuthenticationState.TokenInvalidOrExpired,
+      );
     });
   }, [ynabAuthToken]);
 
