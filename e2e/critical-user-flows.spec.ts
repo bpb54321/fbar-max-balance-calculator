@@ -6,12 +6,21 @@ test.describe("Critical user flows", () => {
   test("user can calculate the max value of a single account", async ({
     page,
   }) => {
-    await page.addInitScript((token) => {
-      localStorage.setItem("ynabAccessToken", token ?? "");
-    }, personalAccessToken);
-
     await page.goto("/");
 
+    await expect(
+      page.getByText("Please authorize this app to access your YNAB account."),
+    ).toBeVisible();
+
+    await page.getByRole("link", { name: /Authorize YNAB/i }).click();
+    await expect(page).toHaveURL("https://app.ynab.com/users/sign_in");
+
+    await page.goto(`/#access_token=${personalAccessToken}`);
+
+    await expect(page.getByText("You are authorized with YNAB.")).toBeVisible();
+    await page.getByRole("link", { name: "Next" }).click();
+
+    await expect(page.getByRole("heading", { name: "Accounts" })).toBeVisible();
     await expect(
       page.getByText("Using budget id: 1b4174d5-29c9-43e7-ae05-c3f609f07f12"),
     ).toBeVisible();

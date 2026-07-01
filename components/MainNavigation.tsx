@@ -3,7 +3,7 @@ import NavigationMenu, {
 } from "@/design-system/navigation-menu/NavigationMenu";
 
 const links: LinkData[] = [
-  { text: "Home", href: "/" },
+  { text: "Home", href: "/home" },
   { text: "Settings", href: "/settings" },
   { text: "Privacy Policy", href: "/privacy-policy" },
   { text: "Help", href: "/help" },
