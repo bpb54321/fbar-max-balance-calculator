@@ -10,6 +10,20 @@ import { mockGetUser } from "@/__mocks__/ynab/mockFunctions";
 
 vi.mock(import("ynab"));
 
+const renderScreenAndWaitForAuthCheck = async () => {
+  render(
+    <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+  );
+
+  expect(
+    screen.getByRole("status", { name: /checking YNAB authorization/i }),
+  ).toBeInTheDocument();
+
+  await waitForElementToBeRemoved(() =>
+    screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+  );
+};
+
 describe("YnabAuthenticationScreen", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -20,17 +34,7 @@ describe("YnabAuthenticationScreen", () => {
     localStorage.setItem("ynabAccessToken", "fake-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    expect(
-      screen.getByRole("status", { name: /checking YNAB authorization/i }),
-    ).toBeInTheDocument();
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
+    await renderScreenAndWaitForAuthCheck();
 
     expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
     expect(screen.getByText(/authorized with YNAB/i)).toHaveClass(
@@ -45,13 +49,7 @@ describe("YnabAuthenticationScreen", () => {
     localStorage.setItem("ynabAccessToken", "expired-token");
     mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
 
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
+    await renderScreenAndWaitForAuthCheck();
 
     expect(
       screen.getByText(
@@ -77,17 +75,7 @@ describe("YnabAuthenticationScreen", () => {
     window.location.hash = "#access_token=url-token";
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    expect(
-      screen.getByRole("status", { name: /checking YNAB authorization/i }),
-    ).toBeInTheDocument();
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
+    await renderScreenAndWaitForAuthCheck();
 
     expect(api).toHaveBeenCalledWith("url-token");
     expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
@@ -98,13 +86,7 @@ describe("YnabAuthenticationScreen", () => {
     window.location.hash = "#access_token=invalid-url-token";
     mockGetUser.mockRejectedValue(new Error("401 Unauthorized"));
 
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
+    await renderScreenAndWaitForAuthCheck();
 
     expect(
       screen.getByText(
@@ -124,13 +106,7 @@ describe("YnabAuthenticationScreen", () => {
       localStorage.setItem("ynabAccessToken", "local-storage-token");
       mockGetUser.mockRejectedValue(new Error("401 Unauthorized"));
 
-      render(
-        <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-      );
-
-      await waitForElementToBeRemoved(() =>
-        screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-      );
+      await renderScreenAndWaitForAuthCheck();
 
       expect(localStorage.getItem("ynabAccessToken")).toBe("url-token");
       expect(api).toHaveBeenCalledWith("url-token");
@@ -144,13 +120,7 @@ describe("YnabAuthenticationScreen", () => {
     window.location.hash = "#access_token=url-token";
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
+    await renderScreenAndWaitForAuthCheck();
 
     expect(window.location.hash).toBe("");
   });
