@@ -22,33 +22,34 @@ export default function YnabAuthenticationScreen({
   const [authState, setAuthState] = useState<AuthenticationState>(
     AuthenticationState.CheckingToken,
   );
+  const [urlTokenProcessed, setUrlTokenProcessed] = useState(false);
 
   useEffect(() => {
-    const checkUrlAndStoredTokens = async () => {
-      const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
-      if (tokenFromUrlHash) {
-        const isValid = await checkTokenValidity(tokenFromUrlHash);
-        TokenManager.clearTokenFromUrlHash();
-        if (isValid) {
-          TokenManager.setToken(tokenFromUrlHash);
-          setAuthState(AuthenticationState.TokenValid);
-          return;
-        }
-      }
-      const storedToken = TokenManager.getToken();
-      if (storedToken === "") {
-        setAuthState(AuthenticationState.TokenAbsent);
-        return;
-      }
-      const isStoredTokenValid = await checkTokenValidity(storedToken);
+    const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
+    if (tokenFromUrlHash) {
+      TokenManager.setToken(tokenFromUrlHash);
+      TokenManager.clearTokenFromUrlHash();
+    }
+    setUrlTokenProcessed(true);
+  }, []);
+
+  useEffect(() => {
+    if (!urlTokenProcessed) {
+      return;
+    }
+    const storedToken = TokenManager.getToken();
+    if (storedToken === "") {
+      setAuthState(AuthenticationState.TokenAbsent);
+      return;
+    }
+    checkTokenValidity(storedToken).then((isValid) => {
       setAuthState(
-        isStoredTokenValid
+        isValid
           ? AuthenticationState.TokenValid
           : AuthenticationState.TokenInvalidOrExpired,
       );
-    };
-    checkUrlAndStoredTokens();
-  }, []);
+    });
+  }, [urlTokenProcessed]);
 
   if (authState === AuthenticationState.CheckingToken) {
     return (

@@ -16,7 +16,7 @@ describe("YnabAuthenticationScreen", () => {
     window.location.hash = "";
   });
 
-  it("displays authorized message and next link when token in local storage is valid", async () => {
+  it("displays 'authorized with YNAB' message and 'Next' link when token in local storage is valid", async () => {
     localStorage.setItem("ynabAccessToken", "fake-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
@@ -41,17 +41,13 @@ describe("YnabAuthenticationScreen", () => {
     expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 
-  it("displays a message and auth link when token in local storage is invalid or expired", async () => {
+  it("displays 'Please authorize' message and auth link when token in local storage is invalid or expired", async () => {
     localStorage.setItem("ynabAccessToken", "expired-token");
     mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
 
     render(
       <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
     );
-
-    expect(
-      screen.getByRole("status", { name: /checking YNAB authorization/i }),
-    ).toBeInTheDocument();
 
     await waitForElementToBeRemoved(() =>
       screen.queryByRole("status", { name: /checking YNAB authorization/i }),
@@ -68,12 +64,13 @@ describe("YnabAuthenticationScreen", () => {
   });
 
   it("displays an auth link when token not present in local storage ", async () => {
-    const url = "https://example.com/auth";
-    render(<YnabAuthenticationScreen ynabAuthorizationUrl={url} />);
-    const link = await screen.findByRole("link", {
-      name: /authorize YNAB/i,
-    });
-    expect(link).toHaveAttribute("href", url);
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    expect(
+      screen.getByRole("link", { name: /authorize YNAB/i }),
+    ).toHaveAttribute("href", "https://example.com/auth");
   });
 
   it("displays authorized message and next link when a valid access token is present in the URL hash", async () => {
@@ -97,45 +94,8 @@ describe("YnabAuthenticationScreen", () => {
     expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 
-  it("falls back to a valid stored token when the URL hash token is invalid", async () => {
+  it("shows the authorization link when the URL hash token is invalid", async () => {
     window.location.hash = "#access_token=invalid-url-token";
-    localStorage.setItem("ynabAccessToken", "valid-stored-token");
-    mockGetUser
-      .mockRejectedValueOnce(new Error("401 Unauthorized"))
-      .mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
-
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
-
-    expect(api).toHaveBeenCalledWith("invalid-url-token");
-    expect(api).toHaveBeenCalledWith("valid-stored-token");
-    expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
-  });
-
-  it("clears the access token from the URL hash once it has been captured", async () => {
-    window.location.hash = "#access_token=url-token";
-    mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
-
-    render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
-    );
-
-    expect(window.location.hash).toBe("");
-  });
-
-  it("shows the authorization link when both the URL hash token and the stored token are invalid", async () => {
-    window.location.hash = "#access_token=invalid-url-token";
-    localStorage.setItem("ynabAccessToken", "invalid-stored-token");
     mockGetUser.mockRejectedValue(new Error("401 Unauthorized"));
 
     render(
@@ -154,5 +114,44 @@ describe("YnabAuthenticationScreen", () => {
     expect(
       screen.getByRole("link", { name: /authorize YNAB/i }),
     ).toBeInTheDocument();
+  });
+
+  it(
+    "overwrites the stored token with the URL hash token and checks the URL hash token for validity " +
+      "when tokens are present in both locations",
+    async () => {
+      window.location.hash = "#access_token=url-token";
+      localStorage.setItem("ynabAccessToken", "local-storage-token");
+      mockGetUser.mockRejectedValue(new Error("401 Unauthorized"));
+
+      render(
+        <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+      );
+
+      await waitForElementToBeRemoved(() =>
+        screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+      );
+
+      expect(localStorage.getItem("ynabAccessToken")).toBe("url-token");
+      expect(api).toHaveBeenCalledWith("url-token");
+      expect(
+        screen.getByRole("link", { name: /authorize YNAB/i }),
+      ).toBeInTheDocument();
+    },
+  );
+
+  it("clears the access token from the URL hash once it has been captured", async () => {
+    window.location.hash = "#access_token=url-token";
+    mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
+
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+    );
+
+    expect(window.location.hash).toBe("");
   });
 });
