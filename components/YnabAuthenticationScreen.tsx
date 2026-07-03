@@ -24,6 +24,21 @@ export default function YnabAuthenticationScreen({
   );
 
   useEffect(() => {
+    const checkStoredToken = () => {
+      const storedToken = TokenManager.getToken();
+      if (storedToken === "") {
+        setAuthState(AuthenticationState.TokenAbsent);
+      } else {
+        checkTokenValidity(storedToken).then((isValid) => {
+          setAuthState(
+            isValid
+              ? AuthenticationState.TokenValid
+              : AuthenticationState.TokenInvalidOrExpired,
+          );
+        });
+      }
+    };
+
     const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
     if (tokenFromUrlHash) {
       checkTokenValidity(tokenFromUrlHash).then((isValid) => {
@@ -31,22 +46,11 @@ export default function YnabAuthenticationScreen({
           setAuthState(AuthenticationState.TokenValid);
           TokenManager.setToken(tokenFromUrlHash);
         } else {
-          setAuthState(AuthenticationState.TokenInvalidOrExpired);
+          checkStoredToken();
         }
       });
     } else {
-      const storedToken = TokenManager.getToken();
-      if (storedToken === "") {
-        setAuthState(AuthenticationState.TokenAbsent);
-      } else {
-        checkTokenValidity(storedToken).then((isValid) => {
-          if (isValid) {
-            setAuthState(AuthenticationState.TokenValid);
-          } else {
-            setAuthState(AuthenticationState.TokenInvalidOrExpired);
-          }
-        });
-      }
+      checkStoredToken();
     }
   }, []);
 

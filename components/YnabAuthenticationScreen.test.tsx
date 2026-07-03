@@ -96,4 +96,48 @@ describe("YnabAuthenticationScreen", () => {
     expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
+
+  it("falls back to a valid stored token when the URL hash token is invalid", async () => {
+    window.location.hash = "#access_token=invalid-url-token";
+    localStorage.setItem("ynabAccessToken", "valid-stored-token");
+    mockGetUser
+      .mockRejectedValueOnce(new Error("401 Unauthorized"))
+      .mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
+
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+    );
+
+    expect(api).toHaveBeenCalledWith("invalid-url-token");
+    expect(api).toHaveBeenCalledWith("valid-stored-token");
+    expect(screen.getByText(/authorized with YNAB/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
+  });
+
+  it("shows the authorization link when both the URL hash token and the stored token are invalid", async () => {
+    window.location.hash = "#access_token=invalid-url-token";
+    localStorage.setItem("ynabAccessToken", "invalid-stored-token");
+    mockGetUser.mockRejectedValue(new Error("401 Unauthorized"));
+
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+    );
+
+    expect(
+      screen.getByText(
+        /please authorize this app to access your YNAB account/i,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /authorize YNAB/i }),
+    ).toBeInTheDocument();
+  });
 });
