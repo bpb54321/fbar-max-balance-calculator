@@ -8,6 +8,14 @@ export class TokenManager {
     return searchParams.get(this.YNAB_TOKEN_URL_PARAM);
   }
 
+  static clearTokenFromUrlHash(): void {
+    history.replaceState(
+      null,
+      "",
+      window.location.pathname + window.location.search,
+    );
+  }
+
   static hasToken(): boolean {
     return localStorage.getItem(this.TOKEN_KEY) !== null;
   }

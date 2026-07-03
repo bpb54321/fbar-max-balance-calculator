@@ -48,6 +48,7 @@ export default function YnabAuthenticationScreen({
         } else {
           checkStoredToken();
         }
+        TokenManager.clearTokenFromUrlHash();
       });
     } else {
       checkStoredToken();

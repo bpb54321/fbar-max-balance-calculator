@@ -118,6 +118,21 @@ describe("YnabAuthenticationScreen", () => {
     expect(screen.getByRole("link", { name: /next/i })).toBeInTheDocument();
   });
 
+  it("clears the access token from the URL hash once it has been captured", async () => {
+    window.location.hash = "#access_token=url-token";
+    mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
+
+    render(
+      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
+    );
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole("status", { name: /checking YNAB authorization/i }),
+    );
+
+    expect(window.location.hash).toBe("");
+  });
+
   it("shows the authorization link when both the URL hash token and the stored token are invalid", async () => {
     window.location.hash = "#access_token=invalid-url-token";
     localStorage.setItem("ynabAccessToken", "invalid-stored-token");
