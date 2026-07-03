@@ -25,11 +25,7 @@ export default function YnabAuthenticationScreen({
   const [urlTokenProcessed, setUrlTokenProcessed] = useState(false);
 
   useEffect(() => {
-    const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
-    if (tokenFromUrlHash) {
-      TokenManager.setToken(tokenFromUrlHash);
-      TokenManager.clearTokenFromUrlHash();
-    }
+    TokenManager.captureTokenFromUrlHash();
     setUrlTokenProcessed(true);
   }, []);
 
