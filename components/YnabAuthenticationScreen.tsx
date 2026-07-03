@@ -24,35 +24,30 @@ export default function YnabAuthenticationScreen({
   );
 
   useEffect(() => {
-    const checkStoredToken = () => {
+    const checkUrlAndStoredTokens = async () => {
+      const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
+      if (tokenFromUrlHash) {
+        const isValid = await checkTokenValidity(tokenFromUrlHash);
+        TokenManager.clearTokenFromUrlHash();
+        if (isValid) {
+          TokenManager.setToken(tokenFromUrlHash);
+          setAuthState(AuthenticationState.TokenValid);
+          return;
+        }
+      }
       const storedToken = TokenManager.getToken();
       if (storedToken === "") {
         setAuthState(AuthenticationState.TokenAbsent);
-      } else {
-        checkTokenValidity(storedToken).then((isValid) => {
-          setAuthState(
-            isValid
-              ? AuthenticationState.TokenValid
-              : AuthenticationState.TokenInvalidOrExpired,
-          );
-        });
+        return;
       }
+      const isStoredTokenValid = await checkTokenValidity(storedToken);
+      setAuthState(
+        isStoredTokenValid
+          ? AuthenticationState.TokenValid
+          : AuthenticationState.TokenInvalidOrExpired,
+      );
     };
-
-    const tokenFromUrlHash = TokenManager.getTokenFromUrlHash();
-    if (tokenFromUrlHash) {
-      checkTokenValidity(tokenFromUrlHash).then((isValid) => {
-        if (isValid) {
-          setAuthState(AuthenticationState.TokenValid);
-          TokenManager.setToken(tokenFromUrlHash);
-        } else {
-          checkStoredToken();
-        }
-        TokenManager.clearTokenFromUrlHash();
-      });
-    } else {
-      checkStoredToken();
-    }
+    checkUrlAndStoredTokens();
   }, []);
 
   if (authState === AuthenticationState.CheckingToken) {
