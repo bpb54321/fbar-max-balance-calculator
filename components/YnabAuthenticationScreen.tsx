@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "@/design-system/link/Link";
-import AuthenticationStatusMessage from "@/components/AuthenticationStatusMessage";
+import HighlightedText from "@/design-system/highlighted-text/HighlightedText";
 import { TokenManager } from "@/services/tokenManager";
 import checkTokenValidity from "@/utility-functions/checkTokenValidity";
 
@@ -58,9 +58,7 @@ export default function YnabAuthenticationScreen({
   if (authState === AuthenticationState.TokenValid) {
     return (
       <div>
-        <AuthenticationStatusMessage>
-          You are authorized with YNAB.
-        </AuthenticationStatusMessage>
+        <HighlightedText>You are authorized with YNAB.</HighlightedText>
         <Link href="/home">Next</Link>
       </div>
     );
@@ -68,9 +66,9 @@ export default function YnabAuthenticationScreen({
 
   return (
     <div>
-      <AuthenticationStatusMessage>
+      <HighlightedText>
         Please authorize this app to access your YNAB account.
-      </AuthenticationStatusMessage>
+      </HighlightedText>
       <Link href={ynabAuthorizationUrl}>Authorize YNAB</Link>
     </div>
   );
