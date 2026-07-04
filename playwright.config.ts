@@ -81,7 +81,7 @@ export default defineConfig({
   webServer: {
     command: "npm run storybook",
     url: "http://127.0.0.1:6006",
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
   },
   expect: {
     toHaveScreenshot: {

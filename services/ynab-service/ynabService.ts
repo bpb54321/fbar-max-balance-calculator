@@ -17,6 +17,10 @@ export default class YnabService {
     return accountResponse.data.accounts;
   }
 
+  async getUser() {
+    await this.ynabApi.user.getUser();
+  }
+
   async getDefaultBudgetId() {
     const budgetResponse = await this.ynabApi.budgets.getBudgets();
     return (
