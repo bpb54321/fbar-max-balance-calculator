@@ -124,31 +124,4 @@ describe("YnabAuthenticationScreen", () => {
 
     expect(window.location.hash).toBe("");
   });
-
-  it("does not update state after unmounting while the token validity check is still pending", async () => {
-    const consoleErrorSpy = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
-    localStorage.setItem("ynabAccessToken", "fake-token");
-    let resolveGetUser: (value: { data: { user: { id: string } } }) => void;
-    mockGetUser.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolveGetUser = resolve;
-      }),
-    );
-
-    const { unmount } = render(
-      <YnabAuthenticationScreen ynabAuthorizationUrl="https://example.com/auth" />,
-    );
-    await screen.findByRole("status", {
-      name: /checking YNAB authorization/i,
-    });
-
-    unmount();
-    resolveGetUser!({ data: { user: { id: "user-123" } } });
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    expect(consoleErrorSpy).not.toHaveBeenCalled();
-    consoleErrorSpy.mockRestore();
-  });
 });

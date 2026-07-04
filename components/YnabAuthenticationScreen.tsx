@@ -38,20 +38,13 @@ export default function YnabAuthenticationScreen({
       setAuthState(AuthenticationState.TokenAbsent);
       return;
     }
-    let ignoreStaleResult = false;
     checkTokenValidity(storedToken).then((isValid) => {
-      if (ignoreStaleResult) {
-        return;
-      }
       setAuthState(
         isValid
           ? AuthenticationState.TokenValid
           : AuthenticationState.TokenInvalidOrExpired,
       );
     });
-    return () => {
-      ignoreStaleResult = true;
-    };
   }, [urlTokenProcessed]);
 
   if (authState === AuthenticationState.CheckingToken) {
