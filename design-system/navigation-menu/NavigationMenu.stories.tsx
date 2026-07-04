@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/nextjs-vite";
 import NavigationMenu, { LinkData } from "./NavigationMenu";
 
 const meta: Meta<typeof NavigationMenu> = {

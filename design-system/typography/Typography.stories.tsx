@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/nextjs-vite";
 import Heading1 from "../headings/heading1/Heading1";
 import Heading2 from "../headings/heading2/Heading2";
 import Paragraph from "../paragraph/Paragraph";
@@ -22,7 +22,7 @@ export const Primary: StoryObj = {
           spent all day lounging on his throne. One day, his advisors came to
           him with a problem: the kingdom was running out of money.
         </Paragraph>
-        <Heading2>The King's Plan</Heading2>
+        <Heading2>The King&apos;s Plan</Heading2>
         <Paragraph>
           The king thought long and hard, and finally came up with a brilliant
           plan: he would tax the jokes in the kingdom.

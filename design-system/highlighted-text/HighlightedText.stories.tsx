@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/nextjs-vite";
 import HighlightedText from "./HighlightedText";
 
 const meta: Meta<typeof HighlightedText> = {

@@ -2,7 +2,7 @@ import { describe, it, vi, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import DefaultBudgetIdFetcher from "./DefaultBudgetIdFetcher";
 import { BudgetProvider } from "@/contexts/budgetContext";
-import { mockGetBudgets } from "@/__mocks__/ynab/mockFunctions";
+import { mockGetPlans } from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/tokenManager";
 
 vi.mock(import("ynab"));
@@ -34,8 +34,8 @@ describe("DefaultBudgetIdFetcher", () => {
   it("displays the budget id when fetched", async () => {
     // arrange
     TokenManager.setToken("test-token");
-    mockGetBudgets.mockResolvedValueOnce({
-      data: { default_budget: { id: "abc-123" } },
+    mockGetPlans.mockResolvedValueOnce({
+      data: { default_plan: { id: "abc-123" } },
     });
 
     // act

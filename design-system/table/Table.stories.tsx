@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { v4 as uuidv4 } from "uuid";
 import Table from "./Table";
 import Caption from "./Caption";

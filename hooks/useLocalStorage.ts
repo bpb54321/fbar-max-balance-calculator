@@ -16,6 +16,8 @@ export const useLocalStorage = <T>(
         const parsedData = JSON.parse(locallyStoredData);
         stateUpdaterFunction(parsedData);
       }
+      // Syncing from the external localStorage system, not cascading local state
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsDataLoadedFromLocalStorage(true);
     }
   }, [storageKey, stateUpdaterFunction, isDataLoadedFromLocalStorage]);

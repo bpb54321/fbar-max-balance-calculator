@@ -26,6 +26,8 @@ export default function YnabAuthenticationScreen({
 
   useEffect(() => {
     TokenManager.captureTokenFromUrlHash();
+    // Syncing from the external URL/localStorage system, not cascading local state
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUrlTokenProcessed(true);
   }, []);
 
@@ -35,6 +37,8 @@ export default function YnabAuthenticationScreen({
     }
     const storedToken = TokenManager.getToken();
     if (storedToken === "") {
+      // Syncing from the external localStorage system, not cascading local state
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthState(AuthenticationState.TokenAbsent);
       return;
     }
