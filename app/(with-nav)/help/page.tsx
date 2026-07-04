@@ -8,11 +8,13 @@ export default function HelpPage() {
       <Heading2>How to Use</Heading2>
       <ol className="my-6 ml-6 list-decimal">
         <li className="my-2">
-          From the Home page, click on Authorize With YNAB to connect your YNAB
-          account. Select which budget you want to use as your default budget -
-          this is the budget that will be used by the application. Once
-          connected, your connection token will be valid for two hours.
+          When you first open the app, you will see the authorization screen.
+          Click Authorize YNAB to connect your YNAB account. Select which
+          budget you want to use as your default budget - this is the budget
+          that will be used by the application. Once connected, your connection
+          token will be valid for two hours.
         </li>
+        <li className="my-2">Click Next to go to the Home page.</li>
         <li className="my-2">
           Visit the Settings page by clicking its link in the main nagivation.
         </li>
