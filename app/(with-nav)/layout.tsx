@@ -6,11 +6,11 @@ import MainNavigation from "@/components/MainNavigation";
 import { TokenManager } from "@/services/tokenManager";
 import checkTokenValidity from "@/utility-functions/checkTokenValidity";
 
-export default function NavLayout({
-  children,
-}: Readonly<{
+type NavLayoutProps = {
   children: React.ReactNode;
-}>) {
+};
+
+export default function NavLayout({ children }: Readonly<NavLayoutProps>) {
   const router = useRouter();
 
   useEffect(() => {
