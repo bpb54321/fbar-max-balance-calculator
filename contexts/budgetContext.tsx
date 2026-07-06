@@ -6,9 +6,7 @@ import {
   Dispatch,
   ReactNode,
   useContext,
-  useEffect,
   useReducer,
-  useState,
 } from "react";
 
 interface State {
@@ -59,35 +57,8 @@ interface BudgetProviderProps {
   children: ReactNode;
 }
 
-const BUDGET_CONTEXT_STORAGE_KEY = "budgetState";
-
 export function BudgetProvider({ children }: BudgetProviderProps) {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
-  const [isDataLoadedFromLocalStorage, setIsDataLoadedFromLocalStorage] =
-    useState(false);
-
-  if (!isDataLoadedFromLocalStorage) {
-    if (globalThis.localStorage) {
-      const locallyStoredData = globalThis.localStorage.getItem(
-        BUDGET_CONTEXT_STORAGE_KEY,
-      );
-      if (locallyStoredData) {
-        const parsedData = JSON.parse(locallyStoredData);
-        dispatch({
-          type: BudgetActionTypes.StateLoadedFromStorage,
-          loadedState: parsedData,
-        });
-      }
-      setIsDataLoadedFromLocalStorage(true);
-    }
-  }
-
-  useEffect(() => {
-    globalThis.localStorage.setItem(
-      BUDGET_CONTEXT_STORAGE_KEY,
-      JSON.stringify(state),
-    );
-  }, [state]);
 
   return (
     <StateContext.Provider value={state}>
