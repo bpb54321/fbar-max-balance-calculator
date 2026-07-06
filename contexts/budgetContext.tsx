@@ -1,14 +1,14 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { BaseAction } from "@/types/BaseAction";
 import {
   createContext,
   Dispatch,
   ReactNode,
-  useCallback,
   useContext,
+  useEffect,
   useReducer,
+  useState,
 } from "react";
 
 interface State {
@@ -59,19 +59,35 @@ interface BudgetProviderProps {
   children: ReactNode;
 }
 
+const BUDGET_CONTEXT_STORAGE_KEY = "budgetState";
+
 export function BudgetProvider({ children }: BudgetProviderProps) {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
+  const [isDataLoadedFromLocalStorage, setIsDataLoadedFromLocalStorage] =
+    useState(false);
 
-  const loadStateFromStorage = useCallback(
-    (storedState: State) => {
-      dispatch({
-        type: BudgetActionTypes.StateLoadedFromStorage,
-        loadedState: storedState,
-      });
-    },
-    [dispatch]
-  );
-  useLocalStorage("budgetState", state, loadStateFromStorage);
+  if (!isDataLoadedFromLocalStorage) {
+    if (globalThis.localStorage) {
+      const locallyStoredData = globalThis.localStorage.getItem(
+        BUDGET_CONTEXT_STORAGE_KEY,
+      );
+      if (locallyStoredData) {
+        const parsedData = JSON.parse(locallyStoredData);
+        dispatch({
+          type: BudgetActionTypes.StateLoadedFromStorage,
+          loadedState: parsedData,
+        });
+      }
+      setIsDataLoadedFromLocalStorage(true);
+    }
+  }
+
+  useEffect(() => {
+    globalThis.localStorage.setItem(
+      BUDGET_CONTEXT_STORAGE_KEY,
+      JSON.stringify(state),
+    );
+  }, [state]);
 
   return (
     <StateContext.Provider value={state}>
