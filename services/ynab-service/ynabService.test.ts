@@ -1,6 +1,6 @@
 import {
   mockGetAccounts,
-  mockGetBudgets,
+  mockGetPlans,
   mockGetTransactionsByAccount,
 } from "@/__mocks__/ynab/mockFunctions";
 import { describe, expect, test, vi } from "vitest";
@@ -40,9 +40,9 @@ describe("YnabService", () => {
     test("uses the budget's first_month as the transaction start date", async () => {
       // arrange
       const mockFirstMonth = "2022-01-01";
-      mockGetBudgets.mockResolvedValueOnce({
+      mockGetPlans.mockResolvedValueOnce({
         data: {
-          budgets: [{ id: mockYnabBudgetId, first_month: mockFirstMonth }],
+          plans: [{ id: mockYnabBudgetId, first_month: mockFirstMonth }],
         },
       });
       mockGetTransactionsByAccount.mockResolvedValueOnce(mockTransactionData);
@@ -56,7 +56,7 @@ describe("YnabService", () => {
 
       // assert
       expect(accountTransactions).toEqual(mockTransactions);
-      expect(mockGetBudgets).toHaveBeenCalled();
+      expect(mockGetPlans).toHaveBeenCalled();
       expect(mockGetTransactionsByAccount).toHaveBeenCalledWith(
         mockYnabBudgetId,
         mockAccountId,
@@ -66,9 +66,9 @@ describe("YnabService", () => {
 
     test("falls back to 2000-01-01 when budget has no first_month", async () => {
       // arrange
-      mockGetBudgets.mockResolvedValueOnce({
+      mockGetPlans.mockResolvedValueOnce({
         data: {
-          budgets: [{ id: mockYnabBudgetId, first_month: undefined }],
+          plans: [{ id: mockYnabBudgetId, first_month: undefined }],
         },
       });
       mockGetTransactionsByAccount.mockResolvedValueOnce(mockTransactionData);
@@ -91,9 +91,9 @@ describe("YnabService", () => {
       const testYnabToken = "test-ynab-token";
       const ynabService = new YnabService(testYnabToken);
       const mockDefaultBudgetId = "mock default budget id";
-      mockGetBudgets.mockResolvedValueOnce({
+      mockGetPlans.mockResolvedValueOnce({
         data: {
-          default_budget: { id: mockDefaultBudgetId },
+          default_plan: { id: mockDefaultBudgetId },
         },
       });
 
@@ -102,7 +102,7 @@ describe("YnabService", () => {
 
       // assert
       expect(actualDefaultBudgetId).toEqual(mockDefaultBudgetId);
-      expect(mockGetBudgets).toHaveBeenCalled();
+      expect(mockGetPlans).toHaveBeenCalled();
     });
 
     test("returns the first budget id when no default_budget exists", async () => {
@@ -110,10 +110,10 @@ describe("YnabService", () => {
       const testYnabToken = "test-ynab-token";
       const ynabService = new YnabService(testYnabToken);
       const mockFirstBudgetId = "first-budget-id";
-      mockGetBudgets.mockResolvedValueOnce({
+      mockGetPlans.mockResolvedValueOnce({
         data: {
-          default_budget: undefined,
-          budgets: [
+          default_plan: undefined,
+          plans: [
             { id: mockFirstBudgetId },
             { id: "second-budget-id" },
           ],

@@ -1,12 +1,8 @@
-import { StorybookConfig } from "@storybook/experimental-nextjs-vite";
+import { StorybookConfig } from "@storybook/nextjs-vite";
 
 const config: StorybookConfig = {
   stories: ["../design-system/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
-    "@storybook/addon-interactions",
-  ],
-  framework: "@storybook/experimental-nextjs-vite",
+  addons: ["@chromatic-com/storybook", "@storybook/addon-docs"],
+  framework: "@storybook/nextjs-vite",
 };
 export default config;

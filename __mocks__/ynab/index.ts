@@ -2,14 +2,14 @@ import { vi } from "vitest";
 import { AccountType } from "ynab";
 import {
   mockGetAccounts,
-  mockGetBudgets,
+  mockGetPlans,
   mockGetTransactionsByAccount,
   mockGetUser,
 } from "./mockFunctions";
 
 interface YnabApi {
   accounts: { getAccounts: typeof mockGetAccounts };
-  budgets: { getBudgets: typeof mockGetBudgets };
+  plans: { getPlans: typeof mockGetPlans };
   transactions: {
     getTransactionsByAccount: typeof mockGetTransactionsByAccount;
   };
@@ -20,8 +20,8 @@ export const api = vi.fn(function (this: YnabApi) {
   this.accounts = {
     getAccounts: mockGetAccounts,
   };
-  this.budgets = {
-    getBudgets: mockGetBudgets,
+  this.plans = {
+    getPlans: mockGetPlans,
   };
   this.transactions = {
     getTransactionsByAccount: mockGetTransactionsByAccount,

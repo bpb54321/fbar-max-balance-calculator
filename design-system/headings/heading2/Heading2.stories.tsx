@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/nextjs-vite";
 import Heading2 from "./Heading2";
 
 const meta: Meta<typeof Heading2> = {

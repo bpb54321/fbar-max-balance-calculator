@@ -19,8 +19,8 @@ async function main() {
   const client = new Ynab.API(token);
 
   // fetch budgets and pick the first one (the test user only has one budget)
-  const budgetsResponse = await client.budgets.getBudgets();
-  const budgets = budgetsResponse.data.budgets;
+  const plansResponse = await client.plans.getPlans();
+  const budgets = plansResponse.data.plans;
   if (budgets.length === 0) {
     throw new Error("No budgets returned from YNAB API");
   }

@@ -22,17 +22,15 @@ export default class YnabService {
   }
 
   async getDefaultBudgetId() {
-    const budgetResponse = await this.ynabApi.budgets.getBudgets();
+    const planResponse = await this.ynabApi.plans.getPlans();
     return (
-      budgetResponse.data.default_budget?.id ??
-      budgetResponse.data.budgets[0]?.id ??
-      ""
+      planResponse.data.default_plan?.id ?? planResponse.data.plans[0]?.id ?? ""
     );
   }
 
   async getAccountTransactions(ynabBudgetId: string, accountId: string) {
-    const budgetResponse = await this.ynabApi.budgets.getBudgets();
-    const budget = budgetResponse.data.budgets.find(
+    const planResponse = await this.ynabApi.plans.getPlans();
+    const budget = planResponse.data.plans.find(
       (b) => b.id === ynabBudgetId,
     );
     const transactionStartDate = budget?.first_month ?? "2000-01-01";

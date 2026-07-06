@@ -1,6 +1,6 @@
 import { api as mockYnabApi } from "@/__mocks__/ynab";
 import {
-  mockGetBudgets,
+  mockGetPlans,
   mockGetTransactionsByAccount,
 } from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/__mocks__/tokenManager";
@@ -26,9 +26,9 @@ describe("getTransactionsForAccount", () => {
 
     const mockFirstMonth = "2022-01-01";
     const mockYnabBudgetId = "mock-budget-id";
-    mockGetBudgets.mockResolvedValueOnce({
+    mockGetPlans.mockResolvedValueOnce({
       data: {
-        budgets: [{ id: mockYnabBudgetId, first_month: mockFirstMonth }],
+        plans: [{ id: mockYnabBudgetId, first_month: mockFirstMonth }],
       },
     });
 
