@@ -59,6 +59,8 @@ interface BudgetProviderProps {
   children: ReactNode;
 }
 
+const BUDGET_LOCAL_STORAGE_KEY = "budgets";
+
 export function BudgetProvider({ children }: BudgetProviderProps) {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
 
@@ -69,9 +71,9 @@ export function BudgetProvider({ children }: BudgetProviderProps) {
         loadedState: storedState,
       });
     },
-    [dispatch]
+    [dispatch],
   );
-  useLocalStorage("budgetState", state, loadStateFromStorage);
+  useLocalStorage(BUDGET_LOCAL_STORAGE_KEY, state, loadStateFromStorage);
 
   return (
     <StateContext.Provider value={state}>
