@@ -64,7 +64,7 @@ export type AccountAction =
   | MaxBalancesCalculatedAction;
 
 const AccountsDispatchContext = createContext<Dispatch<AccountAction> | null>(
-  null
+  null,
 );
 
 function accountsReducer(state: State, action: AccountAction) {
@@ -133,6 +133,8 @@ interface AccountsProviderProps {
   children: ReactNode;
 }
 
+const ACCOUNTS_LOCAL_STORAGE_KEY = "accounts";
+
 export function AccountsProvider({ children }: AccountsProviderProps) {
   const [accountState, dispatch] = useReducer(accountsReducer, initialState);
 
@@ -143,9 +145,13 @@ export function AccountsProvider({ children }: AccountsProviderProps) {
         loadedAccountState: loadedAccountState,
       });
     },
-    [dispatch]
+    [dispatch],
   );
-  useLocalStorage("accounts", accountState, accountStateUpdaterFunction);
+  useLocalStorage(
+    ACCOUNTS_LOCAL_STORAGE_KEY,
+    accountState,
+    accountStateUpdaterFunction,
+  );
 
   return (
     <AccountsContext.Provider value={accountState}>
