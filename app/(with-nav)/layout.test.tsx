@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import NavLayout from "./layout";
-import { mockGetUser } from "@/__mocks__/ynab/mockFunctions";
+import { mockGetPlans, mockGetUser } from "@/__mocks__/ynab/mockFunctions";
+import { BudgetProvider, useBudgetState } from "@/contexts/budgetContext";
 
 vi.mock(import("ynab"));
 
@@ -10,6 +11,11 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
 }));
 
+function BudgetIdProbe() {
+  const { defaultBudgetId } = useBudgetState();
+  return <div data-testid="budget-id-probe">{defaultBudgetId}</div>;
+}
+
 describe("NavLayout", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -17,9 +23,11 @@ describe("NavLayout", () => {
 
   it("renders the main navigation", () => {
     render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
+      <BudgetProvider>
+        <NavLayout>
+          <div>child content</div>
+        </NavLayout>
+      </BudgetProvider>,
     );
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
@@ -27,9 +35,11 @@ describe("NavLayout", () => {
 
   it("redirects to / when no YNAB token is present", () => {
     render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
+      <BudgetProvider>
+        <NavLayout>
+          <div>child content</div>
+        </NavLayout>
+      </BudgetProvider>,
     );
 
     expect(mockReplace).toHaveBeenCalledWith("/");
@@ -38,11 +48,16 @@ describe("NavLayout", () => {
   it("does not redirect when a valid token is present in local storage", async () => {
     localStorage.setItem("ynabAccessToken", "fake-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
+    mockGetPlans.mockResolvedValueOnce({
+      data: { default_plan: { id: "abc-123" } },
+    });
 
     render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
+      <BudgetProvider>
+        <NavLayout>
+          <div>child content</div>
+        </NavLayout>
+      </BudgetProvider>,
     );
 
     await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
@@ -55,11 +70,33 @@ describe("NavLayout", () => {
     mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
 
     render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
+      <BudgetProvider>
+        <NavLayout>
+          <div>child content</div>
+        </NavLayout>
+      </BudgetProvider>,
     );
 
     await waitFor(() => expect(mockReplace).toHaveBeenCalledWith("/"));
+  });
+
+  it("fetches the default budget id and stores it in the budget context when the token is valid", async () => {
+    localStorage.setItem("ynabAccessToken", "fake-token");
+    mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
+    mockGetPlans.mockResolvedValueOnce({
+      data: { default_plan: { id: "abc-123" } },
+    });
+
+    render(
+      <BudgetProvider>
+        <NavLayout>
+          <BudgetIdProbe />
+        </NavLayout>
+      </BudgetProvider>,
+    );
+
+    expect(await screen.findByTestId("budget-id-probe")).toHaveTextContent(
+      "abc-123",
+    );
   });
 });

@@ -45,7 +45,7 @@ runs once per full page load — exactly the trigger we want.
 
 ## Status
 
-- [ ] Cycle 1
+- [x] Cycle 1
 - [ ] Cycle 2
 - [ ] Cycle 3
 - [ ] Cycle 4
