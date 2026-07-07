@@ -1,10 +1,12 @@
 "use client";
 
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { BaseAction } from "@/types/BaseAction";
 import {
   createContext,
   Dispatch,
   ReactNode,
+  useCallback,
   useContext,
   useReducer,
 } from "react";
@@ -57,8 +59,21 @@ interface BudgetProviderProps {
   children: ReactNode;
 }
 
+const BUDGET_LOCAL_STORAGE_KEY = "budgets";
+
 export function BudgetProvider({ children }: BudgetProviderProps) {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
+
+  const budgetStateUpdatedFunction = useCallback(
+    (loadedAccountState: State) => {
+      dispatch({
+        type: BudgetActionTypes.StateLoadedFromStorage,
+        loadedState: loadedAccountState,
+      });
+    },
+    [dispatch],
+  );
+  useLocalStorage(BUDGET_LOCAL_STORAGE_KEY, state, budgetStateUpdatedFunction);
 
   return (
     <StateContext.Provider value={state}>
