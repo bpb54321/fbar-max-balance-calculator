@@ -64,16 +64,16 @@ const BUDGET_LOCAL_STORAGE_KEY = "budgets";
 export function BudgetProvider({ children }: BudgetProviderProps) {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
 
-  const budgetStateUpdatedFunction = useCallback(
-    (loadedAccountState: State) => {
+  const loadStateFromStorage = useCallback(
+    (storedState: State) => {
       dispatch({
         type: BudgetActionTypes.StateLoadedFromStorage,
-        loadedState: loadedAccountState,
+        loadedState: storedState,
       });
     },
     [dispatch],
   );
-  useLocalStorage(BUDGET_LOCAL_STORAGE_KEY, state, budgetStateUpdatedFunction);
+  useLocalStorage(BUDGET_LOCAL_STORAGE_KEY, state, loadStateFromStorage);
 
   return (
     <StateContext.Provider value={state}>
