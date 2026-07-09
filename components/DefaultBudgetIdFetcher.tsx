@@ -28,12 +28,10 @@ export default function DefaultBudgetIdFetcher() {
     updateBudgetId();
   }, [budgetDispatch]);
 
-  // TODO: Update this error text.
   if (hasError) {
     return (
       <p className="mt-2 mb-2 text-red-600">
-        There was an error retrieving information from YNAB. Please click on the
-        preceding link to reauthorize the connection to YNAB.
+        There was an error retrieving the default plan id.
       </p>
     );
   }
