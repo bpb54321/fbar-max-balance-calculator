@@ -28,6 +28,7 @@ export default function DefaultBudgetIdFetcher() {
     updateBudgetId();
   }, [budgetDispatch]);
 
+  // TODO: Update this error text.
   if (hasError) {
     return (
       <p className="mt-2 mb-2 text-red-600">
