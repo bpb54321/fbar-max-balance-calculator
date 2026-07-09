@@ -24,7 +24,7 @@ describe("DefaultBudgetIdFetcher", () => {
 
       expect(
         await screen.findByText(
-          /There was an error retrieving information from YNAB/,
+          /There was an error retrieving the default plan id\./,
         ),
       ).toBeInTheDocument();
       expect(screen.queryByText(/Using budget id:/)).not.toBeInTheDocument();
