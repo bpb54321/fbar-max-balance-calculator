@@ -11,35 +11,37 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
 }));
 
-async function renderNavLayout() {
-  const renderResult = render(
+function renderNavLayout() {
+  return render(
     <Providers>
       <NavLayout>
         <div>child content</div>
       </NavLayout>
     </Providers>,
   );
-
-  await waitFor(() => {
-    expect(screen.queryByText(/^Using budget id:/)).toBeInTheDocument();
-  });
-
-  return renderResult;
 }
 
 describe("NavLayout", () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-
-  it("renders the main navigation", () => {
+  it("renders the main navigation", async () => {
     renderNavLayout();
+
+    await waitFor(() => {
+      expect(screen.getByText(/^Using budget id:/)).toBeInTheDocument();
+    });
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
   });
 
-  it("redirects to / when no YNAB token is present", () => {
+  it("redirects to / when no YNAB token is present", async () => {
+    localStorage.clear();
+
     renderNavLayout();
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("There was an error retrieving the default plan id."),
+      ).toBeInTheDocument();
+    });
 
     expect(mockReplace).toHaveBeenCalledWith("/");
   });
@@ -49,6 +51,10 @@ describe("NavLayout", () => {
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
     renderNavLayout();
+
+    await waitFor(() => {
+      expect(screen.getByText(/^Using budget id:/)).toBeInTheDocument();
+    });
 
     await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
 
@@ -60,6 +66,10 @@ describe("NavLayout", () => {
     mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
 
     renderNavLayout();
+
+    await waitFor(() => {
+      expect(screen.getByText(/^Using budget id:/)).toBeInTheDocument();
+    });
 
     await waitFor(() => expect(mockReplace).toHaveBeenCalledWith("/"));
   });
