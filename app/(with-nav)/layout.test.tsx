@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import NavLayout from "./layout";
+import Providers from "@/components/Providers";
 import { mockGetUser } from "@/__mocks__/ynab/mockFunctions";
 
 vi.mock(import("ynab"));
@@ -10,27 +11,35 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace: mockReplace }),
 }));
 
+async function renderNavLayout() {
+  const renderResult = render(
+    <Providers>
+      <NavLayout>
+        <div>child content</div>
+      </NavLayout>
+    </Providers>,
+  );
+
+  await waitFor(() => {
+    expect(screen.queryByText(/^Using budget id:/)).toBeInTheDocument();
+  });
+
+  return renderResult;
+}
+
 describe("NavLayout", () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
   it("renders the main navigation", () => {
-    render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
-    );
+    renderNavLayout();
 
     expect(screen.getByRole("navigation")).toBeInTheDocument();
   });
 
   it("redirects to / when no YNAB token is present", () => {
-    render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
-    );
+    renderNavLayout();
 
     expect(mockReplace).toHaveBeenCalledWith("/");
   });
@@ -39,11 +48,7 @@ describe("NavLayout", () => {
     localStorage.setItem("ynabAccessToken", "fake-token");
     mockGetUser.mockResolvedValueOnce({ data: { user: { id: "user-123" } } });
 
-    render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
-    );
+    renderNavLayout();
 
     await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
 
@@ -54,11 +59,7 @@ describe("NavLayout", () => {
     localStorage.setItem("ynabAccessToken", "expired-token");
     mockGetUser.mockRejectedValueOnce(new Error("401 Unauthorized"));
 
-    render(
-      <NavLayout>
-        <div>child content</div>
-      </NavLayout>,
-    );
+    renderNavLayout();
 
     await waitFor(() => expect(mockReplace).toHaveBeenCalledWith("/"));
   });
