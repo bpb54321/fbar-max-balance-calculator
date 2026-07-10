@@ -66,17 +66,6 @@ interface BudgetProviderProps {
 export function BudgetProvider({ children }: BudgetProviderProps) {
   const [state, dispatch] = useReducer(budgetReducer, initialState);
 
-  const loadStateFromStorage = useCallback(
-    (storedState: State) => {
-      dispatch({
-        type: BudgetActionTypes.StateLoadedFromStorage,
-        loadedState: storedState,
-      });
-    },
-    [dispatch]
-  );
-  useLocalStorage("budgetState", state, loadStateFromStorage);
-
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

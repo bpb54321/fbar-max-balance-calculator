@@ -17,22 +17,32 @@ export default class YnabService {
     return accountResponse.data.accounts;
   }
 
+  async getUser() {
+    await this.ynabApi.user.getUser();
+  }
+
   async getDefaultBudget() {
-    const budgetResponse = await this.ynabApi.budgets.getBudgets();
-    const defaultBudget = budgetResponse.data.default_budget;
+    const planResponse = await this.ynabApi.plans.getPlans();
+    const defaultPlan =
+      planResponse.data.default_plan ?? planResponse.data.plans[0];
     return {
-      id: defaultBudget?.id ?? "",
-      currencyIsoCode: defaultBudget?.currency_format?.iso_code ?? "",
+      id: defaultPlan?.id ?? "",
+      currencyIsoCode: defaultPlan?.currency_format?.iso_code ?? "",
     };
   }
 
   async getAccountTransactions(ynabBudgetId: string, accountId: string) {
+    const planResponse = await this.ynabApi.plans.getPlans();
+    const budget = planResponse.data.plans.find(
+      (b) => b.id === ynabBudgetId,
+    );
+    const transactionStartDate = budget?.first_month ?? "2000-01-01";
     const transactionsResponse =
       await this.ynabApi.transactions.getTransactionsByAccount(
         ynabBudgetId,
         accountId,
+        transactionStartDate,
       );
-
     return transactionsResponse.data.transactions;
   }
 }

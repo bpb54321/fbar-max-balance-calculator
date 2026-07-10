@@ -12,7 +12,6 @@ export default defineConfig({
   test: {
     setupFiles: ["vitest-setup.ts"],
     environment: "jsdom",
-    mockReset: true,
     globals: true,
     exclude: [
       "node_modules",
