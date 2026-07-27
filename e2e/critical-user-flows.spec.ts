@@ -101,5 +101,3 @@ test.describe("Critical user flows", () => {
     await expect(accountRow.getByRole("cell").nth(2)).toContainText("1411.36");
   });
 });
-
-// Comment - this test is failing in the CI, but not locally.
