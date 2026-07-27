@@ -21,11 +21,14 @@ export default class YnabService {
     await this.ynabApi.user.getUser();
   }
 
-  async getDefaultBudgetId() {
+  async getDefaultBudget() {
     const planResponse = await this.ynabApi.plans.getPlans();
-    return (
-      planResponse.data.default_plan?.id ?? planResponse.data.plans[0]?.id ?? ""
-    );
+    const defaultPlan =
+      planResponse.data.default_plan ?? planResponse.data.plans[0];
+    return {
+      id: defaultPlan?.id ?? "",
+      currencyIsoCode: defaultPlan?.currency_format?.iso_code ?? "",
+    };
   }
 
   async getAccountTransactions(ynabBudgetId: string, accountId: string) {

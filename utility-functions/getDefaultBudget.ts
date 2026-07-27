@@ -1,9 +1,8 @@
 import { TokenManager } from "@/services/tokenManager";
 import YnabService from "@/services/ynab-service/ynabService";
 
-export default async function getDefaultBudgetId() {
+export default async function getDefaultBudget() {
   const token = TokenManager.getToken();
   const ynabService = new YnabService(token);
-  const defaultBudgetId = await ynabService.getDefaultBudgetId();
-  return defaultBudgetId;
+  return ynabService.getDefaultBudget();
 }

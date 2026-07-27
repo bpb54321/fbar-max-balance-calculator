@@ -1,13 +1,13 @@
 import { describe, it, vi, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import DefaultBudgetIdFetcher from "./DefaultBudgetIdFetcher";
+import DefaultBudgetFetcher from "./DefaultBudgetFetcher";
 import { BudgetProvider } from "@/contexts/budgetContext";
 import { mockGetPlans } from "@/__mocks__/ynab/mockFunctions";
 import { TokenManager } from "@/services/tokenManager";
 
 vi.mock(import("ynab"));
 
-describe("DefaultBudgetIdFetcher", () => {
+describe("DefaultBudgetFetcher", () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -18,7 +18,7 @@ describe("DefaultBudgetIdFetcher", () => {
     async () => {
       render(
         <BudgetProvider>
-          <DefaultBudgetIdFetcher />
+          <DefaultBudgetFetcher />
         </BudgetProvider>,
       );
 
@@ -41,7 +41,7 @@ describe("DefaultBudgetIdFetcher", () => {
     // act
     render(
       <BudgetProvider>
-        <DefaultBudgetIdFetcher />
+        <DefaultBudgetFetcher />
       </BudgetProvider>,
     );
 

@@ -5,27 +5,28 @@ import {
   useBudgetDispatch,
   useBudgetState,
 } from "@/contexts/budgetContext";
-import getDefaultBudgetId from "@/utility-functions/getDefaultBudgetId";
+import getDefaultBudget from "@/utility-functions/getDefaultBudget";
 import { useEffect, useState } from "react";
 
-export default function DefaultBudgetIdFetcher() {
+export default function DefaultBudgetFetcher() {
   const [hasError, setError] = useState<Error | null>(null);
   const budgetDispatch = useBudgetDispatch();
   const budgetState = useBudgetState();
 
   useEffect(() => {
-    const updateBudgetId = async () => {
+    const updateBudget = async () => {
       try {
-        const defaultBudgetId = await getDefaultBudgetId();
+        const { id, currencyIsoCode } = await getDefaultBudget();
         budgetDispatch({
-          type: BudgetActionTypes.DefaultBudgetIdSet,
-          defaultBudgetId,
+          type: BudgetActionTypes.DefaultBudgetSet,
+          defaultBudgetId: id,
+          defaultBudgetCurrencyIsoCode: currencyIsoCode,
         });
       } catch (e) {
         setError(e as Error);
       }
     };
-    updateBudgetId();
+    updateBudget();
   }, [budgetDispatch]);
 
   if (hasError) {

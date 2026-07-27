@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import MainNavigation from "@/components/MainNavigation";
 import { TokenManager } from "@/services/tokenManager";
 import checkTokenValidity from "@/utility-functions/checkTokenValidity";
-import DefaultBudgetIdFetcher from "@/components/DefaultBudgetIdFetcher";
+import DefaultBudgetFetcher from "@/components/DefaultBudgetFetcher";
 
 type NavLayoutProps = {
   children: React.ReactNode;
@@ -30,7 +30,7 @@ export default function NavLayout({ children }: Readonly<NavLayoutProps>) {
   return (
     <>
       <MainNavigation />
-      <DefaultBudgetIdFetcher />
+      <DefaultBudgetFetcher />
       {children}
     </>
   );

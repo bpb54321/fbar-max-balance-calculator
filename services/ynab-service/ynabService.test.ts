@@ -85,27 +85,33 @@ describe("YnabService", () => {
       );
     });
   });
-  describe("getDefaultBudgetId", () => {
-    test("gets the user's default budget id", async () => {
+  describe("getDefaultBudget", () => {
+    test("returns the default plan's id and currency iso code", async () => {
       // arrange
       const testYnabToken = "test-ynab-token";
       const ynabService = new YnabService(testYnabToken);
       const mockDefaultBudgetId = "mock default budget id";
       mockGetPlans.mockResolvedValueOnce({
         data: {
-          default_plan: { id: mockDefaultBudgetId },
+          default_plan: {
+            id: mockDefaultBudgetId,
+            currency_format: { iso_code: "GBP" },
+          },
         },
       });
 
       // act
-      const actualDefaultBudgetId = await ynabService.getDefaultBudgetId();
+      const actualDefaultBudget = await ynabService.getDefaultBudget();
 
       // assert
-      expect(actualDefaultBudgetId).toEqual(mockDefaultBudgetId);
+      expect(actualDefaultBudget).toEqual({
+        id: mockDefaultBudgetId,
+        currencyIsoCode: "GBP",
+      });
       expect(mockGetPlans).toHaveBeenCalled();
     });
 
-    test("returns the first budget id when no default_budget exists", async () => {
+    test("falls back to the first plan when no default_plan exists", async () => {
       // arrange
       const testYnabToken = "test-ynab-token";
       const ynabService = new YnabService(testYnabToken);
@@ -114,17 +120,29 @@ describe("YnabService", () => {
         data: {
           default_plan: undefined,
           plans: [
-            { id: mockFirstBudgetId },
+            { id: mockFirstBudgetId, currency_format: { iso_code: "EUR" } },
             { id: "second-budget-id" },
           ],
         },
       });
 
       // act
-      const actualDefaultBudgetId = await ynabService.getDefaultBudgetId();
+      const actualDefaultBudget = await ynabService.getDefaultBudget();
 
       // assert
-      expect(actualDefaultBudgetId).toEqual(mockFirstBudgetId);
+      expect(actualDefaultBudget).toEqual({
+        id: mockFirstBudgetId,
+        currencyIsoCode: "EUR",
+      });
+    });
+
+    test("falls back to empty strings when no default plan is set", async () => {
+      const ynabService = new YnabService("test-ynab-token");
+      mockGetPlans.mockResolvedValueOnce({ data: { plans: [] } });
+
+      const actualDefaultBudget = await ynabService.getDefaultBudget();
+
+      expect(actualDefaultBudget).toEqual({ id: "", currencyIsoCode: "" });
     });
   });
 });

@@ -23,7 +23,10 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
   const { transactionsWithBalances, maxBalancesByYear } = useAccount(accountId);
   const accountsDispatch = useAccountsDispatch();
 
-  const { defaultBudgetId } = useBudgetState();
+  const { defaultBudgetId, defaultBudgetCurrencyIsoCode } = useBudgetState();
+  const currencySuffix = defaultBudgetCurrencyIsoCode
+    ? ` (${defaultBudgetCurrencyIsoCode})`
+    : "";
 
   const handleClick = async () => {
     const transactions = await getTransactionsForAccount(
@@ -63,8 +66,8 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
             <TableHeaderCell>Date</TableHeaderCell>
             <TableHeaderCell>Payee</TableHeaderCell>
             <TableHeaderCell>Memo</TableHeaderCell>
-            <TableHeaderCell>Amount</TableHeaderCell>
-            <TableHeaderCell>Balance</TableHeaderCell>
+            <TableHeaderCell>Amount{currencySuffix}</TableHeaderCell>
+            <TableHeaderCell>Balance{currencySuffix}</TableHeaderCell>
             <TableHeaderCell>Year of Max Balance</TableHeaderCell>
           </TableRow>
         </TableHeader>
@@ -100,8 +103,8 @@ export default function TransactionTable({ accountId }: { accountId: string }) {
             <TableHeaderCell>Date</TableHeaderCell>
             <TableHeaderCell>Payee</TableHeaderCell>
             <TableHeaderCell>Memo</TableHeaderCell>
-            <TableHeaderCell>Amount</TableHeaderCell>
-            <TableHeaderCell>Balance</TableHeaderCell>
+            <TableHeaderCell>Amount{currencySuffix}</TableHeaderCell>
+            <TableHeaderCell>Balance{currencySuffix}</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
